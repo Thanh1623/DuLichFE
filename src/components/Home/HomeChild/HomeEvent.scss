@@ -1,0 +1,106 @@
+.event-news {
+    display: flex;
+    padding: 0 80px;
+    gap: 20px;
+    flex-wrap: wrap;
+
+    .news-container {
+        height: 100%;
+
+        .title-news {
+            text-transform: uppercase;
+            font-size: 50px;
+            font-weight: 600;
+            border-bottom: 1px solid;
+            margin-bottom: 20px;
+        }
+
+        .news-content {
+            .content-up {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 20px;
+
+                .content {
+                    width: 410px;
+                    display: flex;
+                    gap: 15px;
+                    border-bottom: 1px solid;
+                    padding: 20px 0 20px;
+
+                    .image {
+                        img {
+                            height: 130px;
+                            width: 200px;
+                        }
+                    }
+
+                    .info {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 10px;
+
+                        .title {
+                            font-size: 19px;
+                            display: -webkit-box;
+                            -webkit-line-clamp: 2;
+                            /* Số dòng muốn hiển thị trước khi thêm dấu ba chấm */
+                            -webkit-box-orient: vertical;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            line-height: 1.5;
+                            /* Điều chỉnh theo kích thước của dòng */
+                            max-height: 4.5em;
+                            /* Căn chỉnh với line-height x số dòng hiển thị */
+                        }
+                    }
+                }
+            }
+
+
+        }
+    }
+
+
+    .event-container {
+        height: 100%;
+
+        .title-event {
+            text-transform: uppercase;
+            font-size: 50px;
+            font-weight: 600;
+            border-bottom: 1px solid;
+            margin-bottom: 20px;
+        }
+
+        .event-content {
+            display: flex;
+            flex-direction: column;
+
+            .content {
+                width: 380px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 20px;
+                margin-bottom: 15px;
+
+                .info {
+                    .title {
+                        font-size: 19px;
+                        display: -webkit-box;
+                        -webkit-line-clamp: 2;
+                        /* Số dòng muốn hiển thị trước khi thêm dấu ba chấm */
+                        -webkit-box-orient: vertical;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        line-height: 1.5;
+                        /* Điều chỉnh theo kích thước của dòng */
+                        max-height: 4.5em;
+                        /* Căn chỉnh với line-height x số dòng hiển thị */
+                    }
+                }
+            }
+        }
+    }
+}

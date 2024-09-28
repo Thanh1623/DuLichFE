@@ -1,0 +1,15 @@
+.comment-container{
+    display: flex;
+    background-color: rgb(66, 65, 65);
+    padding: 50px;
+    gap: 50px;
+    .reflection-body{
+        width: 50%;
+        background-color: white;
+        padding: 15px;
+    }
+    .faq-body{
+        width: 50%;
+        color: white;
+    }
+}
