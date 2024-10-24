@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import ModalUpdateUser from "./ModalUpdateUser";
 import ModalDeleteUser from "./ModalDeleteUser";
 import TableUserPaginate from "./TableUserPaginate";
+import { getAllUsers } from "../../../Service/apiServices";
 
 
 const ManageUser = (props) => {
@@ -27,15 +28,15 @@ const ManageUser = (props) => {
     const [listUsers, setListUsers] = useState([]);
 
     useEffect(() => {
-        // fetchListUsers();
+        fetchListUsers();
         fetchListUsersWithPaginate(1);
     }, []);
 
     const fetchListUsers = async () => {
-        // let res = await getAllUsers();
-        // if (res.EC === 0) {
-        //     setListUsers(res.DT)
-        // }
+        let res = await getAllUsers();
+        if (res.code === 201) {
+            setListUsers(res.result)
+        }
     }
 
     const fetchListUsersWithPaginate = async (page) => {

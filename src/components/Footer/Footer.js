@@ -46,7 +46,7 @@ const Footer = () => {
                                 </p>
                             </MDBCol>
 
-                            <MDBCol md="2" lg="2" xl="2" className='mx-auto mb-4'>
+                            {/* <MDBCol md="2" lg="2" xl="2" className='mx-auto mb-4'>
                                 <h6 className='text-uppercase fw-bold mb-4'>Products</h6>
                                 <p>
                                     <a href='#!' className='text-reset'>
@@ -92,17 +92,17 @@ const Footer = () => {
                                         Help
                                     </a>
                                 </p>
-                            </MDBCol>
+                            </MDBCol> */}
 
                             <MDBCol md="4" lg="3" xl="3" className='mx-auto mb-md-0 mb-4'>
                                 <h6 className='text-uppercase fw-bold mb-4'>Contact</h6>
                                 <p>
                                     <MDBIcon icon="home" className="me-2" />
-                                    New York, NY 10012, US
+                                    136 Xuân Thủy, Cầu Giấy, Hà Nội
                                 </p>
                                 <p>
                                     <MDBIcon icon="envelope" className="me-3" />
-                                    info@example.com
+                                    TravelBaBa.com.vn
                                 </p>
                                 <p>
                                     <MDBIcon icon="phone" className="me-3" /> + 01 234 567 88
@@ -116,9 +116,9 @@ const Footer = () => {
                 </section>
 
                 <div className='text-center p-4' style={{ backgroundColor: 'rgba(0, 0, 0, 0.05)' }}>
-                    © 2021 Copyright:
+                    ©ThanhNguyen with&nbsp;
                     <a className='text-reset fw-bold' href='https://mdbootstrap.com/'>
-                        MDBootstrap.com
+                        TravelBaBa
                     </a>
                 </div>
             </MDBFooter>

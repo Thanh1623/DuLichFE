@@ -1,7 +1,8 @@
-import './HomeComment.scss'
+import './HomeComment.scss';
+import Accordion from 'react-bootstrap/Accordion';
 
 const HomeComment = (props) => {
-    return(
+    return (
         <div className='comment-container container'>
             <div className='reflection-body'>
                 <div className='title-reflection'>
@@ -24,26 +25,45 @@ const HomeComment = (props) => {
                 </form>
             </div>
             <div className='faq-body'>
-                <div className='title-faq'>
-                    HỎI ĐÁP
-                </div>
-                <div className="faq-content">
-                    <div className="title-content">
-                        <p>Nên đặt tour khi nào?</p>
-                    </div>
-                    <div className="title-content">
-                        <p>Thời điểm tuyệt vời nhất để bạn đặt tour đó là khi bạn đã sẵn sàng cho chuyến du lịch của mình, tham khảo giá của các công ty du lịch lữ hành, và lựa chọn một công ty du lịch uy tín để chuyến bay của bạn thuận lợi và an toàn nhất.</p>
-                    </div>
-                </div>
-                <div className="faq-content">
-                    <div className="title-content">
-                        <p>Nên đặt tour khi nào?</p>
-                    </div>
-                    <div className="title-content">
-                        <p>Thời điểm tuyệt vời nhất để bạn đặt tour đó là khi bạn đã sẵn sàng cho chuyến du lịch của mình, tham khảo giá của các công ty du lịch lữ hành, và lựa chọn một công ty du lịch uy tín để chuyến bay của bạn thuận lợi và an toàn nhất.</p>
-                    </div>
-                </div>
+                <Accordion>
+                    <Accordion.Item eventKey="0">
+                        <Accordion.Header>Nên đặt tour khi nào?</Accordion.Header>
+                        <Accordion.Body>
+                            Thời điểm tuyệt vời nhất để bạn đặt tour đó là khi bạn đã sẵn sàng cho chuyến du lịch của mình, tham khảo giá của các công ty du lịch lữ hành, và lựa chọn một công ty du lịch uy tín để chuyến bay của bạn thuận lợi và an toàn nhất.
+                        </Accordion.Body>
+                    </Accordion.Item>
+                    <Accordion.Item eventKey="1">
+                        <Accordion.Header>Nên làm gì khi hành lý bị trễ?</Accordion.Header>
+                        <Accordion.Body>
+                            Khi bạn đã đến sân bay mà hành lý vẫn chưa đến băng chuyền, việc đầu tiên bạn nên làm đó là liên hệ với nhân viên hàng không, họ sẽ giúp bạn kiểm tra mã hành lý và giúp bạn lấy lại hành lý của mình.
+                        </Accordion.Body>
+                    </Accordion.Item>
+                    <Accordion.Item eventKey="2">
+                        <Accordion.Header>Nên đặt khách sạn trước bao lâu?</Accordion.Header>
+                        <Accordion.Body>
+                            Khuyên bạn nên đặt phòng khách sạn ngay sau khi bạn đã chốt được lịch cho chuyến đi của mình. Bạn có thể đặt phòng trực tiếp với khách sạn, hoặc có thể nhờ đến những công ty du lịch lữ hành để nhận được mức giá tốt nhất. Không nên đặt phòng khách sạn ngay trước hôm bạn đi, sẽ rất khó để chọn được một phòng tốt và được hưởng mức giá ưu đãi từ phía khách sạn.                        </Accordion.Body>
+                    </Accordion.Item>
+                    <Accordion.Item eventKey="3">
+                        <Accordion.Header>Tạo lịch trình cá nhân như thế nào?</Accordion.Header>
+                        <Accordion.Body>
+                            Bước 1: Xác định số lượng thành viên đi du lịch.
+                            Bước 2: Lựa chọn địa điểm du lịch.
+                            Bước 3: Lựa chọn loại hình du lịch.
+                            Bước 4: Lựa chọn thời điểm du lịch.
+                            Bước 5: Dự trù về ngân sách.
+                            Bước 6: Tìm hiểu book phòng du lịch, vé máy bay (nếu cần)
+                            Bước 7: Lên lịch trình các điểm đến cần khám phá
+                        </Accordion.Body>
+                    </Accordion.Item>
+                    <Accordion.Item eventKey="4">
+                        <Accordion.Header>Du lịch ở Hải Phòng những điểm nào chi phí không cao?</Accordion.Header>
+                        <Accordion.Body>
+                            Khi bạn đã đến sân bay mà hành lý vẫn chưa đến băng chuyền, việc đầu tiên bạn nên làm đó là liên hệ với nhân viên hàng không, họ sẽ giúp bạn kiểm tra mã hành lý và giúp bạn lấy lại hành lý của mình.
+                        </Accordion.Body>
+                    </Accordion.Item>
+                </Accordion>
             </div>
+
         </div>
     )
 }

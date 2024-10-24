@@ -1,0 +1,30 @@
+.detail-news-container {
+    padding-top: 25px;
+    .detail-news-home{
+        .home{
+            font-size: 20px;
+            color: rgb(26, 89, 191);
+            cursor: pointer;
+        }
+        padding-bottom: 15px;
+    }
+    .detail-news-title{
+        font-size: 26px;
+        font-weight: 600;
+    }
+    .detail-news-description {
+        // max-width: 1000px !important;
+        text-align: center;
+
+        .DesImg {
+            img {
+                max-width: 500px !important;
+            }
+        }
+    }
+        .detail-news-date{
+            text-align: right;
+            font-style: italic;
+            
+        }
+}

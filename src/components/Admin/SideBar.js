@@ -65,8 +65,30 @@ const SideBar = (props) => {
                                 Quản lý Users
                                 <Link to={'/admin/manage-users'} />
                             </MenuItem>
-                            <MenuItem> Quản lý tin tức</MenuItem>
-                            <MenuItem> Quản lý sự kiện</MenuItem>
+                            <MenuItem>
+                                Quản lý tin tức
+                                <Link to={'/admin/manage-news'} />
+                            </MenuItem>
+                            <MenuItem>
+                                <Link to={'/admin/manage-events'} />
+                                Quản lý sự kiện
+                            </MenuItem>
+                            <MenuItem>
+                                Ẩm thực
+                                <Link to={'/admin/manage-foods'} />
+                            </MenuItem>
+                            <MenuItem>
+                                Du lịch
+                                <Link to={'/admin/manage-tours'} />
+                            </MenuItem>
+                            <MenuItem>
+                                Mua sắm
+                                <Link to={'/admin/manage-shops'} />
+                            </MenuItem>
+                            <MenuItem>
+                                HomeStay
+                                <Link to={'/admin/manage-homestays'} />
+                            </MenuItem>
                         </SubMenu>
                     </Menu>
                 </SidebarContent>
