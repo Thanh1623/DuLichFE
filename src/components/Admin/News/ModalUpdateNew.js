@@ -9,7 +9,9 @@ import MarkdownIt from 'markdown-it';
 import MdEditor from 'react-markdown-editor-lite';
 import { IoIosCalendar } from "react-icons/io";
 import _ from 'lodash';
-var toBuffer = require('blob-to-buffer')
+import { putNews } from '../../../Service/apiServices';
+import { toast } from 'react-toastify';
+import Lightbox from "react-awesome-lightbox";
 
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
@@ -23,26 +25,97 @@ const ModalUpdateNew = (props) => {
     };
 
     const [title, setTitle] = useState('');
-    const [content, setContent] = useState('');
+    const [contentMarkdown, setContentMarkdown] = useState('');
     const [contentHTML, setContentHTML] = useState('');
     const [image, setImage] = useState('');
 
+    const [imageP, setImageP] = useState('');
+    const [isPreviewImage, setIsPreviewImage] = useState(false);
+    const [dataImagePreview, setDataImagePreview] = useState({});
 
-    const [startDate, setStartDate] = useState(new Date());
+    function base64ToFile(base64String, fileName) {
+        if (!base64String) {
+            console.error("Chuỗi Base64 không hợp lệ hoặc không có giá trị.");
+            return null;
+        }
+
+        const arr = base64String.split(',');
+        if (arr.length < 2) {
+            console.error("Chuỗi Base64 không đúng định dạng.");
+            return null;
+        }
+
+        const mimeMatch = arr[0].match(/:(.*?);/);
+        if (!mimeMatch) {
+            console.error("Không tìm thấy loại MIME trong chuỗi Base64.");
+            return null;
+        }
+
+        const mime = mimeMatch[1];
+        const bstr = atob(arr[1]);
+        let n = bstr.length;
+        const u8arr = new Uint8Array(n);
+
+        while (n--) {
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+
+        return new File([u8arr], fileName, { type: mime });
+    }
 
     useEffect(() => {
         if (!_.isEmpty(dataUpdate)) {
             console.log('dataUpdate: ', dataUpdate);
 
-            setContent(dataUpdate.content);
-            setContentHTML(dataUpdate.description);
+            setContentMarkdown(dataUpdate.ContentMarkDown);
+            setContentHTML(dataUpdate.ContentHTML);
             setTitle(dataUpdate.title);
+
+            setImage(base64ToFile(`data:image/jpeg;base64,${dataUpdate.news_image_base64}`));
+
+
+            setImageP(`data:image/jpeg;base64,${dataUpdate.news_image_base64}`);
+            setDataImagePreview({
+                url: `data:image/jpeg;base64,${dataUpdate.news_image_base64}`,
+            })
+
         }
     }, [dataUpdate])
 
     const handleEditorChange = ({ html, text }) => {
         setContentHTML(html);
-        setContent(text);
+        setContentMarkdown(text);
+    }
+    const handlePreviewImage = () => {
+        setIsPreviewImage(true);
+    }
+
+    const handleOnchangeFile = async (event) => {
+        if (event.target && event.target.files && event.target.files[0]) {
+            const file = event.target.files[0];
+
+            // Tạo object URL và cập nhật trực tiếp
+            const objectURL = URL.createObjectURL(file);
+            setImageP(objectURL);
+            setImage(file);
+
+            // Cập nhật preview ngay lập tức
+            setDataImagePreview({
+                url: objectURL,
+            });
+        }
+    }
+
+    const handleUpdateNews = async () => {
+        let data = await putNews(dataUpdate.news_id, title, image, contentMarkdown, contentHTML);
+        if (data && data.code === 201) {
+            toast.success(data.message);
+            handleClose();
+            await props.fetchListNew();
+        }
+        if (data && data.code !== 201) {
+            toast.error(data.message)
+        }
     }
     return (
         <>
@@ -63,19 +136,38 @@ const ModalUpdateNew = (props) => {
                         <div className="mb-3 col-12">
                             <label className="form-label">Image title: </label>
                             <input className="form-control" type='file'
-                                onChange={(event) => setImage(event.target.files[0])}
+                                onChange={(event) => handleOnchangeFile(event)}
                             ></input>
                         </div>
+
+                        <div className='col-12' style={{ height: '250px', width: 'fit-content', border: '1px solid' }}>
+                            <img src={imageP} style={{ maxHeight: '100%', maxWidth: '100%' }} alt="Uploaded"
+                                onClick={() => handlePreviewImage()}
+                            />
+                        </div>
+
+
                         {/* <div class="mb-3 col-6">
                             <label class="form-label">Time of writing: </label>
                             <DatePicker disabled showIcon icon={<IoIosCalendar />} selected={startDate} onChange={(date) => setStartDate(formatDate(date))} />
                         </div> */}
                         <div>
                             <MdEditor style={{ height: '300px' }}
-                                value={content}
+                                value={contentMarkdown}
                                 renderHTML={text => mdParser.render(text)}
                                 onChange={handleEditorChange} />
                         </div>
+
+                        <div>
+                            {
+                                isPreviewImage === true &&
+                                <Lightbox
+                                    image={dataImagePreview.url}
+                                    onClose={() => setIsPreviewImage(false)}
+                                ></Lightbox>
+                            }
+                        </div>
+
                     </div>
 
                 </Modal.Body>
@@ -83,7 +175,7 @@ const ModalUpdateNew = (props) => {
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={handleClose}>
+                    <Button variant="primary" onClick={handleUpdateNews}>
                         Save Changes
                     </Button>
                 </Modal.Footer>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getAllFoods } from "../../../Service/apiServices";
+import { getAllFoods, getAllHomeStay } from "../../../Service/apiServices";
 import ModalCreateHomeStay from "./ModalCreateHome";
 import TableHomeStayAdmin from "./TableHomeAdmin";
 import ModalDeleteHomeStay from "./ModalDeleteHome";
@@ -29,11 +29,12 @@ const ManageHomeStay = () => {
     }, [])
 
     const fetchListHomeStay = async () => {
-        let res = await getAllFoods();
+        let res = await getAllHomeStay();
         if (res && res.code === 201) {
             setListHomeStay(res.result)
         }
     }
+    console.log(listHomeStay);
 
     const fetchListUsersWithPaginate = async (page) => {
         // let res = await getUserWithPaginate(page, LIMIT_USER);
@@ -61,9 +62,11 @@ const ManageHomeStay = () => {
         <>
             <div className="admin-food-container">
                 <div className="title">
-                    Manage Food
+                    Manage Home Stay
                 </div>
-                <ModalCreateHomeStay />
+                <ModalCreateHomeStay
+                    fetchListHomeStay={fetchListHomeStay}
+                />
                 <div>
                     <TableHomeStayAdmin
                         listHomeStay={listHomeStay}

@@ -3,7 +3,7 @@ import ReactPaginate from "react-paginate";
 
 const TableHomeStayAdmin = (props) => {
 
-    const { listFoods, pageCount } = props;
+    const { listHomeStay, pageCount } = props;
 
     const handlePageClick = (event) => {
         props.fetchListUsersWithPaginate(+event.selected + 1)
@@ -19,21 +19,19 @@ const TableHomeStayAdmin = (props) => {
                     <tr>
                         <th scope="col">ID</th>
                         <th scope="col">Title</th>
-                        <th scope="col">Description</th>
                         <th scope="col">Address</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     {
-                        listFoods && listFoods.length > 0
+                        listHomeStay && listHomeStay.length > 0
                             ?
-                            listFoods.map((item, index) => {
+                            listHomeStay.map((item, index) => {
                                 return (
                                     <tr key={`table-events-${index}`}>
-                                        <td>{item.cuisines_id}</td>
+                                        <td>{item.homestay_id}</td>
                                         <td>{item.title}</td>
-                                        <td>{item.description}</td>
                                         <td>{item.address}</td>
                                         <td>
                                             <button className="btn btn-info">View</button>

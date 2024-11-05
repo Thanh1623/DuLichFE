@@ -61,11 +61,13 @@ const ManageEvents = () => {
 
     return (
         <>
-            <div className="manage-event-container " >
+            <div className="manage-event-container container" >
                 <div className="title">
                     Manage Event
                 </div>
-                <ModalCreateEvent />
+                <ModalCreateEvent
+                    fetchListEvent={fetchListEvent}
+                />
                 <div>
                     <TableEventAdmin
                         listEvents={listEvents}

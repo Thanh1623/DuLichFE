@@ -13,6 +13,9 @@ import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import 'react-time-picker/dist/TimePicker.css';
 import 'react-clock/dist/Clock.css';
+import 'react-perfect-scrollbar/dist/css/styles.css';
+import 'nprogress/nprogress.css';
+import "react-awesome-lightbox/build/style.css";
 
 
 // Import Bootstrap JS and Popper.js

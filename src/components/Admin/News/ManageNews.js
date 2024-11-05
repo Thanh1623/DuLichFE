@@ -65,6 +65,8 @@ const ManageNews = (props) => {
                     Manage news
                 </div>
                 <ModalCreateNew
+                    fetchListNew={fetchListNew}
+
                 />
                 <div>
                     <TableNewAdmin

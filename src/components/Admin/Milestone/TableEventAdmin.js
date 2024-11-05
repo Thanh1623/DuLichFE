@@ -35,7 +35,6 @@ const TableEventAdmin = (props) => {
                     <tr>
                         <th scope="col">ID</th>
                         <th scope="col">Title</th>
-                        <th scope="col">Description</th>
                         <th scope="col">Start time</th>
                         <th scope="col">End time</th>
                         <th scope="col">Action</th>
@@ -50,15 +49,13 @@ const TableEventAdmin = (props) => {
                                     <tr key={`table-events-${index}`}>
                                         <td>{item.event_id}</td>
                                         <td>{item.title}</td>
-                                        <td>{item.description}</td>
-                                        <td>{convertToDate(item.opening_hours_event)}</td>
-                                        <td>{convertToDate(item.closing_time_event)}</td>
+                                        <td>{item.opening_hours_event}</td>
+                                        <td>{item.closing_time_event}</td>
                                         <td>
-                                            <button className="btn btn-info">View</button>
-                                            <button className="btn btn-success mx-1"
+                                            <button className="btn btn-success mx-1 my-1"
                                                 onClick={() => props.handleClickBtnUpdate(item)}
                                             >Update</button>
-                                            <button className="btn btn-danger"
+                                            <button className="btn btn-danger mx-1 my-1"
                                                 onClick={() => props.handleClickBtnDelete(item)}
                                             >Delete</button>
                                         </td>

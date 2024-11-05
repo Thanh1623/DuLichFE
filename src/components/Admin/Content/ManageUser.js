@@ -83,6 +83,7 @@ const ManageUser = (props) => {
                         listUsers={listUsers}
                         handleClickBtnUpdate={handleClickBtnUpdate}
                         handleClickBtnDelete={handleClickBtnDelete}
+                        fetchListUsers={fetchListUsers}
                         fetchListUsersWithPaginate={fetchListUsersWithPaginate}
                         pageCount={pageCount}
                         currentPage={currentPage}

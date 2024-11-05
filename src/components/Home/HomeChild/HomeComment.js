@@ -1,28 +1,71 @@
+import { useState } from 'react';
 import './HomeComment.scss';
 import Accordion from 'react-bootstrap/Accordion';
+import { useSelector } from 'react-redux';
+import { feedBackWeb } from '../../../Service/userService';
+import { ToastContainer, toast } from 'react-toastify';
 
 const HomeComment = (props) => {
+
+    const [content, setContent] = useState('');
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const idUser = useSelector(state => state.user.account.idUser);
+
+
+    const handleFeedBackWeb = async () => {
+        if (!content) {
+            toast.error('Invalid content');
+            return;
+        }
+        let data = await feedBackWeb({
+            user_id: idUser,
+            content: content
+        })
+        if (data && data.message === 'Add feedback Successful') {
+            toast.success(data.message);
+            setName('');
+            setEmail('');
+            setContent('');
+        }
+        else {
+            toast.error(data.message)
+        }
+    }
+
+
     return (
         <div className='comment-container container'>
             <div className='reflection-body'>
                 <div className='title-reflection'>
                     PHẢN ÁNH - GÓP Ý
                 </div>
-                <form>
+                <div>
                     <div className="mb-3">
                         <label htmlFor="exampleInputEmail1" className="form-label">Họ tên</label>
-                        <input type="text" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
+                        <input type="text" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" 
+                            value={name}
+                            onChange={(event) => setName(event.target.value)}
+                        />
                     </div>
                     <div className="mb-3">
                         <label htmlFor="exampleInputPassword1" className="form-label">Email/số điện thoại</label>
-                        <input type="text" className="form-control" id="exampleInputPassword1" />
+                        <input type="text" className="form-control" id="exampleInputPassword1"
+                            value={email}
+                            onChange={(event) => setEmail(event.target.value)}
+                        />
                     </div>
                     <div className="mb-3">
                         <label htmlFor="exampleInputPassword1" className="form-label">Nội dung</label>
-                        <input type="text" className="form-control" id="exampleInputPassword1" />
+                        <input type="text" className="form-control" id="exampleInputPassword1"
+                            value={content}
+                            onChange={(event) => setContent(event.target.value)}
+                        />
                     </div>
-                    <button type="submit" className="btn btn-primary">Gửi</button>
-                </form>
+                    <button className="btn btn-primary"
+                        onClick={() => handleFeedBackWeb()}
+                    >Gửi</button>
+                </div>
             </div>
             <div className='faq-body'>
                 <Accordion>

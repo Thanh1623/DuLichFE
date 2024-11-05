@@ -15,7 +15,7 @@ const ModalDeleteFood = (props) => {
         if (data && data.code === 201) {
             toast.success(data.message);
             handleClose();
-            // await props.fetchListEvent()
+            await props.fetchListFood();
             // props.setCurrentPage(1);
             // await props.fetchListUsersWithPaginate(1)
         }

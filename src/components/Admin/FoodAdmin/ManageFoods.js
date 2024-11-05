@@ -63,7 +63,9 @@ const ManageFoods = () => {
                 <div className="title">
                     Manage Food
                 </div>
-                <ModalCreateFood />
+                <ModalCreateFood 
+                    fetchListFood={fetchListFood}
+                />
                 <div>
                     <TableFoodAdmin
                         listFoods={listFoods}

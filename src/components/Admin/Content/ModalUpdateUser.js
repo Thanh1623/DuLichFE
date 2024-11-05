@@ -35,6 +35,7 @@ function ModalUpdateUser(props) {
             setFullName(dataUpdate.full_name);
             setPhone(dataUpdate.phone);
             setRole(dataUpdate.role);
+            setPassword(dataUpdate.password);
         }
     }, [dataUpdate])
 
@@ -69,12 +70,13 @@ function ModalUpdateUser(props) {
             full_name: fullName,
             email: email,
             phone: phone,
-            role: role
+            role: role,
+            password: password
         })
         if (data && data.code === 201) {
             toast.success(data.message);
             handleClose();
-            // await props.fetchListUsers()
+            await props.fetchListUsers()
             // props.setCurrentPage(1);
             // await props.fetchListUsersWithPaginate(props.currentPage)
         }
@@ -117,16 +119,7 @@ function ModalUpdateUser(props) {
                                 value={email}
                                 onChange={(event) => setEmail(event.target.value)} />
                         </div>
-                        <div className="col-md-6">
-                            <label className="form-label">Password</label>
-                            <input
-                                disabled
-                                type="password"
-                                className="form-control"
-                                value={password}
-                                onChange={(event) => setPassword(event.target.value)}
-                            />
-                        </div>
+                        
                         <div className="col-md-6">
                             <label className="form-label">Username</label>
                             <input

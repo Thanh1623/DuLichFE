@@ -7,6 +7,7 @@ import ModalUpdateTour from "./ModalUpdateTour";
 
 
 
+
 const ManageTour = () => {
 
     const LIMIT_USER = 6;
@@ -64,7 +65,9 @@ const ManageTour = () => {
                 <div className="title">
                     Manage Tour
                 </div>
-                <ModalCreateTour />
+                <ModalCreateTour
+                    fetchListTours={fetchListTours}
+                />
                 <div>
                     <TableTourAdmin
                         listTours={listTours}

@@ -1,10 +1,15 @@
 import './HomeExtension.scss';
 import VR360 from '../../../assets/VR360.png'
-import intro from '../../../assets/intro.jpg'
+import intro from '../../../assets/intro.jpg';
+import background from '../../../assets/background.jpg';
 
 const HomeExtension = (props) => {
     return (
-        <div className='extension-container container'>
+        <div className='extension-container' style={{ overflowX: "hidden" }}>
+            <div className='bg' style={{ width: "100vw", height: "100vh", overflow: "hidden", maxWidth: "100vw" }}>
+                <img src={background} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            </div>
+
             <div className='title-extension'>
                 Tiện ích du lịch
             </div>
@@ -50,7 +55,7 @@ const HomeExtension = (props) => {
                     </div>
                 </div>
             </div>
-            <div className='extension-intro'>
+            {/* <div className='extension-intro'>
                 <div className='intro-body'>
                     <img src={intro} className='img-intro' />
                     <div className='title-intro'>
@@ -88,7 +93,7 @@ const HomeExtension = (props) => {
                     </div>
                 </div>
 
-            </div>
+            </div> */}
         </div>
     )
 }

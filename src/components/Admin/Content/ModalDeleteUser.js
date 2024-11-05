@@ -12,14 +12,14 @@ const ModalDeleteUser = (props) => {
 
     const handleSubmitDeleteUser = async() => {
         let data = await deleteUsers(dataDelete.user_id)
-        if (data && data.code === 0) {
+        if (data && data.message === "Delete users Successfull") {
             toast.success(data.message);
             handleClose();
-            // await props.fetchListUsers()
+            await props.fetchListUsers()
             // props.setCurrentPage(1);
             // await props.fetchListUsersWithPaginate(1)
         }
-        if (data && data.code !== 0) {
+        if (data && data.message !== "Delete users Successfull") {
             toast.error(data.message)
         }
     }

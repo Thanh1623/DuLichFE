@@ -18,8 +18,20 @@ import ManageTour from "./components/Admin/TourAdmin/ManageTour";
 import ManageShopping from "./components/Admin/Shopping/ManageShopping";
 import ManageHomeStay from "./components/Admin/HomeStayAdmin/ManageHomeStay";
 import DetailNews from "./components/Home/DetailNews/DetailNews";
+import DetailEvent from "./components/Home/DetailEvent/DetailEvent";
+import DetailFood from "./components/Food/DetailFood";
+import DetailDiscover from "./components/Discover/DetailDiscover";
+import BookTour from "./components/Discover/BookTour";
+import ManageBookingHome from "./components/Admin/BookingAdmin/HomeStay/ManageBookingHome";
+import ManageBookingTour from "./components/Admin/BookingAdmin/Tours/ManageBookingTour";
+import ForgotPassword from "./components/Auth/ForgotPassword";
+import AllEvents from "./components/Home/DetailEvent/AllEvents";
+import { useSelector } from "react-redux";
+import FeedbackWeb from "./components/Admin/Feedback/FeedbackWeb";
 
 const Layout = (props) => {
+    const role = useSelector(state => state.user.account.role);
+    
     return (
         <>
             <Routes>
@@ -30,20 +42,37 @@ const Layout = (props) => {
                     <Route path="planning" element={<Introduce />} />
                     <Route path="extension" element={<Introduce />} />
                     <Route path="food" element={<Food />} />
+                    <Route path="/news/:id" element={<DetailNews />} />
+                    <Route path="/events/:id" element={<DetailEvent />} />
+                    <Route path="/food/:id" element={<DetailFood />} />
+                    <Route path="/discover/:id" element={<DetailDiscover />} />
+
+                    <Route path="/bookingTour" element={<BookTour />} />
                 </Route>
-                <Route path="/news/:id" element={<DetailNews />} />
+
+
+
                 <Route path="/login" element={<Login />} />
+                <Route path="/all-events" element={<AllEvents />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/register" element={<Register />} />
-                <Route path="/admin" element={<Admin />}>
-                    <Route index element={<AdminIntroduce />} />
-                    <Route path="manage-users" element={<ManageUser />} />
-                    <Route path="manage-news" element={<ManageNews />} />
-                    <Route path="manage-events" element={<ManageEvents />} />
-                    <Route path="manage-foods" element={<ManageFoods />} />
-                    <Route path="manage-tours" element={<ManageTour />} />
-                    <Route path="manage-shops" element={<ManageShopping />} />
-                    <Route path="manage-homestays" element={<ManageHomeStay />} />
-                </Route>
+                {role && role === 'admin' &&
+                    <Route path="/admin" element={<Admin />}>
+                        <Route index element={<AdminIntroduce />} />
+                        <Route path="manage-users" element={<ManageUser />} />
+                        <Route path="manage-news" element={<ManageNews />} />
+                        <Route path="manage-events" element={<ManageEvents />} />
+                        <Route path="manage-foods" element={<ManageFoods />} />
+                        <Route path="manage-tours" element={<ManageTour />} />
+                        <Route path="manage-shops" element={<ManageShopping />} />
+                        <Route path="manage-homestays" element={<ManageHomeStay />} />
+                        <Route path="manage-booking-home" element={<ManageBookingHome />} />
+                        <Route path="manage-booking-tour" element={<ManageBookingTour />} />
+                        <Route path="manage-booking-tour" element={<ManageBookingTour />} />
+                        <Route path="admin-feedback" element={<FeedbackWeb />} />
+                    </Route>
+                }
+
 
             </Routes>
             <ToastContainer

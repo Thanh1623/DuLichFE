@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { getNewsById } from "../../../Service/userService";
+import { getEventById, getNewsById } from "../../../Service/userService";
 import './DetailEvent.scss';
 import { FaHome } from "react-icons/fa";
 
@@ -9,18 +9,18 @@ const DetailEvent = (props) => {
 
     const params = useParams();
     const location = useLocation();
-    const [detailNews, setDetailNews] = useState({});
-    const idNews = params.id;
+    const [detailEvent, setDetailEvent] = useState({});
+    const idEvent = params.id;
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetchDetailNewsById();
+        fetchDetailEventById();
     }, [])
 
-    const fetchDetailNewsById = async () => {
-        let data = await getNewsById(idNews);
-        if (data) {
-            setDetailNews(data)
+    const fetchDetailEventById = async () => {
+        let data = await getEventById(idEvent);
+        if (data && data.code === 201) {
+            setDetailEvent(data.result)
         }
 
     }
@@ -40,24 +40,25 @@ const DetailEvent = (props) => {
         return `${year}-${month}-${dt}`;
     };
 
+    console.log(detailEvent)
 
     return (
-        <div className="detail-news-container container">
-            <div className="detail-news-home">
+        <div className="detail-event-container container">
+            <div className="detail-event-home">
                 <FaHome className="home"
                     onClick={() => navigate('/')}
                 />
             </div>
-            <div className="detail-news-title">
-                {detailNews.title}
+            <div className="detail-event-title">
+                {detailEvent.title}
             </div>
             <hr />
-            <div className="detail-news-description">
-                <div className="DesImg" dangerouslySetInnerHTML={{ __html: detailNews.description, height: '100px' }}>
+            <div className="detail-event-description">
+                <div className="DesImg" dangerouslySetInnerHTML={{ __html: detailEvent.description, height: '100px' }}>
                 </div>
             </div>
-            <div className="detail-news-date">
-                {convertToDate(detailNews.created_at)}
+            <div className="detail-event-date">
+                {convertToDate(detailEvent.created_at)}
             </div>
         </div>
     )

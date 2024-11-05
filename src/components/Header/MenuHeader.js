@@ -27,7 +27,7 @@ const MenuHeader = (props) => {
                         <MenuItem onClick={() => navigate('/login')}>
                             Giới thiệu
                         </MenuItem>
-                        <MenuItem>
+                        <MenuItem onClick={() => navigate('/login')}>
                             Tin tức
                         </MenuItem>
                         <MenuItem>

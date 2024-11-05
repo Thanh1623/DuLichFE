@@ -80,6 +80,7 @@ function ModalCreateUser(props) {
         if (data && data.code === 201) {
             toast.success(data.message);
             handleClose();
+            await props.fetchListUsers()
         }
         if (data && data.code !== 201) {
             toast.error(data.message)

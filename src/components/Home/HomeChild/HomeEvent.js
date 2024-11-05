@@ -49,6 +49,11 @@ const HomeEvent = () => {
             { state: { listNewsDetail: news } })
 
     }
+    const handleDetailEvents = (event) => {
+        navigate(`/events/${event.event_id}`,
+            { state: { listNewsDetail: event } })
+
+    }
 
     console.log('listEvents: ', listEvents);
 
@@ -67,7 +72,8 @@ const HomeEvent = () => {
                             listNews.map((item, index) => {
                                 if (index < 6) {
                                     return (
-                                        <div key={`news-${index}`} className="content" onClick={() => handleDetailNews(item)}>
+                                        <div key={`news-${index}`} className="content"
+                                            onClick={() => handleDetailNews(item)}>
                                             <div className="image">
                                                 <img src="http://dulichhp.ebizoffice.vn/Uploads/news/3341.jpg" />
                                             </div>
@@ -100,7 +106,9 @@ const HomeEvent = () => {
                         listEvents.map((item, index) => {
                             if (index < 6) {
                                 return (
-                                    <div className="content" key={`event-${index}`}>
+                                    <div className="content" key={`event-${index}`}
+                                        onClick={() => handleDetailEvents(item)}
+                                    >
                                         <div className="stt">
                                             {index + 1}
                                         </div>
@@ -109,7 +117,7 @@ const HomeEvent = () => {
                                                 {item.title}
                                             </div>
                                             <div className="time">
-                                                {convertToDate(item.opening_hours_event)} to {convertToDate(item.closing_time_event)}
+                                                {(item.opening_hours_event)} to {(item.closing_time_event)}
                                             </div>
                                             {/* <div className="date">
                                                 Sự kiện đang diễn ra

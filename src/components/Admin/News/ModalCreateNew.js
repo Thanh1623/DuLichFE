@@ -19,24 +19,27 @@ const ModalCreateNew = (props) => {
     const [startDate, setStartDate] = useState(new Date());
 
     const [title, setTitle] = useState('');
-    const [content, setContent] = useState('');
+    const [contentMarkdown, setContentMarkdown] = useState('');
     const [contentHTML, setContentHTML] = useState('');
     const [image, setImage] = useState('');
+    const [view, setView] = useState('100');
+    
 
     const handleEditorChange = ({ html, text }) => {
         // console.log('handleEditorChange', html, text);
         setContentHTML(html);
-        setContent(text);
+        setContentMarkdown(text);
     }
     const formatDate = (date) => {
         if (!date) return ""; // Kiểm tra nếu date là null
         return date.toISOString().split("T")[0]; // Chuyển đổi sang YYYY-MM-DD
     };
     const handleCreateEvent = async () => {
-        let data = await postCreateNew(title, image, content, contentHTML);
+        let data = await postCreateNew(title, image, contentMarkdown, contentHTML, view);
         if (data && data.code === 201) {
             toast.success(data.message);
             handleClose();
+            await props.fetchListNew()
         }
         if (data && data.code !== 201) {
             toast.error(data.message)
@@ -55,11 +58,11 @@ const ModalCreateNew = (props) => {
                 </Modal.Header>
                 <Modal.Body>
                     <div className='col-12 row'>
-                        
-                        <div class="mb-3">
-                            <label class="form-label">Title</label>
-                            <textarea class="form-control" rows="3"
-                                onChange={(event)=> setTitle(event.target.value)}
+
+                        <div className="mb-3">
+                            <label className="form-label">Title</label>
+                            <textarea className="form-control" rows="3"
+                                onChange={(event) => setTitle(event.target.value)}
                             ></textarea>
                         </div>
                         <div className="mb-3 col-12">
@@ -68,10 +71,10 @@ const ModalCreateNew = (props) => {
                                 onChange={(event) => setImage(event.target.files[0])}
                             ></input>
                         </div>
-                        {/* <div class="mb-3 col-6">
-                            <label class="form-label">Time of writing: </label>
+                        <div className="mb-3 col-6">
+                            <label className="form-label">Time of writing: </label>
                             <DatePicker disabled showIcon icon={<IoIosCalendar />} selected={startDate} onChange={(date) => setStartDate(formatDate(date))} />
-                        </div> */}
+                        </div>
                         <div>
                             <MdEditor style={{ height: '300px' }} renderHTML={text => mdParser.render(text)} onChange={handleEditorChange} />
                         </div>

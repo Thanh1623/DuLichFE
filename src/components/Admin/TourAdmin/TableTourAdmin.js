@@ -19,7 +19,7 @@ const TableTourAdmin = (props) => {
                     <tr>
                         <th scope="col">ID</th>
                         <th scope="col">Title</th>
-                        <th scope="col">Description</th>
+                        <th scope="col">Start day</th>
                         <th scope="col">Address</th>
                         <th scope="col">Vehicle</th>
                         <th scope="col">Action</th>
@@ -34,7 +34,7 @@ const TableTourAdmin = (props) => {
                                     <tr key={`table-events-${index}`}>
                                         <td>{item.tour_id}</td>
                                         <td>{item.title}</td>
-                                        <td>{item.description}</td>
+                                        <td>{item.tour_date}</td>
                                         <td>{item.address}</td>
                                         <td>{item.vehicle}</td>
                                         <td>

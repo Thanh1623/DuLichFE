@@ -19,7 +19,7 @@ const TableShoppingAdmin = (props) => {
                     <tr>
                         <th scope="col">ID</th>
                         <th scope="col">Title</th>
-                        <th scope="col">Description</th>
+                        <th scope="col">Time</th>
                         <th scope="col">Address</th>
                         <th scope="col">Action</th>
                     </tr>
@@ -33,7 +33,7 @@ const TableShoppingAdmin = (props) => {
                                     <tr key={`table-events-${index}`}>
                                         <td>{item.shopping_center_id}</td>
                                         <td>{item.title}</td>
-                                        <td>{item.description}</td>
+                                        <td>{`${item.opening_hours} to ${item.closing_time}`}</td>
                                         <td>{item.address}</td>
                                         <td>
                                             <button className="btn btn-success mx-1"

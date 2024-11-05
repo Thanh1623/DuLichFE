@@ -2,24 +2,44 @@ import { useState } from 'react';
 import './Login.scss';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { postLogin } from '../../Service/userService';
+import { useDispatch } from 'react-redux';
+import { doLogin } from '../../redux/action/userAction';
+import { TbFidgetSpinner } from "react-icons/tb";
 
 const Login = (props) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const [isLoading, setIsLoading] = useState(false);
     const handleLogin = async () => {
         // validate
+        if (!email) {
+            toast.error('Invalid email')
+        }
+        if (!password) {
+            toast.error('Invalid password')
+        }
 
-        //submit apis
-        // let data = await postLogin(email, password);
-        // if (data && +data.EC === 0) {
-        //     toast.success(data.EM);
-        //     navigate('/');
-        // }
+        // submit apis
+        setIsLoading(true)
+        let data = await postLogin({
+            user_name: email,
+            password: password
+        });
+        if (data && +data.code === 201) {
+            dispatch(doLogin(data))
+            toast.success(data.message);
+            navigate('/');
+            setIsLoading(false)
+        }
 
-        // if (data && +data.EC !== 0) {
-        //     toast.error(data.EM)
-        // }
+        if (data && +data.code !== 201) {
+            toast.error(data.message);
+            setIsLoading(false)
+
+        }
     }
 
     return (
@@ -28,14 +48,16 @@ const Login = (props) => {
                 <span>
                     Don't have an account yet?
                 </span>
-                <button 
-                onClick={()=> navigate('/register')}
+                <button
+                    onClick={() => navigate('/register')}
                 >Sign up</button>
             </div>
 
             <div className='title col-4 mx-auto'>
                 ThanhNguyen
             </div>
+
+           
 
             <div className='welcome col-4 mx-auto'>
                 Hello, who's this?
@@ -52,11 +74,17 @@ const Login = (props) => {
                     <input type='password' className='form-control'
                         value={password} onChange={(event) => setPassword(event.target.value)} />
                 </div>
-                <span className='forgot-password'>Forgot password?</span>
+                <span className='forgot-password' style={{cursor: 'pointer', color: 'blue'}} onClick={() => navigate('/forgot-password')}>Forgot password?</span>
                 <div>
                     <button className='btn-submit'
                         onClick={() => handleLogin()}
-                    >Login</button>
+                        disabled={isLoading}
+                    >
+                        {
+                            isLoading === true && <TbFidgetSpinner className='loader-icon' />
+                        }
+                        <span>Login</span>
+                    </button>
                 </div>
                 <div className='text-center'>
                     <span className='back' onClick={() => navigate('/')}>&#60;&#60; Go to Home</span>

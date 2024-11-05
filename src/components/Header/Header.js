@@ -5,17 +5,34 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import MenuHeader from './MenuHeader';
+import { useDispatch, useSelector } from 'react-redux';
+import logo from '../../assets/logo.svg';
+import { CgUserList } from "react-icons/cg";
+import { doLogOut } from '../../redux/action/userAction';
 
 
 const Header = () => {
     const navigate = useNavigate();
+    const isAuthenticated = useSelector(state => state.user.isAuthenticated);
+    const dispatch = useDispatch();
+    const handleLogin = () => {
+        navigate('/login')
+    }
+    const handleLogOut = () => {
+        dispatch(doLogOut());
+        window.location.reload(true)
+    }
     return (
         <div>
             <Navbar expand="lg" className="bg-body-tertiary">
                 <Container>
-                    <NavLink to="/" className='navbar-brand'>Thanh Nguyen</NavLink>
+                    <NavLink to="/" className='navbar-brand'>
+                        <img src={logo} style={{ maxWidth: '66px' }} />
+                    </NavLink>
                     <MenuHeader />
-                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Toggle aria-controls="basic-navbar-nav">
+                        <CgUserList style={{ color: 'black', fontSize: '29px' }} />
+                    </Navbar.Toggle>
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
                             <NavLink to="/" className='nav-link'>Trang chủ</NavLink>
@@ -25,23 +42,23 @@ const Header = () => {
                             <NavLink to="/extension" className='nav-link'>Tiện ích du lịch</NavLink>
                         </Nav>
                         <Nav>
-                            <button className='btn-login'
-                                onClick={() => navigate('/login')}
-                            >Log in</button>
-                            <button className='btn-signup'
-                                onClick={() => navigate('/register')}
-                            >Sign up</button>
-                            <NavDropdown title="Settings" id="basic-nav-dropdown">
-                                <NavDropdown.Item >
-                                    Login
-                                </NavDropdown.Item>
-                                <NavDropdown.Item >
-                                    Log out
-                                </NavDropdown.Item>
-                                <NavDropdown.Item >
-                                    Profile
-                                </NavDropdown.Item>
-                            </NavDropdown>
+                            {isAuthenticated === false ?
+                                <>
+                                    <button className='btn-login'
+                                        onClick={() => handleLogin()}
+                                    >Log in</button>
+                                    <button className='btn-signup'>Sign up</button>
+                                </>
+                                :
+                                < NavDropdown title="Settings" id="basic-nav-dropdown">
+                                    <NavDropdown.Item >
+                                        Profile
+                                    </NavDropdown.Item>
+                                    <NavDropdown.Item onClick={() => handleLogOut()}>
+                                        Log out
+                                    </NavDropdown.Item>
+                                </NavDropdown>
+                            }
                         </Nav>
                     </Navbar.Collapse>
                 </Container>

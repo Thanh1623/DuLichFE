@@ -1,0 +1,35 @@
+.detail-event-container {
+
+    .detail-event-home {
+        .home {
+            font-size: 20px;
+            color: rgb(26, 89, 191);
+            cursor: pointer;
+        }
+
+        padding-bottom: 15px;
+    }
+
+    .detail-event-title {
+        font-size: 26px;
+        font-weight: 600;
+    }
+
+    .detail-event-description {
+        // max-width: 1000px !important;
+        text-align: center;
+
+        .DesImg {
+            img {
+                max-width: 300px !important;
+                max-height: 300px !important;
+            }
+        }
+    }
+
+    .detail-event-date {
+        text-align: right;
+        font-style: italic;
+
+    }
+}

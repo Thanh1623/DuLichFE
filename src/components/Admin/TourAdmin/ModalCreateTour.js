@@ -28,7 +28,7 @@ const ModalCreateTour = (props) => {
     const [contentHTML, setContentHTML] = useState('');
     const [contentMarkdown, setContentMarkdown] = useState('');
     const [image, setImage] = useState('');
-    const [members, setMembers] = useState(2);
+    const [members, setMembers] = useState('');
 
     const handleEditorChange = ({ html, text }) => {
         setContentHTML(html);
@@ -38,13 +38,15 @@ const ModalCreateTour = (props) => {
     const formatDate = (date) => {
         if (!date) return ""; // Kiểm tra nếu date là null
         return date.toISOString().split("T")[0]; // Chuyển đổi sang YYYY-MM-DD
-    }; 
+    };
 
     const handleCreateFood = async () => {
-        let data = await postCreateTour(title, contentHTML, +price, address, vehicle, members, startDateOpen, image);
+        let data = await postCreateTour(title, contentHTML, contentMarkdown, +price,
+            address, vehicle, members, formatDate(startDateOpen), image);
         if (data && data.code === 201) {
             toast.success(data.message);
             handleClose();
+            await props.fetchListTours();
         }
         if (data && data.code !== 201) {
             toast.error(data.message)
@@ -78,15 +80,22 @@ const ModalCreateTour = (props) => {
                                 onChange={(event) => setAddress(event.target.value)}
                             ></textarea>
                         </div>
-                        <div className="mb-3 col-6">
+                        <div className="mb-3 col-5">
                             <label className="form-label">Price:</label>
-                            <input className="form-control" rows="1" type='number'
+                            <input className="form-control" type='number'
                                 value={price}
                                 onChange={(event) => setPrice(+event.target.value)}
                             ></input>
                         </div>
-                        
-                        <div className="mb-3 col-6">
+                        <div className="mb-3 col-2">
+                            <label className="form-label">Members:</label>
+                            <input className="form-control" type='number'
+                                value={members}
+                                onChange={(event) => setMembers(+event.target.value)}
+                            ></input>
+                        </div>
+
+                        <div className="mb-3 col-5">
                             <label className="form-label">Vehicle:</label>
                             <input className="form-control" rows="1"
                                 value={vehicle}

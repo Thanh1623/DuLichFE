@@ -67,7 +67,9 @@ const ManageShopping = () => {
                 <div className="title">
                     Manage Food
                 </div>
-                <ModalCreateShopping />
+                <ModalCreateShopping
+                    fetchListShop={fetchListShop}
+                />
                 <div>
                     <TableShoppingAdmin
                         listShops={listShops}

@@ -15,6 +15,7 @@ import { IoLogoReact } from "react-icons/io5";
 import { MdDashboard } from "react-icons/md";
 import './SideBar.scss';
 import { Link } from 'react-router-dom';
+import { BiBookHeart } from "react-icons/bi";
 
 
 
@@ -59,12 +60,36 @@ const SideBar = (props) => {
                     <Menu iconShape="circle">
                         <SubMenu
                             icon={<FaGem />}
-                            title='Features'
+                            title='User'
                         >
-                            <MenuItem>
+                            <MenuItem >
                                 Quản lý Users
                                 <Link to={'/admin/manage-users'} />
                             </MenuItem>
+
+
+                        </SubMenu>
+                    </Menu>
+                    <Menu iconShape="circle">
+                        <SubMenu
+                            icon={<BiBookHeart />}
+                            title='Booking'
+                        >
+                            <MenuItem>
+                                Booking tour
+                                <Link to={'/admin/manage-booking-home'} />
+                            </MenuItem>
+                            <MenuItem>
+                                Booking tour
+                                <Link to={'/admin/manage-booking-tour'} />
+                            </MenuItem>
+                        </SubMenu>
+                    </Menu>
+                    <Menu iconShape="circle">
+                        <SubMenu
+                            icon={<BiBookHeart />}
+                            title='Events-News'
+                        >
                             <MenuItem>
                                 Quản lý tin tức
                                 <Link to={'/admin/manage-news'} />
@@ -73,6 +98,13 @@ const SideBar = (props) => {
                                 <Link to={'/admin/manage-events'} />
                                 Quản lý sự kiện
                             </MenuItem>
+                        </SubMenu>
+                    </Menu>
+                    <Menu iconShape="circle">
+                        <SubMenu
+                            icon={<BiBookHeart />}
+                            title='Service'
+                        >
                             <MenuItem>
                                 Ẩm thực
                                 <Link to={'/admin/manage-foods'} />
@@ -88,6 +120,17 @@ const SideBar = (props) => {
                             <MenuItem>
                                 HomeStay
                                 <Link to={'/admin/manage-homestays'} />
+                            </MenuItem>
+                        </SubMenu>
+                    </Menu>
+                    <Menu iconShape="circle">
+                        <SubMenu
+                            icon={<BiBookHeart />}
+                            title='Feed back'
+                        >
+                            <MenuItem>
+                                  Feedback Web
+                                <Link to={'/admin/admin-feedback'} />
                             </MenuItem>
                         </SubMenu>
                     </Menu>

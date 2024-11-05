@@ -10,6 +10,21 @@ const TableNewAdmin = (props) => {
         props.setCurrentPage(+event.selected + 1);
         console.log(`User requested page number ${event.selected}`);
     };
+    const convertToDate = (isoTimestamp) => {
+        let date = new Date(isoTimestamp);
+        let year = date.getFullYear();
+        let month = date.getMonth() + 1;
+        let dt = date.getDate();
+
+        if (dt < 10) {
+            dt = '0' + dt;
+        }
+        if (month < 10) {
+            month = '0' + month;
+        }
+
+        return `${year}-${month}-${dt}`;
+    };
 
     return (
         <>
@@ -18,6 +33,7 @@ const TableNewAdmin = (props) => {
                     <tr>
                         <th scope="col">ID</th>
                         <th scope="col">Title</th>
+                        <th scope="col">Time of writing</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
@@ -30,12 +46,12 @@ const TableNewAdmin = (props) => {
                                     <tr key={`table-users-${index}`}>
                                         <td>{item.news_id}</td>
                                         <td>{item.title}</td>
+                                        <td>{convertToDate(`${item.created_at}`)}</td>
                                         <td>
-                                            <button className="btn btn-info">View</button>
-                                            <button className="btn btn-success mx-3"
+                                            <button className="btn btn-success mx-1 my-1"
                                                 onClick={() => props.handleClickBtnUpdate(item)}
                                             >Update</button>
-                                            <button className="btn btn-danger"
+                                            <button className="btn btn-danger mx-1 my-1"
                                                 onClick={() => props.handleClickBtnDelete(item)}
                                             >Delete</button>
                                         </td>

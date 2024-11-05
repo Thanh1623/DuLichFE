@@ -24,19 +24,21 @@ const ModalCreateShopping = (props) => {
     const [address, setAddress] = useState('');
     const [contentHTML, setContentHTML] = useState('');
     const [contentMarkdown, setContentMarkdown] = useState('');
-    const [type, setType] = useState('');
-    const [image, setImage] = useState(''); 
+    const [type, setType] = useState('Trung tâm thương mại');
+    const [image, setImage] = useState('');
+    const [map, setMap] = useState('');
 
     const handleEditorChange = ({ html, text }) => {
         setContentHTML(html);
         setContentMarkdown(text);
     }
-    
+
     const handleCreateFood = async () => {
-        let data = await postCreateShopping(title, address, contentHTML, valueClose, valueOpen, type, image);
+        let data = await postCreateShopping(title, address, contentHTML, contentMarkdown, valueClose, valueOpen, type, image, map);
         if (data && data.code === 201) {
             toast.success(data.message);
             handleClose();
+            await props.fetchListShop();
         }
         if (data && data.code !== 201) {
             toast.error(data.message)
@@ -70,6 +72,14 @@ const ModalCreateShopping = (props) => {
                                 onChange={(event) => setAddress(event.target.value)}
                             ></textarea>
                         </div>
+                        <div className='mb-3 col-12'>
+                            <label className="form-label">{`Location on map: `}<span style={{ color: "red" }}>Note remove: </span><b>style="border:0;"</b></label>
+                            <textarea className="form-control" rows="5"
+                                placeholder='<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.880517355801!2d105.78079297503172!3d21.037466280614062!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab355cc2239b%3A0x9ae247114fb38da3!2zVHLGsOG7nW5nIMSQ4bqhaSBI4buNYyBTxrAgUGjhuqFtIEjDoCBO4buZaQ!5e0!3m2!1svi!2s!4v1728296212431!5m2!1svi!2s" width="600" height="450" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
+                                value={map}
+                                onChange={(event) => setMap(event.target.value)}
+                            ></textarea>
+                        </div>
                         <div className="mb-3">
                             <label className="form-label">Title image: </label>
                             <input type='file'
@@ -87,14 +97,16 @@ const ModalCreateShopping = (props) => {
                         <div className="col-md-4">
                             <label className="form-label">Type</label>
                             <select className="form-select"
+                                value={type}
                                 onChange={(event) => setType(event.target.value)}
                             >
-                                <option value='1'>Trung tâm thương mại</option>
-                                <option value='2'>Trung tâm giải trí</option>
+                                <option value='Trung tâm thương mại'>Trung tâm thương mại</option>
+                                <option value='Trung tâm giải trí'>Trung tâm giải trí</option>
+                                <option value='Trung tâm mua sắm'>Trung tâm mua sắm</option>
                             </select>
                         </div>
                         <div>
-                            <MdEditor style={{ height: '500px' }} renderHTML={text => mdParser.render(text)} onChange={handleEditorChange} />
+                            <MdEditor style={{ height: '500px' }} value={contentMarkdown} renderHTML={text => mdParser.render(text)} onChange={handleEditorChange} />
                         </div>
                     </div>
 
