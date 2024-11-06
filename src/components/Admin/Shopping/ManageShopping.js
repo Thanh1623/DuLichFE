@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import ModalCreateFood from "./ModalCreateShopping";
-import { getAllFoods, getAllShopping } from "../../../Service/apiServices";
+import { getAllFoods, getAllShopping, getAllShoppingPaginate } from "../../../Service/apiServices";
 import TableFoodAdmin from "./TableShoppingAdmin";
 import ModalDeleteFood from "./ModalDeleteShopping";
 import ModalUpdateFood from "./ModalUpdateShopping";
@@ -12,7 +12,7 @@ import TableShoppingAdmin from "./TableShoppingAdmin";
 
 const ManageShopping = () => {
 
-    const LIMIT_USER = 6;
+    const LIMIT = 6;
 
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1)
@@ -29,22 +29,23 @@ const ManageShopping = () => {
     const [listShops, setListShops] = useState([]);
 
     useEffect(() => {
-        fetchListShop()
+        // fetchListShop();
+        fetchListShoppingWithPaginate(1);
     }, [])
 
     const fetchListShop = async () => {
-        let res = await getAllShopping();
-        if (res && res.code === 201) {
-            setListShops(res.result)
-        }
+        // let res = await getAllShopping();
+        // if (res && res.code === 201) {
+        //     setListShops(res.result)
+        // }
     }
 
-    const fetchListUsersWithPaginate = async (page) => {
-        // let res = await getUserWithPaginate(page, LIMIT_USER);
-        // if (res.EC === 0) {
-        //     setListUsers(res.DT.users)
-        //     setPageCount(res.DT.totalPages)
-        // }
+    const fetchListShoppingWithPaginate = async (page) => {
+        let res = await getAllShoppingPaginate(page, LIMIT);
+        if (res.code === 201) {
+            setListShops(res.result);
+            setPageCount(res.totalpage);
+        }
     }
 
     const handleClickBtnUpdate = (user) => {
@@ -63,19 +64,22 @@ const ManageShopping = () => {
 
     return (
         <>
-            <div className="admin-food-container">
+            <div className="admin-food-container container">
                 <div className="title">
                     Manage Food
                 </div>
                 <ModalCreateShopping
                     fetchListShop={fetchListShop}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                    fetchListShoppingWithPaginate={fetchListShoppingWithPaginate}
                 />
                 <div>
                     <TableShoppingAdmin
                         listShops={listShops}
                         handleClickBtnUpdate={handleClickBtnUpdate}
                         handleClickBtnDelete={handleClickBtnDelete}
-                        fetchListUsersWithPaginate={fetchListUsersWithPaginate}
+                        fetchListShoppingWithPaginate={fetchListShoppingWithPaginate}
                         pageCount={pageCount}
                         currentPage={currentPage}
                         setCurrentPage={setCurrentPage}
@@ -86,7 +90,7 @@ const ManageShopping = () => {
                     setShow={setShowModalDeleteUser}
                     dataDelete={dataDelete}
                     fetchListShop={fetchListShop}
-                    fetchListUsersWithPaginate={fetchListUsersWithPaginate}
+                    fetchListShoppingWithPaginate={fetchListShoppingWithPaginate}
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
                 />
@@ -96,7 +100,7 @@ const ManageShopping = () => {
                     dataUpdate={dataUpdate}
                     fetchListShop={fetchListShop}
                     resetUpdateData={resetUpdateData}
-                    fetchListUsersWithPaginate={fetchListUsersWithPaginate}
+                    fetchListShoppingWithPaginate={fetchListShoppingWithPaginate}
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
                 />

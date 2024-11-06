@@ -1,59 +1,60 @@
 import { useNavigate } from 'react-router-dom';
 import bistro from '../../assets/bistro.jpg'
-import './Discover.scss'
+// import './HomeStayUser.scss'
 import { useEffect, useState } from 'react';
-import { getAllTours, getAllToursPaginate } from '../../Service/apiServices';
+import { getAllHomeStayPaginate, getAllTours } from '../../Service/apiServices';
 import { FaWalking } from "react-icons/fa";
 import { FaMapMarkedAlt } from "react-icons/fa";
 import { searchDiscover } from '../../Service/userService';
 import ReactPaginate from "react-paginate";
 
-const Discover = () => {
 
-    const [listDiscoverUser, setListDiscoverUser] = useState([]);
+const HomeStayUser = () => {
+
+    const [listHomesUser, setListHomesUser] = useState([]);
     const navigate = useNavigate();
     const LIMIT = 3;
 
     const [pageCount, setPageCount] = useState(0);
+
     const [inputSearch, setInputSearch] = useState('');
-    
 
     useEffect(() => {
-        fetchAllDiscoverUser(1)
+        fetchAllHomesUser(1)
     }, [])
 
-    const fetchAllDiscoverUser = async (page) => {
-        let res = await getAllToursPaginate(page, LIMIT);
+    const fetchAllHomesUser = async (page) => {
+        let res = await getAllHomeStayPaginate(page, LIMIT);
         if (res.code === 201) {
-            setListDiscoverUser(res.result);
+            setListHomesUser(res.result);
             setPageCount(res.totalpage);
         }
     }
 
-    const handleSearchDiscover = async() => {
+    const handleSearchDiscover = async () => {
         if (inputSearch) {
             let res = await searchDiscover({
                 title: inputSearch
             })
             if (res && res.code === 201) {
-                setListDiscoverUser(res.data)
+                setListHomesUser(res.data)
             }
         }
     }
 
     const handlePageClick = (event) => {
-        fetchAllDiscoverUser(+event.selected + 1)
+        fetchAllHomesUser(+event.selected + 1)
         // setCurrentPage(+event.selected + 1);
         console.log(`User requested page number ${event.selected}`);
     };
 
-    console.log(listDiscoverUser);
+    console.log(listHomesUser);
 
     return (
         <div className="discover-container container">
             <div className="header-discover">
                 <div>Trang chủ</div>
-                <div className='text-success'>Kết quả: {listDiscoverUser.length}</div>
+                <div className='text-success'>Kết quả: {listHomesUser.length}</div>
             </div>
             <div className="content-discover">
                 <div className="list-group">
@@ -137,7 +138,7 @@ const Discover = () => {
                                 />
                                 <label className="form-label" for="form1">Search</label>
                             </div>
-                            <button id="search-button" type="button" className="btn btn-primary" 
+                            <button id="search-button" type="button" className="btn btn-primary"
                                 onClick={() => handleSearchDiscover()}
                             >
                                 <i className="fas fa-search"></i>
@@ -146,98 +147,26 @@ const Discover = () => {
                     </div>
                 </div>
 
-                {/* <div className="content-left col-12 col-sm-2">
-                    <div className="area">
-                        <div className="title">
-                            Khu vực
-                        </div>
-                        <div className="content-area">
-                            <select className="form-select" aria-label="Default select example">
-                                <option selected>Open this select menu</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div className="location">
-                        <div className="title-location">
-                            Loại địa điểm
-                        </div>
-                        <div className="content-location">
-                            <div className="form-check">
-                                <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-                                <label className="form-check-label" htmlFor="flexCheckDefault">
-                                    Default checkbox
-                                </label>
-                            </div>
-                            <div className="form-check">
-                                <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
-                                <label className="form-check-label" htmlFor="flexCheckChecked">
-                                    Checked checkbox
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="type">
-                        <div className="title-location">
-                            Loại hình du lịch
-                        </div>
-                        <div className="content-location">
-                            <div className="form-check">
-                                <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-                                <label className="form-check-label" htmlFor="flexCheckDefault">
-                                    Default checkbox
-                                </label>
-                            </div>
-                            <div className="form-check">
-                                <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
-                                <label className="form-check-label" htmlFor="flexCheckChecked">
-                                    Checked checkbox
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="FeeType">
-                        <div className="title-location">
-                            Loại phí
-                        </div>
-                        <div className="content-location">
-                            <div className="form-check">
-                                <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-                                <label className="form-check-label" htmlFor="flexCheckDefault">
-                                    Default checkbox
-                                </label>
-                            </div>
-                            <div className="form-check">
-                                <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
-                                <label className="form-check-label" htmlFor="flexCheckChecked">
-                                    Checked checkbox
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div> */}
                 <div className='food-content-right'>
                     {
-                        listDiscoverUser && listDiscoverUser.length > 0 &&
-                        listDiscoverUser.map((item, index) => {
+                        listHomesUser && listHomesUser.length > 0 &&
+                        listHomesUser.map((item, index) => {
                             return (
                                 <div className="card mb-3 content-right " key={`discover-${index}`}>
                                     <div className="row g-0" >
                                         <div className="col-md-4">
-                                            <img src={bistro} className="img-fluid rounded-start" alt="..." />
+                                            <img src={`data:image/jpeg;base64,${item.homestay_image_base64}`} className="img-fluid rounded-start" alt="..." />
                                         </div>
                                         <div className="col-md-8 content"
-                                            onClick={() => navigate(`/discover/${item.tour_id}`)}
+                                            onClick={() => navigate(`/homeStay/${item.homestay_id}`)}
                                         >
                                             <div className="card-body">
                                                 <h5 className="card-title">{item.title}</h5>
                                                 <p className="card-text"> <FaMapMarkedAlt /> {item.address}</p>
-                                                <p className="card-text"> <FaWalking /> {item.vehicle}</p>
+                                                <p className="card-text"> <FaWalking /> {+item.type === 0 ? 'Hết phòng' : 'Còn phòng'}</p>
                                                 <p className="card-text text-end">
                                                     <small className="text-muted text-time">
-                                                        {item.price}$ for {item.members} members
+                                                        {item.price}$ for 1 day
                                                     </small>
                                                 </p>
                                             </div>
@@ -272,9 +201,8 @@ const Discover = () => {
                     </div>
                 </div>
             </div>
-            
         </div>
     )
 }
 
-export default Discover;
+export default HomeStayUser;

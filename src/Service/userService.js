@@ -42,14 +42,32 @@ const searchDiscover = (data) => {
     return axios.post(`/api/tours/search`, {...data})
 }
 
+// SHOPPING
+const getShoppingById = (idShopping) => {
+    return axios.get(`/api/shopping_centers/${idShopping}`)
+}
+
+// HOME
+const getHomeById = (idHome) => {
+    return axios.get(`/api/homestays/${idHome}`)
+}
+
+
 // FEEDBACK
 const feedBackWeb = (data) => {
     return axios.post(`/api/feedback`, { ...data })
 }
 
 
+// BOOK TOUR
+const ConfirmBookTourUser = (data) => {
+    return axios.post(`/api/bookings/`, { ...data })
+}
+
+
 export {
     postRegister, postLogin, postForgotPassword, postResetPassword,
     getNewsById, getEventById, getFoodById, getDiscoverById,
-    feedBackWeb, searchDiscover
+    feedBackWeb, searchDiscover, getShoppingById, ConfirmBookTourUser,
+    getHomeById
 }

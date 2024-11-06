@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import ModalCreateFood from "./ModalCreateFood";
-import { getAllFoods } from "../../../Service/apiServices";
+import { getAllFoods, getAllFoodsPaginate } from "../../../Service/apiServices";
 import TableFoodAdmin from "./TableFoodAdmin";
 import ModalDeleteFood from "./ModalDeleteFood";
 import ModalUpdateFood from "./ModalUpdateFood";
@@ -8,7 +8,7 @@ import ModalUpdateFood from "./ModalUpdateFood";
 
 const ManageFoods = () => {
 
-    const LIMIT_USER = 6;
+    const LIMIT= 3;
 
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1)
@@ -25,22 +25,23 @@ const ManageFoods = () => {
     const [listFoods, setListFoods] = useState([]);
 
     useEffect(() => {
-        fetchListFood()
+        // fetchListFood()
+        fetchListFoodsWithPaginate(1)
     }, [])
 
     const fetchListFood = async () => {
-        let res = await getAllFoods();
-        if (res && res.code === 201) {
-            setListFoods(res.result)
-        }
+        // let res = await getAllFoods();
+        // if (res && res.code === 201) {
+        //     setListFoods(res.result)
+        // }
     }
 
-    const fetchListUsersWithPaginate = async (page) => {
-        // let res = await getUserWithPaginate(page, LIMIT_USER);
-        // if (res.EC === 0) {
-        //     setListUsers(res.DT.users)
-        //     setPageCount(res.DT.totalPages)
-        // }
+    const fetchListFoodsWithPaginate = async (page) => {
+        let res = await getAllFoodsPaginate(page, LIMIT);
+        if (res.code === 201) {
+            setListFoods(res.result);
+            setPageCount(res.totalpage);
+        }
     }
 
     const handleClickBtnUpdate = (user) => {
@@ -59,19 +60,22 @@ const ManageFoods = () => {
 
     return (
         <>
-            <div className="admin-food-container">
+            <div className="admin-food-container container">
                 <div className="title">
                     Manage Food
                 </div>
                 <ModalCreateFood 
                     fetchListFood={fetchListFood}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                    fetchListFoodsWithPaginate={fetchListFoodsWithPaginate}
                 />
                 <div>
                     <TableFoodAdmin
                         listFoods={listFoods}
                         handleClickBtnUpdate={handleClickBtnUpdate}
                         handleClickBtnDelete={handleClickBtnDelete}
-                        fetchListUsersWithPaginate={fetchListUsersWithPaginate}
+                        fetchListFoodsWithPaginate={fetchListFoodsWithPaginate}
                         pageCount={pageCount}
                         currentPage={currentPage}
                         setCurrentPage={setCurrentPage}
@@ -82,7 +86,7 @@ const ManageFoods = () => {
                     setShow={setShowModalDeleteUser}
                     dataDelete={dataDelete}
                     fetchListFood={fetchListFood}
-                    fetchListUsersWithPaginate={fetchListUsersWithPaginate}
+                    fetchListFoodsWithPaginate={fetchListFoodsWithPaginate}
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
                 />
@@ -92,7 +96,7 @@ const ManageFoods = () => {
                     dataUpdate={dataUpdate}
                     fetchListFood={fetchListFood}
                     resetUpdateData={resetUpdateData}
-                    fetchListUsersWithPaginate={fetchListUsersWithPaginate}
+                    fetchListFoodsWithPaginate={fetchListFoodsWithPaginate}
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
                 />

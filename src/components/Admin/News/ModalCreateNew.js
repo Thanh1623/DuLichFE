@@ -23,7 +23,44 @@ const ModalCreateNew = (props) => {
     const [contentHTML, setContentHTML] = useState('');
     const [image, setImage] = useState('');
     const [view, setView] = useState('100');
-    
+
+    const [validationErrors, setValidationErrors] = useState({});
+
+    const validate = () => {
+        const errors = {};
+
+        // Validate Title
+        if (!title) {
+            errors.title = 'Title is required';
+        }
+
+        // Validate Image
+        if (!image) {
+            errors.image = 'Image title is required';
+        }
+
+        // Validate Start Date
+        if (!startDate) {
+            errors.startDate = 'Time of writing is required';
+        }
+
+        // Validate Content
+        if (!contentHTML || !contentMarkdown) {
+            errors.content = 'Content is required';
+        }
+
+        return Object.keys(errors).length === 0 ? true : errors;
+    };
+
+    const resetValues = () => {
+        setStartDate(new Date());
+        setTitle('');
+        setContentMarkdown('');
+        setContentHTML('');
+        setImage('');
+        setView('100');
+        setValidationErrors({});
+    };
 
     const handleEditorChange = ({ html, text }) => {
         // console.log('handleEditorChange', html, text);
@@ -35,15 +72,24 @@ const ModalCreateNew = (props) => {
         return date.toISOString().split("T")[0]; // Chuyển đổi sang YYYY-MM-DD
     };
     const handleCreateEvent = async () => {
-        let data = await postCreateNew(title, image, contentMarkdown, contentHTML, view);
-        if (data && data.code === 201) {
-            toast.success(data.message);
-            handleClose();
-            await props.fetchListNew()
+        const validation = validate();
+
+        if (validation === true) {
+            let data = await postCreateNew(title, image, contentMarkdown, contentHTML, view);
+            if (data && data.code === 201) {
+                toast.success(data.message);
+                handleClose();
+                props.setCurrentPage(1);
+                await props.fetchListNewsWithPaginate(1);
+                resetValues()
+            }
+            if (data && data.code !== 201) {
+                toast.error(data.message)
+            }
+        } else {
+            setValidationErrors(validation);
         }
-        if (data && data.code !== 201) {
-            toast.error(data.message)
-        }
+        
     }
     return (
         <>
@@ -58,25 +104,39 @@ const ModalCreateNew = (props) => {
                 </Modal.Header>
                 <Modal.Body>
                     <div className='col-12 row'>
-
                         <div className="mb-3">
                             <label className="form-label">Title</label>
                             <textarea className="form-control" rows="3"
+                                value={title}
                                 onChange={(event) => setTitle(event.target.value)}
                             ></textarea>
+                            {validationErrors.title && <span className="text-danger">{validationErrors.title}</span>}
                         </div>
                         <div className="mb-3 col-12">
                             <label className="form-label">Image title: </label>
                             <input className="form-control" type='file'
                                 onChange={(event) => setImage(event.target.files[0])}
-                            ></input>
+                            />
+                            {validationErrors.image && <span className="text-danger">{validationErrors.image}</span>}
                         </div>
                         <div className="mb-3 col-6">
                             <label className="form-label">Time of writing: </label>
-                            <DatePicker disabled showIcon icon={<IoIosCalendar />} selected={startDate} onChange={(date) => setStartDate(formatDate(date))} />
+                            <DatePicker
+                                disabled
+                                showIcon
+                                icon={<IoIosCalendar />}
+                                selected={startDate}
+                                onChange={(date) => setStartDate(date)}
+                            />
+                            {validationErrors.startDate && <span className="text-danger">{validationErrors.startDate}</span>}
                         </div>
                         <div>
-                            <MdEditor style={{ height: '300px' }} renderHTML={text => mdParser.render(text)} onChange={handleEditorChange} />
+                            <MdEditor
+                                style={{ height: '300px' }}
+                                renderHTML={(text) => mdParser.render(text)}
+                                onChange={handleEditorChange}
+                            />
+                            {validationErrors.content && <span className="text-danger">{validationErrors.content}</span>}
                         </div>
                     </div>
 

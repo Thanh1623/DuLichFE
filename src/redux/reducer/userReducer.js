@@ -9,7 +9,9 @@ const INITIAL_STATE = {
         username: '',
         image: '',
         role: '',
-        idUser: ''
+        idUser: '',
+        fullName: '',
+        phone: ''
     },
     isAuthenticated: false
 };
@@ -26,6 +28,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
                     phone: action?.payload?.result?.phone,
                     fullName: action?.payload?.result?.full_name,
                     role: action?.payload?.result?.role,
+                    username: action?.payload?.result?.user_name,
                     idUser: action?.payload?.result?.user_id,
                 },
                 isAuthenticated: true
@@ -39,7 +42,10 @@ const userReducer = (state = INITIAL_STATE, action) => {
                     refresh_token: '',
                     username: '',
                     image: '',
-                    role: ''
+                    role: '',
+                    idUser: '',
+                    fullName: '',
+                    phone: ''
                 },
                 isAuthenticated: false
             };

@@ -14,6 +14,7 @@ import MdEditor from 'react-markdown-editor-lite';
 import TimePicker from 'react-time-picker';
 import Lightbox from "react-awesome-lightbox";
 
+
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
 function ModalUpdateTour(props) {
@@ -38,6 +39,51 @@ function ModalUpdateTour(props) {
     const [imageP, setImageP] = useState('');
     const [isPreviewImage, setIsPreviewImage] = useState(false);
     const [dataImagePreview, setDataImagePreview] = useState({});
+
+    const [validationErrors, setValidationErrors] = useState({});
+
+    // Validate function
+    const validate = () => {
+        const errors = {};
+
+        // Validate Title
+        if (!title) {
+            errors.title = 'Title is required';
+        }
+
+        // Validate Address
+        if (!address) {
+            errors.address = 'Address is required';
+        }
+
+        // Validate Price
+        if (!price) {
+            errors.price = 'Price is required';
+        }
+
+        // Validate Members
+        if (!members) {
+            errors.members = 'Members count is required';
+        }
+
+        // Validate Vehicle
+        if (!vehicle) {
+            errors.vehicle = 'Vehicle is required';
+        }
+
+        // Validate Image
+        if (!image) {
+            errors.image = 'Image title is required';
+        }
+
+        // Validate Content (Markdown or HTML)
+        if (!contentHTML || !contentMarkdown) {
+            errors.content = 'Content is required';
+        }
+
+        return Object.keys(errors).length === 0 ? true : errors;
+    };
+
 
 
     function base64ToFile(base64String, fileName) {
@@ -83,8 +129,8 @@ function ModalUpdateTour(props) {
             setStartDateOpen(dataUpdate.tour_date);
             setImage(base64ToFile(`data:image/jpeg;base64,${dataUpdate.tour_image_base64}`));
 
-            
-            
+
+
 
             setImageP(`data:image/jpeg;base64,${dataUpdate.tour_image_base64}`);
             setDataImagePreview({
@@ -143,46 +189,29 @@ function ModalUpdateTour(props) {
     }
 
     const handleSubmitCreateUser = async () => {
-        // validate
-        // const isValidEmail = validateEmail(email);
-        // if (!isValidEmail) {
-        //     toast.error('Invalid email')
-        //     return;
-        // }
+        const validation = validate();
 
-        // let data = await putUsers(dataUpdate.user_id, {
-        //     user_name: username,
-        //     full_name: fullName,
-        //     email: email,
-        //     phone: phone,
-        //     role: role
-        // })
-        // if (data && data.code === 201) {
-        //     toast.success(data.message);
-        //     handleClose();
-        // await props.fetchListUsers()
-        // props.setCurrentPage(1);
-        // await props.fetchListUsersWithPaginate(props.currentPage)
-        // }
-        // if (data && data.code !== 201) {
-        //     toast.error(data.message)
-        // }
+        if (validation === true) {
+            let data = await putTour(dataUpdate.tour_id, title, contentHTML, contentMarkdown, price,
+                address, vehicle, members, startDateOpen, image)
+            if (data && data.code === 201) {
+                toast.success(data.message);
+                handleClose();
+                await props.fetchListToursWithPaginate(props.currentPage);
+                // props.setCurrentPage(1);
+                // await props.fetchListUsersWithPaginate(props.currentPage)
+            }
+            if (data && data.code !== 201) {
+                toast.error(data.message)
+            }
+        } else {
+            setValidationErrors(validation);
+        }
         // call api
-        let data = await putTour(dataUpdate.tour_id, title, contentHTML, contentMarkdown, price,
-            address, vehicle, members, startDateOpen, image)
-        if (data && data.code === 201) {
-            toast.success(data.message);
-            handleClose();
-            await props.fetchListTours()
-            // props.setCurrentPage(1);
-            // await props.fetchListUsersWithPaginate(props.currentPage)
-        }
-        if (data && data.code !== 201) {
-            toast.error(data.message)
-        }
+
     }
 
-    
+
 
     return (
         <>
@@ -204,6 +233,8 @@ function ModalUpdateTour(props) {
                                 value={title}
                                 onChange={(event) => setTitle(event.target.value)}
                             ></textarea>
+                            {validationErrors.title && <span className="text-danger">{validationErrors.title}</span>}
+
                         </div>
                         <div className="mb-3">
                             <label className="form-label">Address:</label>
@@ -211,6 +242,8 @@ function ModalUpdateTour(props) {
                                 value={address}
                                 onChange={(event) => setAddress(event.target.value)}
                             ></textarea>
+                            {validationErrors.address && <span className="text-danger">{validationErrors.address}</span>}
+
                         </div>
                         <div className="mb-3 col-5">
                             <label className="form-label">Price:</label>
@@ -218,6 +251,8 @@ function ModalUpdateTour(props) {
                                 value={price}
                                 onChange={(event) => setPrice(+event.target.value)}
                             ></input>
+                            {validationErrors.price && <span className="text-danger">{validationErrors.price}</span>}
+
                         </div>
                         <div className="mb-3 col-2">
                             <label className="form-label">Members:</label>
@@ -225,6 +260,8 @@ function ModalUpdateTour(props) {
                                 value={members}
                                 onChange={(event) => setMembers(+event.target.value)}
                             ></input>
+                            {validationErrors.members && <span className="text-danger">{validationErrors.members}</span>}
+
                         </div>
 
                         <div className="mb-3 col-5">
@@ -233,6 +270,8 @@ function ModalUpdateTour(props) {
                                 value={vehicle}
                                 onChange={(event) => setVehicle(event.target.value)}
                             ></input>
+                            {validationErrors.vehicle && <span className="text-danger">{validationErrors.vehicle}</span>}
+
                         </div>
                         <div className="mb-3 col-6">
                             <label className="form-label">Start time: </label>
@@ -243,6 +282,8 @@ function ModalUpdateTour(props) {
                             <input type='file'
                                 onChange={(event) => handleOnchangeFile(event)}
                             />
+                            {validationErrors.image && <span className="text-danger">{validationErrors.image}</span>}
+
                         </div>
                         <div className='col-12' style={{ height: '250px', width: 'fit-content', border: '1px solid' }}>
                             <img src={imageP} style={{ maxHeight: '100%', maxWidth: '100%' }} alt="Uploaded"
@@ -250,7 +291,12 @@ function ModalUpdateTour(props) {
                             />
                         </div>
                         <div>
-                            <MdEditor style={{ height: '500px' }} value={contentMarkdown} renderHTML={text => mdParser.render(text)} onChange={handleEditorChange} />
+                            <MdEditor style={{ height: '500px' }}
+                                value={contentMarkdown}
+                                renderHTML={text => mdParser.render(text)}
+                                onChange={handleEditorChange} />
+                            {validationErrors.content && <span className="text-danger">{validationErrors.content}</span>}
+
                         </div>
 
                         <div>

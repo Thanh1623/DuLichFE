@@ -6,7 +6,7 @@ const TableHomeStayAdmin = (props) => {
     const { listHomeStay, pageCount } = props;
 
     const handlePageClick = (event) => {
-        props.fetchListUsersWithPaginate(+event.selected + 1)
+        props.fetchListHomesWithPaginate(+event.selected + 1)
         props.setCurrentPage(+event.selected + 1);
         console.log(`User requested page number ${event.selected}`);
     };

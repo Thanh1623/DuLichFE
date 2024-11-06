@@ -1,0 +1,23 @@
+.news-all-container {
+
+    .header-news-all {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .news-content-right {
+        margin-top: 15px;
+
+        .content-right {
+            max-width: 1000px;
+            margin: 0 auto;
+
+            .content {
+                .text-time {
+                    color: rgb(252, 69, 109) !important;
+                }
+            }
+
+        }
+    }
+}

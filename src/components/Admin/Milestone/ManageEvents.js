@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
 import ModalCreateEvent from "./ModalCreateEvent";
-import { getAllEvents } from "../../../Service/apiServices";
+import { getAllEvents, getAllEventsPaginate } from "../../../Service/apiServices";
 import TableEventAdmin from "./TableEventAdmin";
 import ModalDeleteEvent from "./ModalDeleteEvent";
 import ModalUpdateEvent from "./ModalUpdateEvent";
+import ReactDOM from 'react-dom';
 
 
 
 const ManageEvents = () => {
 
-    const LIMIT_USER = 6;
+    const LIMIT = 3;
 
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1)
@@ -26,22 +27,23 @@ const ManageEvents = () => {
     const [listEvents, setListEvents] = useState([]);
 
     useEffect(() => {
-        fetchListEvent()
+        // fetchListEvent();
+        fetchListEventsWithPaginate(1);
     }, [])
 
     const fetchListEvent = async () => {
-        let res = await getAllEvents();
-        if (res && res.code === 201) {
-            setListEvents(res.result)
-        }
+        // let res = await getAllEvents();
+        // if (res && res.code === 201) {
+        //     setListEvents(res.result)
+        // }
     }
 
-    const fetchListUsersWithPaginate = async (page) => {
-        // let res = await getUserWithPaginate(page, LIMIT_USER);
-        // if (res.EC === 0) {
-        //     setListUsers(res.DT.users)
-        //     setPageCount(res.DT.totalPages)
-        // }
+    const fetchListEventsWithPaginate = async (page) => {
+        let res = await getAllEventsPaginate(page, LIMIT);
+        if (res.code === 201) {
+            setListEvents(res.result);
+            setPageCount(res.totalpage);
+        }
     }
 
     const handleClickBtnUpdate = (user) => {
@@ -66,14 +68,16 @@ const ManageEvents = () => {
                     Manage Event
                 </div>
                 <ModalCreateEvent
-                    fetchListEvent={fetchListEvent}
+                    fetchListEventsWithPaginate={fetchListEventsWithPaginate}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
                 />
                 <div>
                     <TableEventAdmin
                         listEvents={listEvents}
                         handleClickBtnUpdate={handleClickBtnUpdate}
                         handleClickBtnDelete={handleClickBtnDelete}
-                        fetchListUsersWithPaginate={fetchListUsersWithPaginate}
+                        fetchListEventsWithPaginate={fetchListEventsWithPaginate}
                         pageCount={pageCount}
                         currentPage={currentPage}
                         setCurrentPage={setCurrentPage}
@@ -84,7 +88,7 @@ const ManageEvents = () => {
                     setShow={setShowModalDeleteUser}
                     dataDelete={dataDelete}
                     fetchListEvent={fetchListEvent}
-                    fetchListUsersWithPaginate={fetchListUsersWithPaginate}
+                    fetchListEventsWithPaginate={fetchListEventsWithPaginate}
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
                 />
@@ -94,7 +98,7 @@ const ManageEvents = () => {
                     dataUpdate={dataUpdate}
                     fetchListEvent={fetchListEvent}
                     resetUpdateData={resetUpdateData}
-                    fetchListUsersWithPaginate={fetchListUsersWithPaginate}
+                    fetchListEventsWithPaginate={fetchListEventsWithPaginate}
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
                 />

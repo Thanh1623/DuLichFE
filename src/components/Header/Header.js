@@ -38,8 +38,8 @@ const Header = () => {
                             <NavLink to="/" className='nav-link'>Trang chủ</NavLink>
                             <NavLink to="/introduce" className='nav-link'>Giới thiệu</NavLink>
                             <NavLink to="/discover" className='nav-link'>Khám phá</NavLink>
-                            <NavLink to="/planning" className='nav-link'>Lập kế hoạch</NavLink>
-                            <NavLink to="/extension" className='nav-link'>Tiện ích du lịch</NavLink>
+                            <NavLink to="/shopping" className='nav-link'>Mua sắm và giải trí</NavLink>
+                            <NavLink to="/homeStay" className='nav-link'>Nghỉ dưỡng</NavLink>
                         </Nav>
                         <Nav>
                             {isAuthenticated === false ?

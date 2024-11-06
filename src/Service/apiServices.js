@@ -4,6 +4,10 @@ import axios from "../utils/axiosCustomize";
 const postCreateUser = (data) => {
     return axios.post(`/api/users`, { ...data })
 }
+const  getAllUsersPaginate = (limit, page) => {
+    return axios.get(`/api/users?limit=${limit}&page=${page}`)
+}
+
 const getAllUsers = () => {
     return axios.get(`/api/users`)
 }
@@ -61,6 +65,10 @@ const getAllEvents = () => {
     return axios.get(`/api/events`)
 }
 
+const getAllEventsPaginate = (page, limit ) => {
+    return axios.get(`/api/events?limit=${limit}&page=${page}`)
+}
+
 const deleteEvent = (idEvent) => {
     return axios.delete(`/api/events/${idEvent}`)
 }
@@ -85,6 +93,10 @@ const putEvent = (idEvent, title, valueOpen, valueClose, imageTitle, contentMark
 // NEWS ADMIN
 const getAllNews = () => {
     return axios.get(`/api/news`)
+}
+
+const getAllNewsPaginate = (page, limit) => {
+    return axios.get(`/api/news?limit=${limit}&page=${page}`)
 }
 
 const postCreateNew = (title, image, contentMarkdown, contentHTML, view) => {
@@ -122,6 +134,10 @@ const putNews = (idNews, title, image, contentMarkdown, contentHTML) => {
 
 const getAllFoods = () => {
     return axios.get(`/api/cuisines`)
+}
+
+const getAllFoodsPaginate = (page, limit) => {
+    return axios.get(`/api/cuisines?limit=${limit}&page=${page}`)
 }
 
 const postCreateFood = (name, address, contentHTML, contentMarkdown, valueOpen, valueClose, image, map) => {
@@ -164,6 +180,10 @@ const putFood = (idFood, name, address, contentHTML, contentMarkdown, valueOpen,
 
 const getAllTours = () => {
     return axios.get(`/api/tours`)
+}
+
+const getAllToursPaginate = (page, limit) => {
+    return axios.get(`/api/tours?limit=${limit}&page=${page}`)
 }
 
 const postCreateTour = (title, contentHTML, contentMarkdown, price,
@@ -214,6 +234,10 @@ const getAllShopping = () => {
     return axios.get(`/api/shopping_centers`)
 }
 
+const getAllShoppingPaginate = (page, limit) => {
+    return axios.get(`/api/shopping_centers?limit=${limit}&page=${page}`)
+}
+
 const postCreateShopping = (title, address, contentHTML, contentMarkdown,
     valueClose, valueOpen, type, image, map) => {
     const data = new FormData();
@@ -262,6 +286,11 @@ const putShopping = (idShop, title, address, contentHTML, contentMarkdown,
 const getAllHomeStay = () => {
     return axios.get(`/api/homestays`)
 }
+
+const getAllHomeStayPaginate = (page, limit) => {
+    return axios.get(`/api/homestays?limit=${limit}&page=${page}`)
+}
+
 const postCreateHome = (title, address, price, type, contentHTML, contentMarkdown, image, map) => {
     const data = new FormData();
     data.append('title', title);
@@ -301,17 +330,18 @@ const putHome = (idHome, title, address, price, type, contentHTML, contentMarkdo
 }
 
 // FEEDBACK
-const getFeedbackWeb = () => {
-    return axios.get(`/api/feedback`);
+
+const getFeedbackWebPaginate = (page, limit) => {
+    return axios.get(`/api/feedback?limit=${limit}&page=${page}`)
 }
 
 export {
-    postCreateUser, getAllUsers, putUsers, deleteUsers,
-    postCreateEvent, getAllEvents, deleteEvent, putEvent,
-    getAllNews, postCreateNew, deleteNew, putNews,
-    getAllFoods, postCreateFood, deleteFood, putFood,
-    getAllTours, postCreateTour, deleteTour, putTour,
-    getAllShopping, postCreateShopping, deleteShopping, putShopping,
-    getAllHomeStay, postCreateHome, deleteHome, putHome,
-    getFeedbackWeb
+    postCreateUser, getAllUsers, putUsers, deleteUsers, getAllUsersPaginate,
+    postCreateEvent, getAllEvents, deleteEvent, putEvent, getAllEventsPaginate,
+    getAllNews, postCreateNew, deleteNew, putNews, getAllNewsPaginate,
+    getAllFoods, postCreateFood, deleteFood, putFood, getAllFoodsPaginate,
+    getAllTours, postCreateTour, deleteTour, putTour, getAllToursPaginate,
+    getAllShopping, postCreateShopping, deleteShopping, putShopping, getAllShoppingPaginate,
+    getAllHomeStay, postCreateHome, deleteHome, putHome, getAllHomeStayPaginate,
+    getFeedbackWebPaginate
 }

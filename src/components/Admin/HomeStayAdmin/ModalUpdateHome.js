@@ -38,6 +38,44 @@ function ModalUpdateHomeStay(props) {
     const [isPreviewImage, setIsPreviewImage] = useState(false);
     const [dataImagePreview, setDataImagePreview] = useState({});
 
+    const [validationErrors, setValidationErrors] = useState({});
+
+    const validate = () => {
+        const errors = {};
+
+        if (!title) {
+            errors.title = 'Name is required';
+        }
+
+        if (!address) {
+            errors.address = 'Address is required';
+        }
+
+        if (!map) {
+            errors.map = 'Location on map is required';
+        }
+
+        if (!price) {
+            errors.price = 'Price is required';
+        } else if (isNaN(price) || price <= 0) {
+            errors.price = 'Price must be a positive number';
+        }
+
+        if (!type) {
+            errors.type = 'Type is required';
+        }
+
+        if (!image) {
+            errors.image = 'Image is required';
+        }
+
+        if (!contentHTML || !contentMarkdown) {
+            errors.content = 'Content is required';
+        }
+
+        return Object.keys(errors).length === 0 ? true : errors;
+    };
+
     function base64ToFile(base64String, fileName) {
         if (!base64String) {
             console.error("Chuỗi Base64 không hợp lệ hoặc không có giá trị.");
@@ -90,15 +128,6 @@ function ModalUpdateHomeStay(props) {
     }, [dataUpdate])
 
 
-    // const handleUpLoadImage = (event) => {
-    //     if (event.target && event.target.files && event.target.files[0]) {
-    //         setPreviewImage(URL.createObjectURL(event.target.files[0]));
-    //         setImage(event.target.files[0]);
-    //     }
-    //     else {
-    //         // setPreviewImage('');
-    //     }
-    // }
 
     const validateEmail = (email) => {
         return String(email)
@@ -137,42 +166,24 @@ function ModalUpdateHomeStay(props) {
     }
 
     const handleSubmitCreateUser = async () => {
-        // validate
-        // const isValidEmail = validateEmail(email);
-        // if (!isValidEmail) {
-        //     toast.error('Invalid email')
-        //     return;
-        // }
+        const validation = validate();
 
-        // let data = await putUsers(dataUpdate.user_id, {
-        //     user_name: username,
-        //     full_name: fullName,
-        //     email: email,
-        //     phone: phone,
-        //     role: role
-        // })
-        // if (data && data.code === 201) {
-        //     toast.success(data.message);
-        //     handleClose();
-        // await props.fetchListUsers()
-        // props.setCurrentPage(1);
-        // await props.fetchListUsersWithPaginate(props.currentPage)
-        // }
-        // if (data && data.code !== 201) {
-        //     toast.error(data.message)
-        // }
+        if (validation === true) {
+            let data = await putHome(dataUpdate.homestay_id, title, address, price, type, contentHTML, contentMarkdown, image, map)
+            if (data && data.message === 'Update Homestays Successful') {
+                toast.success(data.message);
+                handleClose();
+                await props.fetchListHomesWithPaginate(props.currentPage);
+
+            }
+            if (data && data.message !== 'Update Homestays Successful') {
+                toast.error(data.message)
+            }
+        } else {
+            setValidationErrors(validation);
+        }
         // call api
-        let data = await putHome(dataUpdate.homestay_id, title, address, price, type, contentHTML, contentMarkdown, image, map)
-        if (data && data.message === 'Update Homestays Successful') {
-            toast.success(data.message);
-            handleClose();
-            await props.fetchListHomeStay();
-            // props.setCurrentPage(1);
-            // await props.fetchListUsersWithPaginate(props.currentPage)
-        }
-        if (data && data.message !== 'Update Homestays Successful') {
-            toast.error(data.message)
-        }
+
     }
 
     return (
@@ -195,6 +206,8 @@ function ModalUpdateHomeStay(props) {
                                 value={title}
                                 onChange={(event) => setTitle(event.target.value)}
                             ></textarea>
+                            {validationErrors.title && <span className="text-danger">{validationErrors.title}</span>}
+
                         </div>
                         <div className="mb-3">
                             <label className="form-label">Address:</label>
@@ -202,14 +215,17 @@ function ModalUpdateHomeStay(props) {
                                 value={address}
                                 onChange={(event) => setAddress(event.target.value)}
                             ></textarea>
+                            {validationErrors.address && <span className="text-danger">{validationErrors.address}</span>}
+
                         </div>
                         <div className='mb-3 col-12'>
-                            <label className="form-label">{`Location on map: `}<span style={{ color: "red" }}>Note remove: </span><b>style="border:0;"</b></label>
-                            <textarea className="form-control" rows="5"
-                                placeholder='<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.880517355801!2d105.78079297503172!3d21.037466280614062!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab355cc2239b%3A0x9ae247114fb38da3!2zVHLGsOG7nW5nIMSQ4bqhaSBI4buNYyBTxrAgUGjhuqFtIEjDoCBO4buZaQ!5e0!3m2!1svi!2s!4v1728296212431!5m2!1svi!2s" width="600" height="450" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
+                            <label className="form-label">Location on map:</label>
+                            <textarea className="form-control" rows="2"
                                 value={map}
                                 onChange={(event) => setMap(event.target.value)}
                             ></textarea>
+                            {validationErrors.map && <span className="text-danger">{validationErrors.map}</span>}
+
                         </div>
                         <div className="mb-3">
                             <label className="form-label">Price:</label>
@@ -217,6 +233,8 @@ function ModalUpdateHomeStay(props) {
                                 value={price}
                                 onChange={(event) => setPrice(event.target.value)}
                             ></input>
+                            {validationErrors.price && <span className="text-danger">{validationErrors.price}</span>}
+
                         </div>
                         <div className="col-md-4">
                             <label className="form-label">Type</label>
@@ -227,12 +245,16 @@ function ModalUpdateHomeStay(props) {
                                 <option value='1'>Còn phòng</option>
                                 <option value='0'>Hết phòng</option>
                             </select>
+                            {validationErrors.type && <span className="text-danger">{validationErrors.type}</span>}
+
                         </div>
                         <div className="mb-3 col-6">
                             <label className="form-label">Image title: </label>
                             <input className="form-control" type='file'
                                 onChange={(event) => handleOnchangeFile(event)}
                             ></input>
+                            {validationErrors.image && <span className="text-danger">{validationErrors.image}</span>}
+
                         </div>
                         <div className='col-12' style={{ height: '250px', width: 'fit-content', border: '1px solid' }}>
                             <img src={imageP} style={{ maxHeight: '100%', maxWidth: '100%' }} alt="Uploaded"
@@ -240,7 +262,12 @@ function ModalUpdateHomeStay(props) {
                             />
                         </div>
                         <div>
-                            <MdEditor style={{ height: '500px' }} value={contentMarkdown} renderHTML={text => mdParser.render(text)} onChange={handleEditorChange} />
+                            <MdEditor style={{ height: '500px' }} 
+                            value={contentMarkdown} 
+                            renderHTML={text => mdParser.render(text)} 
+                            onChange={handleEditorChange} />
+                            {validationErrors.content && <span className="text-danger">{validationErrors.content}</span>}
+
                         </div>
                         <div>
                             {

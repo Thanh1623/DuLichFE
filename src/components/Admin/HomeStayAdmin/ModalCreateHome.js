@@ -26,6 +26,55 @@ const ModalCreateHomeStay = (props) => {
     const [contentMarkdown, setContentMarkdown] = useState('');
     const [image, setImage] = useState('');
     const [map, setMap] = useState('');
+    const [validationErrors, setValidationErrors] = useState({});
+
+    const validate = () => {
+        const errors = {};
+
+        if (!title) {
+            errors.title = 'Name is required';
+        }
+
+        if (!address) {
+            errors.address = 'Address is required';
+        }
+
+        if (!map) {
+            errors.map = 'Location on map is required';
+        }
+
+        if (!price) {
+            errors.price = 'Price is required';
+        } else if (isNaN(price) || price <= 0) {
+            errors.price = 'Price must be a positive number';
+        }
+
+        if (!type) {
+            errors.type = 'Type is required';
+        }
+
+        if (!image) {
+            errors.image = 'Image is required';
+        }
+
+        if (!contentHTML || !contentMarkdown) {
+            errors.content = 'Content is required';
+        }
+
+        return Object.keys(errors).length === 0 ? true : errors;
+    };
+
+    const resetValues = () => {
+        setTitle('');
+        setAddress('');
+        setPrice('');
+        setType('1');
+        setContentHTML('');
+        setContentMarkdown('');
+        setImage('');
+        setMap('');
+        setValidationErrors({});
+    };
 
     const handleEditorChange = ({ html, text }) => {
         setContentHTML(html);
@@ -33,15 +82,24 @@ const ModalCreateHomeStay = (props) => {
     }
 
     const handleCreateFood = async () => {
-        let data = await postCreateHome(title, address, price, type, contentHTML, contentMarkdown, image, map);
-        if (data && data.code === 201) {
-            toast.success(data.message);
-            handleClose();
-            await props.fetchListHomeStay();
+
+        const validation = validate();
+
+        if (validation === true) {
+            let data = await postCreateHome(title, address, price, type, contentHTML, contentMarkdown, image, map);
+            if (data && data.code === 201) {
+                toast.success(data.message);
+                handleClose();
+                props.setCurrentPage(1);
+                await props.fetchListHomesWithPaginate(1);
+                setValidationErrors({});
+                resetValues();
+            }
+            if (data && data.code !== 201) {
+                toast.error(data.message)
+            }
         }
-        if (data && data.code !== 201) {
-            toast.error(data.message)
-        }
+
     }
 
     return (
@@ -63,6 +121,7 @@ const ModalCreateHomeStay = (props) => {
                                 value={title}
                                 onChange={(event) => setTitle(event.target.value)}
                             ></textarea>
+                            {validationErrors.title && <span className="text-danger">{validationErrors.title}</span>}
                         </div>
                         <div className="mb-3">
                             <label className="form-label">Address:</label>
@@ -70,21 +129,23 @@ const ModalCreateHomeStay = (props) => {
                                 value={address}
                                 onChange={(event) => setAddress(event.target.value)}
                             ></textarea>
+                            {validationErrors.address && <span className="text-danger">{validationErrors.address}</span>}
                         </div>
                         <div className='mb-3 col-12'>
-                            <label className="form-label">{`Location on map: `}<span style={{ color: "red" }}>Note remove: </span><b>style="border:0;"</b></label>
-                            <textarea className="form-control" rows="5"
-                                placeholder='<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.880517355801!2d105.78079297503172!3d21.037466280614062!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab355cc2239b%3A0x9ae247114fb38da3!2zVHLGsOG7nW5nIMSQ4bqhaSBI4buNYyBTxrAgUGjhuqFtIEjDoCBO4buZaQ!5e0!3m2!1svi!2s!4v1728296212431!5m2!1svi!2s" width="600" height="450" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
+                            <label className="form-label">Location on map:</label>
+                            <textarea className="form-control" rows="2"
                                 value={map}
                                 onChange={(event) => setMap(event.target.value)}
                             ></textarea>
+                            {validationErrors.map && <span className="text-danger">{validationErrors.map}</span>}
                         </div>
                         <div className="mb-3">
                             <label className="form-label">Price:</label>
-                            <input className="form-control" rows="1" type='number'
+                            <input className="form-control" type='number'
                                 value={price}
                                 onChange={(event) => setPrice(event.target.value)}
-                            ></input>
+                            />
+                            {validationErrors.price && <span className="text-danger">{validationErrors.price}</span>}
                         </div>
                         <div className="col-md-4">
                             <label className="form-label">Type</label>
@@ -95,18 +156,24 @@ const ModalCreateHomeStay = (props) => {
                                 <option value='1'>Còn phòng</option>
                                 <option value='0'>Hết phòng</option>
                             </select>
+                            {validationErrors.type && <span className="text-danger">{validationErrors.type}</span>}
                         </div>
                         <div className="mb-3">
                             <label className="form-label">Title image: </label>
                             <input type='file'
                                 onChange={(event) => setImage(event.target.files[0])}
                             />
+                            {validationErrors.image && <span className="text-danger">{validationErrors.image}</span>}
                         </div>
                         <div>
-                            <MdEditor style={{ height: '500px' }} renderHTML={text => mdParser.render(text)} onChange={handleEditorChange} />
+                            <MdEditor
+                                style={{ height: '500px' }}
+                                renderHTML={(text) => mdParser.render(text)}
+                                onChange={handleEditorChange}
+                            />
+                            {validationErrors.content && <span className="text-danger">{validationErrors.content}</span>}
                         </div>
                     </div>
-
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>

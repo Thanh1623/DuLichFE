@@ -14,8 +14,10 @@ const ModalDeleteHomeStay = (props) => {
         let data = await deleteHome(dataDelete.homestay_id)
         if (data && data.message === 'Delete answers Successfull') {
             toast.success(data.message);
-            await props.fetchListHomeStay();
+            
             handleClose();
+            props.setCurrentPage(1);
+            await props.fetchListHomesWithPaginate(1);
             // props.setCurrentPage(1);
             // await props.fetchListUsersWithPaginate(1)
         }

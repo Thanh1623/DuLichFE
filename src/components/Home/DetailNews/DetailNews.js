@@ -19,8 +19,8 @@ const DetailNews = (props) => {
 
     const fetchDetailNewsById = async () => {
         let data = await getNewsById(idNews);
-        if (data) {
-            setDetailNews(data)
+        if (data && data.code === 201) {
+            setDetailNews(data.result)
         }
 
     }

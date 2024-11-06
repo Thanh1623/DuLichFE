@@ -17,8 +17,6 @@ function ModalCreateUser(props) {
         setRole('user');
         setFullName('');
         setPhone('');
-        setImage('');
-        setPreviewImage('');
     };
 
     // const [dataUser, setDataUser] = useState({
@@ -35,8 +33,8 @@ function ModalCreateUser(props) {
     const [role, setRole] = useState('user');
     const [phone, setPhone] = useState('');
     const [fullName, setFullName] = useState('');
-    const [image, setImage] = useState('');
-    const [previewImage, setPreviewImage] = useState('');
+    const [validationErrors, setValidationErrors] = useState({});
+
 
     // const handleUpLoadImage = (event) => {
     //     if (event.target && event.target.files && event.target.files[0]) {
@@ -55,49 +53,71 @@ function ModalCreateUser(props) {
                 /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
             );
     };
+    const validate = () => {
+        const errors = {};
+
+        if (!email) {
+            errors.email = 'Email is required';
+        } else if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
+            errors.email = 'Email is invalid';
+        }
+
+        if (!password) {
+            errors.password = 'Password is required';
+        } else if (password.length < 6) {
+            errors.password = 'Password must be at least 6 characters long';
+        }
+
+        if (!username) {
+            errors.username = 'Username is required';
+        } else if (username.length < 3) {
+            errors.username = 'Username must be at least 3 characters long';
+        }
+
+        if (!phone) {
+            errors.phone = 'Phone number is required';
+        } else if (!/^\d{8,13}$/.test(phone)) {
+            errors.phone = 'Phone number is invalid';
+        }
+
+        if (!fullName) {
+            errors.fullName = 'Full name is required';
+        } else if (fullName.length < 3) {
+            errors.fullName = 'Full name must be at least 3 characters long';
+        }
+
+        return Object.keys(errors).length === 0 ? true : errors;
+    };
+
 
     const handleSubmitCreateUser = async () => {
         // validate
-        const isValidEmail = validateEmail(email);
-        if (!isValidEmail) {
-            toast.error('Invalid email')
-            return;
-        }
-        if (!password) {
-            toast.error('Invalid password')
-            return;
-        }
+        const validation = validate();
 
-        console.log(email, password, username, role, phone, fullName);
-        let data = await postCreateUser({
-            user_name: username,
-            full_name: fullName,
-            email: email,
-            password: password,
-            phone: phone,
-            role: role
-        })
-        if (data && data.code === 201) {
-            toast.success(data.message);
-            handleClose();
-            await props.fetchListUsers()
+        if (validation === true) {
+            let data = await postCreateUser({
+                user_name: username,
+                full_name: fullName,
+                email: email,
+                password: password,
+                phone: phone,
+                role: role
+            })
+            if (data && data.code === 201) {
+                toast.success(data.message);
+                handleClose();
+                await props.fetchListUsers()
+            }
+            if (data && data.code !== 201) {
+                toast.error(data.message)
+            }
+        } else {
+            // Hiển thị các lỗi
+            setValidationErrors(validation);
+            console.log(validation)
         }
-        if (data && data.code !== 201) {
-            toast.error(data.message)
-        }
-        console.log('data: ', data)
-        // call api
-        // let data = await postCreateNewUser(email, password, username, role, image)
-        // if (data && data.EC === 0) {
-        //     toast.success(data.EM);
-        //     handleClose();
-        //     // await props.fetchListUsers()
-        //     props.setCurrentPage(1);
-        //     await props.fetchListUsersWithPaginate(1)
-        // }
-        // if (data && data.EC !== 0) {
-        //     toast.error(data.EM)
-        // }
+        
+
     }
     return (
         <>
@@ -120,7 +140,9 @@ function ModalCreateUser(props) {
                                 className="form-control"
                                 value={email}
                                 onChange={(event) => setEmail(event.target.value)} />
+                            {validationErrors.email && <span className="text-danger">{validationErrors.email}</span>}
                         </div>
+
                         <div className="col-md-6">
                             <label className="form-label">Password</label>
                             <input
@@ -129,6 +151,8 @@ function ModalCreateUser(props) {
                                 value={password}
                                 onChange={(event) => setPassword(event.target.value)}
                             />
+                            {validationErrors.password && <span className="text-danger">{validationErrors.password}</span>}
+
                         </div>
                         <div className="col-md-6">
                             <label className="form-label">Username</label>
@@ -138,6 +162,8 @@ function ModalCreateUser(props) {
                                 value={username}
                                 onChange={(event) => setUsername(event.target.value)}
                             />
+                            {validationErrors.username && <span className="text-danger">{validationErrors.username}</span>}
+
                         </div>
                         <div className="col-md-6">
                             <label className="form-label">FullName</label>
@@ -147,6 +173,8 @@ function ModalCreateUser(props) {
                                 value={fullName}
                                 onChange={(event) => setFullName(event.target.value)}
                             />
+                            {validationErrors.fullName && <span className="text-danger">{validationErrors.fullName}</span>}
+
                         </div>
                         <div className="col-md-6">
                             <label className="form-label">Phone</label>
@@ -156,6 +184,8 @@ function ModalCreateUser(props) {
                                 value={phone}
                                 onChange={(event) => setPhone(event.target.value)}
                             />
+                            {validationErrors.phone && <span className="text-danger">{validationErrors.phone}</span>}
+
                         </div>
                         <div className="col-md-4">
                             <label className="form-label">Role</label>
@@ -165,27 +195,6 @@ function ModalCreateUser(props) {
                                 <option value='user'>USER</option>
                                 <option value='admin'>ADMIN</option>
                             </select>
-                        </div>
-                        {/* <div classNameName='col-md-12'>
-                            <label className="form-label label-upload" htmlFor='labelUpload'>
-                                <FcPlus />
-                                Upload file Image
-                            </label>
-                            <input type='file' hidden id='labelUpload'
-                                onChange={(event) => handleUpLoadImage(event)}
-                            />
-                        </div> */}
-                        {/* <div className='col-md-12 img-preview'>
-                            {
-                                previewImage
-                                    ?
-                                    <img src={previewImage} />
-                                    :
-                                    <span>Preview image</span>
-
-                            }
-                        </div> */}
-                        <div>
                         </div>
                     </form>
                 </Modal.Body>

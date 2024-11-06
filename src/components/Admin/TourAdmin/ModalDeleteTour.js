@@ -15,7 +15,8 @@ const ModalDeleteTour = (props) => {
         if (data && data.code === 201) {
             toast.success(data.message);
             handleClose();
-            await props.fetchListTours()
+            props.setCurrentPage(1);
+            await props.fetchListToursWithPaginate(1);
             // props.setCurrentPage(1);
             // await props.fetchListUsersWithPaginate(1)
         }

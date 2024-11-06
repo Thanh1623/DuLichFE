@@ -7,11 +7,11 @@ import { useEffect, useState } from "react";
 import ModalUpdateUser from "./ModalUpdateUser";
 import ModalDeleteUser from "./ModalDeleteUser";
 import TableUserPaginate from "./TableUserPaginate";
-import { getAllUsers } from "../../../Service/apiServices";
+import { getAllUsers, getAllUsersPaginate } from "../../../Service/apiServices";
 
 
 const ManageUser = (props) => {
-    const LIMIT_USER = 6;
+    const LIMIT = 1;
 
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1)
@@ -28,23 +28,24 @@ const ManageUser = (props) => {
     const [listUsers, setListUsers] = useState([]);
 
     useEffect(() => {
-        fetchListUsers();
-        fetchListUsersWithPaginate(1);
+        // fetchListUsers();
+        fetchListUsersWithPaginate(LIMIT, 1);
     }, []);
 
     const fetchListUsers = async () => {
-        let res = await getAllUsers();
-        if (res.code === 201) {
-            setListUsers(res.result)
-        }
+        // let res = await getAllUsers();
+        // if (res.code === 201) {
+        //     setListUsers(res.result)
+        // }
     }
 
     const fetchListUsersWithPaginate = async (page) => {
-        // let res = await getUserWithPaginate(page, LIMIT_USER);
-        // if (res.EC === 0) {
-        //     setListUsers(res.DT.users)
-        //     setPageCount(res.DT.totalPages)
-        // }
+        let res = await getAllUsersPaginate(LIMIT, page);
+        if (res.code === 201) {
+            setListUsers(res.result);
+            setPageCount(res.totalpage)
+        }
+        console.log(res)
     }
 
     const handleClickBtnUpdate = (user) => {
@@ -62,7 +63,7 @@ const ManageUser = (props) => {
     }
 
     return (
-        <div className="manage-user-container">
+        <div className="manage-user-container container">
             <div className="title">
                 Manage User
             </div>

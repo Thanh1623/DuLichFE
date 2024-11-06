@@ -22,7 +22,8 @@ function ModalUpdateFood(props) {
 
     const handleClose = () => {
         setShow(false);
-        props.resetUpdateData()
+        props.resetUpdateData();
+        setValidationErrors({});
     };
 
     const [valueOpen, setValueOpen] = useState('10:00');
@@ -38,6 +39,47 @@ function ModalUpdateFood(props) {
     const [imageP, setImageP] = useState('');
     const [isPreviewImage, setIsPreviewImage] = useState(false);
     const [dataImagePreview, setDataImagePreview] = useState({});
+
+    const [validationErrors, setValidationErrors] = useState({});
+
+    const validate = () => {
+        const errors = {};
+
+        if (!name) {
+            errors.name = 'Restaurant name is required';
+        }
+
+        if (!address) {
+            errors.address = 'Address is required';
+        }
+
+        if (!map) {
+            errors.map = 'Location on map is required';
+        }
+
+        if (!image) {
+            errors.image = 'Image is required';
+        }
+
+        if (!valueOpen) {
+            errors.valueOpen = 'Open time is required';
+        }
+
+        if (!valueClose) {
+            errors.valueClose = 'Close time is required';
+        }
+        // else if (valueClose <= valueOpen) {
+        //     errors.valueClose = 'Close time must be later than open time';
+        // }
+
+        if (!contentHTML || !contentMarkdown) {
+            errors.content = 'Content is required';
+        }
+
+        return Object.keys(errors).length === 0 ? true : errors;
+    };
+
+    
     function base64ToFile(base64String, fileName) {
         if (!base64String) {
             console.error("Chuỗi Base64 không hợp lệ hoặc không có giá trị.");
@@ -121,13 +163,6 @@ function ModalUpdateFood(props) {
     //     }
     // }
 
-    const validateEmail = (email) => {
-        return String(email)
-            .toLowerCase()
-            .match(
-                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-            );
-    };
     const formatDate = (date) => {
         if (!date) return ""; // Kiểm tra nếu date là null
         return date.toISOString().split("T")[0]; // Chuyển đổi sang YYYY-MM-DD
@@ -138,42 +173,24 @@ function ModalUpdateFood(props) {
     }
 
     const handleSubmitCreateUser = async () => {
-        // validate
-        // const isValidEmail = validateEmail(email);
-        // if (!isValidEmail) {
-        //     toast.error('Invalid email')
-        //     return;
-        // }
+        const validation = validate();
 
-        // let data = await putUsers(dataUpdate.user_id, {
-        //     user_name: username,
-        //     full_name: fullName,
-        //     email: email,
-        //     phone: phone,
-        //     role: role
-        // })
-        // if (data && data.code === 201) {
-        //     toast.success(data.message);
-        //     handleClose();
-        // await props.fetchListUsers()
-        // props.setCurrentPage(1);
-        // await props.fetchListUsersWithPaginate(props.currentPage)
-        // }
-        // if (data && data.code !== 201) {
-        //     toast.error(data.message)
-        // }
-        // call api
-        let data = await putFood(dataUpdate.cuisines_id, name, address, contentHTML, contentMarkdown, valueOpen, valueClose, image, map)
-        if (data && data.code === 201) {
-            toast.success(data.message);
-            handleClose();
-            await props.fetchListFood()
-            // props.setCurrentPage(1);
-            // await props.fetchListUsersWithPaginate(props.currentPage);
+        if (validation === true) {
+            let data = await putFood(dataUpdate.cuisines_id, name, address, contentHTML, contentMarkdown, valueOpen, valueClose, image, map)
+            if (data && data.code === 201) {
+                toast.success(data.message);
+                handleClose();
+                await props.fetchListFoodsWithPaginate(props.currentPage);
+                // props.setCurrentPage(1);
+                // await props.fetchListUsersWithPaginate(props.currentPage);
+            }
+            if (data && data.code !== 201) {
+                toast.error(data.message)
+            }
+        } else {
+            setValidationErrors(validation);
         }
-        if (data && data.code !== 201) {
-            toast.error(data.message)
-        }
+        
     }
 
     return (
@@ -196,6 +213,8 @@ function ModalUpdateFood(props) {
                                 value={name}
                                 onChange={(event) => setName(event.target.value)}
                             ></textarea>
+                            {validationErrors.name && <span className="text-danger">{validationErrors.name}</span>}
+
                         </div>
                         <div className="mb-3">
                             <label className="form-label">Address:</label>
@@ -203,20 +222,25 @@ function ModalUpdateFood(props) {
                                 value={address}
                                 onChange={(event) => setAddress(event.target.value)}
                             ></textarea>
+                            {validationErrors.address && <span className="text-danger">{validationErrors.address}</span>}
+
                         </div>
                         <div className='mb-3 col-12'>
-                            <label className="form-label">{`Location on map: `}<span style={{ color: "red" }}>Note remove: </span><b>style="border:0;"</b></label>
-                            <textarea className="form-control" rows="5"
-                                placeholder='<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.880517355801!2d105.78079297503172!3d21.037466280614062!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab355cc2239b%3A0x9ae247114fb38da3!2zVHLGsOG7nW5nIMSQ4bqhaSBI4buNYyBTxrAgUGjhuqFtIEjDoCBO4buZaQ!5e0!3m2!1svi!2s!4v1728296212431!5m2!1svi!2s" width="600" height="450" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
+                            <label className="form-label">Location on map:</label>
+                            <textarea className="form-control" rows="2"
                                 value={map}
                                 onChange={(event) => setMap(event.target.value)}
                             ></textarea>
+                            {validationErrors.map && <span className="text-danger">{validationErrors.map}</span>}
+
                         </div>
                         <div className="mb-3">
                             <label className="form-label">Title image: </label>
                             <input type='file'
                                 onChange={(event) => handleOnchangeFile(event)}
                             />
+                            {validationErrors.image && <span className="text-danger">{validationErrors.image}</span>}
+
                         </div>
                         <div className='col-12' style={{ height: '250px', width: 'fit-content', border: '1px solid' }}>
                             <img src={imageP} style={{ maxHeight: '100%', maxWidth: '100%' }} alt="Uploaded"
@@ -227,15 +251,23 @@ function ModalUpdateFood(props) {
                             <div className="mb-3 col-5">
                                 <label className="form-label">Open time: </label>
                                 <TimePicker onChange={setValueOpen} value={valueOpen} />
+                                {validationErrors.valueOpen && <span className="text-danger">{validationErrors.valueOpen}</span>}
+
                             </div>
                             <div className="mb-3 col-5">
                                 <label className="form-label">Close time: </label>
                                 <TimePicker onChange={setValueClose} value={valueClose} />
+                                {validationErrors.valueClose && <span className="text-danger">{validationErrors.valueClose}</span>}
+
                             </div>
                         </div>
 
                         <div>
-                            <MdEditor style={{ height: '500px' }} renderHTML={text => mdParser.render(text)} value={contentMarkdown} onChange={handleEditorChange} />
+                            <MdEditor style={{ height: '500px' }} 
+                            renderHTML={text => mdParser.render(text)} 
+                            value={contentMarkdown} onChange={handleEditorChange} />
+                            {validationErrors.content && <span className="text-danger">{validationErrors.content}</span>}
+
                         </div>
                         <div>
                             {

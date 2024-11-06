@@ -28,9 +28,15 @@ import ForgotPassword from "./components/Auth/ForgotPassword";
 import AllEvents from "./components/Home/DetailEvent/AllEvents";
 import { useSelector } from "react-redux";
 import FeedbackWeb from "./components/Admin/Feedback/FeedbackWeb";
+import Shopping from "./components/Shopping/Shopping";
+import DetailShopping from "./components/Shopping/DetailShopping";
+import AllNews from "./components/Home/DetailNews/AllNews";
+import HomeStayUser from "./components/HomeStay/HomeStayUser";
+import DetailHome from "./components/HomeStay/DetailHome";
 
 const Layout = (props) => {
     const role = useSelector(state => state.user.account.role);
+    const isAuthenticated = useSelector(state => state.user.isAuthenticated);
     
     return (
         <>
@@ -39,13 +45,17 @@ const Layout = (props) => {
                     <Route index element={<HomePage />} />
                     <Route path="introduce" element={<Introduce />} />
                     <Route path="discover" element={<Discover />} />
-                    <Route path="planning" element={<Introduce />} />
-                    <Route path="extension" element={<Introduce />} />
+                    <Route path="shopping" element={<Shopping />} />
+                    <Route path="homeStay" element={<HomeStayUser/>} />
                     <Route path="food" element={<Food />} />
+                    <Route path="allEvents" element={<AllEvents />} />
+                    <Route path="allNews" element={<AllNews  />} />
                     <Route path="/news/:id" element={<DetailNews />} />
                     <Route path="/events/:id" element={<DetailEvent />} />
                     <Route path="/food/:id" element={<DetailFood />} />
                     <Route path="/discover/:id" element={<DetailDiscover />} />
+                    <Route path="/shopping/:id" element={<DetailShopping />} />
+                    <Route path="/homeStay/:id" element={<DetailHome />} />
 
                     <Route path="/bookingTour" element={<BookTour />} />
                 </Route>
@@ -56,7 +66,7 @@ const Layout = (props) => {
                 <Route path="/all-events" element={<AllEvents />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/register" element={<Register />} />
-                {role && role === 'admin' &&
+                {
                     <Route path="/admin" element={<Admin />}>
                         <Route index element={<AdminIntroduce />} />
                         <Route path="manage-users" element={<ManageUser />} />
@@ -71,6 +81,7 @@ const Layout = (props) => {
                         <Route path="manage-booking-tour" element={<ManageBookingTour />} />
                         <Route path="admin-feedback" element={<FeedbackWeb />} />
                     </Route>
+                   
                 }
 
 

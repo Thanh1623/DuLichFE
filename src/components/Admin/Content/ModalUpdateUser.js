@@ -22,8 +22,7 @@ function ModalUpdateUser(props) {
     const [role, setRole] = useState('user');
     const [phone, setPhone] = useState('');
     const [fullName, setFullName] = useState('');
-    const [image, setImage] = useState('');
-    const [previewImage, setPreviewImage] = useState('');
+    const [validationErrors, setValidationErrors] = useState({});
 
     useEffect(() => {
         if (!_.isEmpty(dataUpdate)) {
@@ -39,15 +38,41 @@ function ModalUpdateUser(props) {
         }
     }, [dataUpdate])
 
-    // const handleUpLoadImage = (event) => {
-    //     if (event.target && event.target.files && event.target.files[0]) {
-    //         setPreviewImage(URL.createObjectURL(event.target.files[0]));
-    //         setImage(event.target.files[0]);
-    //     }
-    //     else {
-    //         // setPreviewImage('');
-    //     }
-    // }
+    const validate = () => {
+        const errors = {};
+
+        if (!email) {
+            errors.email = 'Email is required';
+        } else if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
+            errors.email = 'Email is invalid';
+        }
+
+        if (!password) {
+            errors.password = 'Password is required';
+        } else if (password.length < 6) {
+            errors.password = 'Password must be at least 6 characters long';
+        }
+
+        if (!username) {
+            errors.username = 'Username is required';
+        } else if (username.length < 3) {
+            errors.username = 'Username must be at least 3 characters long';
+        }
+
+        if (!phone) {
+            errors.phone = 'Phone number is required';
+        } else if (!/^\d{8,13}$/.test(phone)) {
+            errors.phone = 'Phone number is invalid';
+        }
+
+        if (!fullName) {
+            errors.fullName = 'Full name is required';
+        } else if (fullName.length < 3) {
+            errors.fullName = 'Full name must be at least 3 characters long';
+        }
+
+        return Object.keys(errors).length === 0 ? true : errors;
+    };
 
     const validateEmail = (email) => {
         return String(email)
@@ -64,37 +89,32 @@ function ModalUpdateUser(props) {
             toast.error('Invalid email')
             return;
         }
-
-        let data = await putUsers(dataUpdate.user_id, {
-            user_name: username,
-            full_name: fullName,
-            email: email,
-            phone: phone,
-            role: role,
-            password: password
-        })
-        if (data && data.code === 201) {
-            toast.success(data.message);
-            handleClose();
-            await props.fetchListUsers()
-            // props.setCurrentPage(1);
-            // await props.fetchListUsersWithPaginate(props.currentPage)
+        const validation = validate();
+        if (validation === true) {
+            let data = await putUsers(dataUpdate.user_id, {
+                user_name: username,
+                full_name: fullName,
+                email: email,
+                phone: phone,
+                role: role,
+                password: password
+            })
+            if (data && data.code === 201) {
+                toast.success(data.message);
+                handleClose();
+                await props.fetchListUsers()
+                // props.setCurrentPage(1);
+                // await props.fetchListUsersWithPaginate(props.currentPage)
+            }
+            if (data && data.code !== 201) {
+                toast.error(data.message)
+            }
         }
-        if (data && data.code !== 201) {
-            toast.error(data.message)
+        else {
+            // Hiển thị các lỗi
+            setValidationErrors(validation);
+            console.log(validation)
         }
-        // call api
-        // let data = await putUpdateUser(dataUpdate.id, username, role, image)
-        // if (data && data.EC === 0) {
-        //     toast.success(data.EM);
-        //     handleClose();
-        //     // await props.fetchListUsers()
-        //     // props.setCurrentPage(1);
-        //     await props.fetchListUsersWithPaginate(props.currentPage)
-        // }
-        // if (data && data.EC !== 0) {
-        //     toast.error(data.EM)
-        // }
     }
     return (
         <>
@@ -118,8 +138,10 @@ function ModalUpdateUser(props) {
                                 className="form-control"
                                 value={email}
                                 onChange={(event) => setEmail(event.target.value)} />
+                            {validationErrors.email && <span className="text-danger">{validationErrors.email}</span>}
+
                         </div>
-                        
+
                         <div className="col-md-6">
                             <label className="form-label">Username</label>
                             <input
@@ -128,6 +150,8 @@ function ModalUpdateUser(props) {
                                 value={username}
                                 onChange={(event) => setUsername(event.target.value)}
                             />
+                            {validationErrors.username && <span className="text-danger">{validationErrors.username}</span>}
+
                         </div>
                         <div className="col-md-6">
                             <label className="form-label">FullName</label>
@@ -137,6 +161,8 @@ function ModalUpdateUser(props) {
                                 value={fullName}
                                 onChange={(event) => setFullName(event.target.value)}
                             />
+                            {validationErrors.fullName && <span className="text-danger">{validationErrors.fullName}</span>}
+
                         </div>
                         <div className="col-md-6">
                             <label className="form-label">Phone</label>
@@ -146,6 +172,8 @@ function ModalUpdateUser(props) {
                                 value={phone}
                                 onChange={(event) => setPhone(event.target.value)}
                             />
+                            {validationErrors.phone && <span className="text-danger">{validationErrors.phone}</span>}
+
                         </div>
                         <div className="col-md-4">
                             <label className="form-label">Role</label>

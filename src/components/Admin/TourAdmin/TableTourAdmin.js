@@ -6,7 +6,7 @@ const TableTourAdmin = (props) => {
     const { listTours, pageCount } = props;
 
     const handlePageClick = (event) => {
-        props.fetchListUsersWithPaginate(+event.selected + 1)
+        props.fetchListToursWithPaginate(+event.selected + 1)
         props.setCurrentPage(+event.selected + 1);
         console.log(`User requested page number ${event.selected}`);
     };

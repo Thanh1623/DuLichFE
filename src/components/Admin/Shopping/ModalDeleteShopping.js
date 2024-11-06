@@ -15,7 +15,8 @@ const ModalDeleteShopping = (props) => {
         if (data && data.code === 201) {
             toast.success(data.message);
             handleClose();
-            await props.fetchListShop()
+            props.setCurrentPage(1);
+            await props.fetchListShoppingWithPaginate(1);
             // props.setCurrentPage(1);
             // await props.fetchListUsersWithPaginate(1)
         }

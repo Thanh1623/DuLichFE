@@ -33,6 +33,34 @@ const ModalUpdateNew = (props) => {
     const [isPreviewImage, setIsPreviewImage] = useState(false);
     const [dataImagePreview, setDataImagePreview] = useState({});
 
+    const [validationErrors, setValidationErrors] = useState({});
+
+    const validate = () => {
+        const errors = {};
+
+        // Validate Title
+        if (!title) {
+            errors.title = 'Title is required';
+        }
+
+        // Validate Image
+        if (!image) {
+            errors.image = 'Image title is required';
+        }
+
+        // Validate Start Date
+        // if (!startDate) {
+        //     errors.startDate = 'Time of writing is required';
+        // }
+
+        // Validate Content
+        if (!contentHTML || !contentMarkdown) {
+            errors.content = 'Content is required';
+        }
+
+        return Object.keys(errors).length === 0 ? true : errors;
+    };
+
     function base64ToFile(base64String, fileName) {
         if (!base64String) {
             console.error("Chuỗi Base64 không hợp lệ hoặc không có giá trị.");
@@ -107,15 +135,22 @@ const ModalUpdateNew = (props) => {
     }
 
     const handleUpdateNews = async () => {
-        let data = await putNews(dataUpdate.news_id, title, image, contentMarkdown, contentHTML);
-        if (data && data.code === 201) {
-            toast.success(data.message);
-            handleClose();
-            await props.fetchListNew();
+        const validation = validate();
+
+        if (validation === true) {
+            let data = await putNews(dataUpdate.news_id, title, image, contentMarkdown, contentHTML);
+            if (data && data.code === 201) {
+                toast.success(data.message);
+                handleClose();
+                await props.fetchListNewsWithPaginate(props.currentPage);
+            }
+            if (data && data.code !== 201) {
+                toast.error(data.message)
+            }
+        } else {
+            setValidationErrors(validation);
         }
-        if (data && data.code !== 201) {
-            toast.error(data.message)
-        }
+
     }
     return (
         <>
@@ -132,12 +167,16 @@ const ModalUpdateNew = (props) => {
                                 value={title}
                                 onChange={(event) => setTitle(event.target.value)}
                             ></textarea>
+                            {validationErrors.title && <span className="text-danger">{validationErrors.title}</span>}
+
                         </div>
                         <div className="mb-3 col-12">
                             <label className="form-label">Image title: </label>
                             <input className="form-control" type='file'
                                 onChange={(event) => handleOnchangeFile(event)}
                             ></input>
+                            {validationErrors.image && <span className="text-danger">{validationErrors.image}</span>}
+
                         </div>
 
                         <div className='col-12' style={{ height: '250px', width: 'fit-content', border: '1px solid' }}>
@@ -156,6 +195,8 @@ const ModalUpdateNew = (props) => {
                                 value={contentMarkdown}
                                 renderHTML={text => mdParser.render(text)}
                                 onChange={handleEditorChange} />
+                            {validationErrors.content && <span className="text-danger">{validationErrors.content}</span>}
+
                         </div>
 
                         <div>

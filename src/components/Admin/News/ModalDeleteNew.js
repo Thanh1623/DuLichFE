@@ -15,7 +15,8 @@ const ModalDeleteNew = (props) => {
         if (data && data.code === 201) {
             toast.success(data.message);
             handleClose();
-            await props.fetchListNew()
+            props.setCurrentPage(1);
+            await props.fetchListNewsWithPaginate(1);
             // props.setCurrentPage(1);
             // await props.fetchListUsersWithPaginate(1)
         }

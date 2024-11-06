@@ -24,13 +24,13 @@ const MenuHeader = (props) => {
                         <div className='title'>
                             Giới thiệu
                         </div>
-                        <MenuItem onClick={() => navigate('/login')}>
+                        <MenuItem onClick={() => navigate('/introduce')}>
                             Giới thiệu
                         </MenuItem>
-                        <MenuItem onClick={() => navigate('/login')}>
+                        <MenuItem onClick={() => navigate('/allNews')}>
                             Tin tức
                         </MenuItem>
-                        <MenuItem>
+                        <MenuItem onClick={() => navigate('/allEvents')}>
                             Sự kiện
                         </MenuItem>
                     </div>

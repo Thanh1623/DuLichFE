@@ -15,15 +15,15 @@ const ModalDeleteEvent = (props) => {
         if (data && data.code === 201) {
             toast.success(data.message);
             handleClose();
-            await props.fetchListEvent()
-            // props.setCurrentPage(1);
+            props.setCurrentPage(1);
+            await props.fetchListEventsWithPaginate(1);
             // await props.fetchListUsersWithPaginate(1)
         }
         if (data && data.code !== 201) {
             toast.error(data.message)
         }
     }
-    console.log(dataDelete)
+    // console.log(dataDelete)
     return (
         <>
             <Modal

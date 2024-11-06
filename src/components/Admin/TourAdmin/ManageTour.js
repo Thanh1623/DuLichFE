@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getAllFoods, getAllTours } from "../../../Service/apiServices";
+import { getAllFoods, getAllTours, getAllToursPaginate } from "../../../Service/apiServices";
 import ModalCreateTour from "./ModalCreateTour";
 import TableTourAdmin from "./TableTourAdmin";
 import ModalDeleteTour from "./ModalDeleteTour";
@@ -10,7 +10,7 @@ import ModalUpdateTour from "./ModalUpdateTour";
 
 const ManageTour = () => {
 
-    const LIMIT_USER = 6;
+    const LIMIT = 3;
 
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1)
@@ -27,22 +27,23 @@ const ManageTour = () => {
     const [listTours, setListTours] = useState([]);
 
     useEffect(() => {
-        fetchListTours()
+        // fetchListTours();
+        fetchListToursWithPaginate(1);
     }, [])
 
     const fetchListTours = async () => {
-        let res = await getAllTours();
-        if (res && res.code === 201) {
-            setListTours(res.result)
-        }
+        // let res = await getAllTours();
+        // if (res && res.code === 201) {
+        //     setListTours(res.result)
+        // }
     }
 
-    const fetchListUsersWithPaginate = async (page) => {
-        // let res = await getUserWithPaginate(page, LIMIT_USER);
-        // if (res.EC === 0) {
-        //     setListUsers(res.DT.users)
-        //     setPageCount(res.DT.totalPages)
-        // }
+    const fetchListToursWithPaginate = async (page) => {
+        let res = await getAllToursPaginate(page, LIMIT);
+        if (res.code === 201) {
+            setListTours(res.result);
+            setPageCount(res.totalpage);
+        }
     }
 
     const handleClickBtnUpdate = (user) => {
@@ -61,19 +62,21 @@ const ManageTour = () => {
 
     return (
         <>
-            <div className="admin-food-container">
+            <div className="admin-food-container container">
                 <div className="title">
                     Manage Tour
                 </div>
                 <ModalCreateTour
-                    fetchListTours={fetchListTours}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                    fetchListToursWithPaginate={fetchListToursWithPaginate}
                 />
                 <div>
                     <TableTourAdmin
                         listTours={listTours}
                         handleClickBtnUpdate={handleClickBtnUpdate}
                         handleClickBtnDelete={handleClickBtnDelete}
-                        fetchListUsersWithPaginate={fetchListUsersWithPaginate}
+                        fetchListToursWithPaginate={fetchListToursWithPaginate}
                         pageCount={pageCount}
                         currentPage={currentPage}
                         setCurrentPage={setCurrentPage}
@@ -84,7 +87,7 @@ const ManageTour = () => {
                     setShow={setShowModalDeleteUser}
                     dataDelete={dataDelete}
                     fetchListTours={fetchListTours}
-                    fetchListUsersWithPaginate={fetchListUsersWithPaginate}
+                    fetchListToursWithPaginate={fetchListToursWithPaginate}
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
                 />
@@ -94,7 +97,7 @@ const ManageTour = () => {
                     dataUpdate={dataUpdate}
                     fetchListTours={fetchListTours}
                     resetUpdateData={resetUpdateData}
-                    fetchListUsersWithPaginate={fetchListUsersWithPaginate}
+                    fetchListToursWithPaginate={fetchListToursWithPaginate}
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
                 />

@@ -4,12 +4,12 @@ import ModalUpdateNew from "./ModalUpdateNew";
 import { useEffect, useState } from "react";
 import TableEventAdmin from "../Milestone/TableEventAdmin";
 import ModalDeleteEvent from "../Milestone/ModalDeleteEvent";
-import { getAllNews } from "../../../Service/apiServices";
+import { getAllNews, getAllNewsPaginate } from "../../../Service/apiServices";
 import TableNewAdmin from "./TableNewAdmin";
 import ModalDeleteNew from "./ModalDeleteNew";
 
 const ManageNews = (props) => {
-    const LIMIT_USER = 6;
+    const LIMIT = 3;
 
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1)
@@ -26,22 +26,23 @@ const ManageNews = (props) => {
     const [listNews, setListNews] = useState([]);
 
     useEffect(() => {
-        fetchListNew()
+        fetchListNew();
+        fetchListNewsWithPaginate(1)
     }, [])
 
     const fetchListNew = async () => {
-        let res = await getAllNews();
-        if (res && res.code === 201) {
-            setListNews(res.result)
-        }
+        // let res = await getAllNews();
+        // if (res && res.code === 201) {
+        //     setListNews(res.result)
+        // }
     }
 
-    const fetchListUsersWithPaginate = async (page) => {
-        // let res = await getUserWithPaginate(page, LIMIT_USER);
-        // if (res.EC === 0) {
-        //     setListUsers(res.DT.users)
-        //     setPageCount(res.DT.totalPages)
-        // }
+    const fetchListNewsWithPaginate = async (page) => {
+        let res = await getAllNewsPaginate(page, LIMIT);
+        if (res.code === 201) {
+            setListNews(res.result);
+            setPageCount(res.totalpage);
+        }
     }
 
     const handleClickBtnUpdate = (user) => {
@@ -60,20 +61,21 @@ const ManageNews = (props) => {
 
     return (
         <>
-            <div className="manage-news-container">
+            <div className="manage-news-container container">
                 <div className="title">
                     Manage news
                 </div>
                 <ModalCreateNew
-                    fetchListNew={fetchListNew}
-
+                    fetchListNewsWithPaginate={fetchListNewsWithPaginate}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
                 />
                 <div>
                     <TableNewAdmin
                         listNews={listNews}
                         handleClickBtnUpdate={handleClickBtnUpdate}
                         handleClickBtnDelete={handleClickBtnDelete}
-                        fetchListUsersWithPaginate={fetchListUsersWithPaginate}
+                        fetchListNewsWithPaginate={fetchListNewsWithPaginate}
                         pageCount={pageCount}
                         currentPage={currentPage}
                         setCurrentPage={setCurrentPage}
@@ -84,7 +86,7 @@ const ManageNews = (props) => {
                     setShow={setShowModalDeleteUser}
                     dataDelete={dataDelete}
                     fetchListNew={fetchListNew}
-                    fetchListUsersWithPaginate={fetchListUsersWithPaginate}
+                    fetchListNewsWithPaginate={fetchListNewsWithPaginate}
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
                 />
@@ -94,7 +96,7 @@ const ManageNews = (props) => {
                     dataUpdate={dataUpdate}
                     fetchListNew={fetchListNew}
                     resetUpdateData={resetUpdateData}
-                    fetchListUsersWithPaginate={fetchListUsersWithPaginate}
+                    fetchListNewsWithPaginate={fetchListNewsWithPaginate}
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
                 />

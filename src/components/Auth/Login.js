@@ -65,7 +65,7 @@ const Login = (props) => {
 
             <div className='content-form col-4 mx-auto'>
                 <div className='form-group'>
-                    <label>Email</label>
+                    <label>Username</label>
                     <input type='email' className='form-control'
                         value={email} onChange={(event) => setEmail(event.target.value)} />
                 </div>

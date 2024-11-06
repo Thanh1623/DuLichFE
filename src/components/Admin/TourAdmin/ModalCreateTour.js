@@ -29,6 +29,62 @@ const ModalCreateTour = (props) => {
     const [contentMarkdown, setContentMarkdown] = useState('');
     const [image, setImage] = useState('');
     const [members, setMembers] = useState('');
+    const [validationErrors, setValidationErrors] = useState({});
+
+    // Validate function
+    const validate = () => {
+        const errors = {};
+
+        // Validate Title
+        if (!title) {
+            errors.title = 'Title is required';
+        }
+
+        // Validate Address
+        if (!address) {
+            errors.address = 'Address is required';
+        }
+
+        // Validate Price
+        if (!price) {
+            errors.price = 'Price is required';
+        }
+
+        // Validate Members
+        if (!members) {
+            errors.members = 'Members count is required';
+        }
+
+        // Validate Vehicle
+        if (!vehicle) {
+            errors.vehicle = 'Vehicle is required';
+        }
+
+        // Validate Image
+        if (!image) {
+            errors.image = 'Image title is required';
+        }
+
+        // Validate Content (Markdown or HTML)
+        if (!contentHTML || !contentMarkdown) {
+            errors.content = 'Content is required';
+        }
+
+        return Object.keys(errors).length === 0 ? true : errors;
+    };
+
+    const resetValues = () => {
+        setStartDateOpen(new Date());
+        setPrice('');
+        setVehicle('');
+        setTitle('');
+        setAddress('');
+        setContentHTML('');
+        setContentMarkdown('');
+        setImage('');
+        setMembers('');
+        setValidationErrors({});
+    };
 
     const handleEditorChange = ({ html, text }) => {
         setContentHTML(html);
@@ -41,16 +97,25 @@ const ModalCreateTour = (props) => {
     };
 
     const handleCreateFood = async () => {
-        let data = await postCreateTour(title, contentHTML, contentMarkdown, +price,
-            address, vehicle, members, formatDate(startDateOpen), image);
-        if (data && data.code === 201) {
-            toast.success(data.message);
-            handleClose();
-            await props.fetchListTours();
+        const validation = validate();
+
+        if (validation === true) {
+            let data = await postCreateTour(title, contentHTML, contentMarkdown, +price,
+                address, vehicle, members, formatDate(startDateOpen), image);
+            if (data && data.code === 201) {
+                toast.success(data.message);
+                handleClose();
+                props.setCurrentPage(1);
+                await props.fetchListToursWithPaginate(1);
+                resetValues()
+            }
+            if (data && data.code !== 201) {
+                toast.error(data.message)
+            }
+        } else {
+            setValidationErrors(validation);
         }
-        if (data && data.code !== 201) {
-            toast.error(data.message)
-        }
+
     }
 
     return (
@@ -72,6 +137,7 @@ const ModalCreateTour = (props) => {
                                 value={title}
                                 onChange={(event) => setTitle(event.target.value)}
                             ></textarea>
+                            {validationErrors.title && <span className="text-danger">{validationErrors.title}</span>}
                         </div>
                         <div className="mb-3">
                             <label className="form-label">Address:</label>
@@ -79,6 +145,7 @@ const ModalCreateTour = (props) => {
                                 value={address}
                                 onChange={(event) => setAddress(event.target.value)}
                             ></textarea>
+                            {validationErrors.address && <span className="text-danger">{validationErrors.address}</span>}
                         </div>
                         <div className="mb-3 col-5">
                             <label className="form-label">Price:</label>
@@ -86,6 +153,7 @@ const ModalCreateTour = (props) => {
                                 value={price}
                                 onChange={(event) => setPrice(+event.target.value)}
                             ></input>
+                            {validationErrors.price && <span className="text-danger">{validationErrors.price}</span>}
                         </div>
                         <div className="mb-3 col-2">
                             <label className="form-label">Members:</label>
@@ -93,27 +161,36 @@ const ModalCreateTour = (props) => {
                                 value={members}
                                 onChange={(event) => setMembers(+event.target.value)}
                             ></input>
+                            {validationErrors.members && <span className="text-danger">{validationErrors.members}</span>}
                         </div>
-
                         <div className="mb-3 col-5">
                             <label className="form-label">Vehicle:</label>
                             <input className="form-control" rows="1"
                                 value={vehicle}
                                 onChange={(event) => setVehicle(event.target.value)}
                             ></input>
+                            {validationErrors.vehicle && <span className="text-danger">{validationErrors.vehicle}</span>}
                         </div>
                         <div className="mb-3 col-6">
                             <label className="form-label">Start time: </label>
-                            <DatePicker showIcon icon={<IoIosCalendar />} minDate={new Date()} selected={startDateOpen} onChange={(date) => setStartDateOpen(formatDate(date))} />
+                            <DatePicker
+                                showIcon
+                                icon={<IoIosCalendar />}
+                                minDate={new Date()}
+                                selected={startDateOpen}
+                                onChange={(date) => setStartDateOpen(date)}
+                            />
                         </div>
                         <div className="mb-3">
                             <label className="form-label">Title image: </label>
                             <input type='file'
                                 onChange={(event) => setImage(event.target.files[0])}
                             />
+                            {validationErrors.image && <span className="text-danger">{validationErrors.image}</span>}
                         </div>
                         <div>
-                            <MdEditor style={{ height: '500px' }} renderHTML={text => mdParser.render(text)} onChange={handleEditorChange} />
+                            <MdEditor style={{ height: '500px' }} value={contentMarkdown} renderHTML={text => mdParser.render(text)} onChange={handleEditorChange} />
+                            {validationErrors.content && <span className="text-danger">{validationErrors.content}</span>}
                         </div>
                     </div>
 

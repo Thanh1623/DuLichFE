@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getAllFoods, getAllHomeStay } from "../../../Service/apiServices";
+import { getAllFoods, getAllHomeStay, getAllHomeStayPaginate } from "../../../Service/apiServices";
 import ModalCreateHomeStay from "./ModalCreateHome";
 import TableHomeStayAdmin from "./TableHomeAdmin";
 import ModalDeleteHomeStay from "./ModalDeleteHome";
@@ -8,7 +8,7 @@ import ModalUpdateHomeStay from "./ModalUpdateHome";
 
 const ManageHomeStay = () => {
 
-    const LIMIT_USER = 6;
+    const LIMIT = 6;
 
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1)
@@ -25,23 +25,23 @@ const ManageHomeStay = () => {
     const [listHomeStay, setListHomeStay] = useState([]);
 
     useEffect(() => {
-        fetchListHomeStay()
+        // fetchListHomeStay()
+        fetchListHomesWithPaginate(1);
     }, [])
 
     const fetchListHomeStay = async () => {
-        let res = await getAllHomeStay();
-        if (res && res.code === 201) {
-            setListHomeStay(res.result)
-        }
-    }
-    console.log(listHomeStay);
-
-    const fetchListUsersWithPaginate = async (page) => {
-        // let res = await getUserWithPaginate(page, LIMIT_USER);
-        // if (res.EC === 0) {
-        //     setListUsers(res.DT.users)
-        //     setPageCount(res.DT.totalPages)
+        // let res = await getAllHomeStay();
+        // if (res && res.code === 201) {
+        //     setListHomeStay(res.result)
         // }
+    }
+
+    const fetchListHomesWithPaginate = async (page) => {
+        let res = await getAllHomeStayPaginate(page, LIMIT);
+        if (res.code === 201) {
+            setListHomeStay(res.result);
+            setPageCount(res.totalpage);
+        }
     }
 
     const handleClickBtnUpdate = (user) => {
@@ -60,19 +60,21 @@ const ManageHomeStay = () => {
 
     return (
         <>
-            <div className="admin-food-container">
+            <div className="admin-food-container container">
                 <div className="title">
                     Manage Home Stay
                 </div>
                 <ModalCreateHomeStay
-                    fetchListHomeStay={fetchListHomeStay}
+                    fetchListHomesWithPaginate={fetchListHomesWithPaginate}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
                 />
                 <div>
                     <TableHomeStayAdmin
                         listHomeStay={listHomeStay}
                         handleClickBtnUpdate={handleClickBtnUpdate}
                         handleClickBtnDelete={handleClickBtnDelete}
-                        fetchListUsersWithPaginate={fetchListUsersWithPaginate}
+                        fetchListHomesWithPaginate={fetchListHomesWithPaginate}
                         pageCount={pageCount}
                         currentPage={currentPage}
                         setCurrentPage={setCurrentPage}
@@ -83,7 +85,7 @@ const ManageHomeStay = () => {
                     setShow={setShowModalDeleteUser}
                     dataDelete={dataDelete}
                     fetchListHomeStay={fetchListHomeStay}
-                    fetchListUsersWithPaginate={fetchListUsersWithPaginate}
+                    fetchListHomesWithPaginate={fetchListHomesWithPaginate}
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
                 />
@@ -93,7 +95,7 @@ const ManageHomeStay = () => {
                     dataUpdate={dataUpdate}
                     fetchListHomeStay={fetchListHomeStay}
                     resetUpdateData={resetUpdateData}
-                    fetchListUsersWithPaginate={fetchListUsersWithPaginate}
+                    fetchListHomesWithPaginate={fetchListHomesWithPaginate}
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
                 />
