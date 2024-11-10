@@ -34,11 +34,10 @@ const TableHomeStayAdmin = (props) => {
                                         <td>{item.title}</td>
                                         <td>{item.address}</td>
                                         <td>
-                                            <button className="btn btn-info">View</button>
-                                            <button className="btn btn-success mx-1"
+                                            <button className="btn btn-success mx-1 my-1"
                                                 onClick={() => props.handleClickBtnUpdate(item)}
                                             >Update</button>
-                                            <button className="btn btn-danger"
+                                            <button className="btn btn-danger mx-1 my-1"
                                                 onClick={() => props.handleClickBtnDelete(item)}
                                             >Delete</button>
                                         </td>

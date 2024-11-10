@@ -54,7 +54,11 @@ const DetailEvent = (props) => {
             </div>
             <hr />
             <div className="detail-event-description">
-                <div className="DesImg" dangerouslySetInnerHTML={{ __html: detailEvent.description, height: '100px' }}>
+                <div className="DesImg" dangerouslySetInnerHTML={{ __html: detailEvent.description}}>
+                </div>
+            </div>
+            <div className="detail-event-description">
+                <div dangerouslySetInnerHTML={{ __html: detailEvent.map }}>
                 </div>
             </div>
             <div className="detail-event-date">

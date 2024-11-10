@@ -1,7 +1,7 @@
-.detail-discover-container {
+.detail-shopping-container {
     margin-bottom: 50px;
 
-    .detail-discover-home {
+    .detail-shopping-home {
         display: flex;
         align-items: center;
 
@@ -11,7 +11,7 @@
             cursor: pointer;
         }
 
-        .text-discover {
+        .text-shopping {
             color: rgb(80, 78, 78);
             font-weight: 600;
             text-shadow: 1px 1px 2px rgb(103, 103, 103);
@@ -22,23 +22,33 @@
         padding-bottom: 15px;
     }
 
-    .detail-discover-time {
+    .detail-shopping-time {
         font-size: 21px;
         text-align: right;
         color: rgb(0, 0, 0);
         text-shadow: 1px 1px 2px red, 0 0 1em blue, 0 0 0.2em blue;
     }
 
-    .detail-discover-title {
+    .detail-shopping-title {
         font-size: 26px;
         font-weight: 600;
     }
 
-    .detail-discover-description {
+    .detail-shopping-description {
         // max-width: 1000px !important;
-        text-align: center;
+        max-width: 100%;
+        /* Đảm bảo rằng nội dung không vượt quá kích thước của container */
+        overflow-wrap: break-word;
 
         .DesImg {
+            word-wrap: break-word;
+            /* Bẻ từ nếu quá dài */
+            overflow-wrap: break-word;
+            /* Hỗ trợ bẻ từ */
+            white-space: normal;
+            /* Cho phép văn bản tự động xuống dòng */
+            max-width: 100%;
+
             img {
                 max-width: 300px !important;
                 max-height: 300px !important;
@@ -46,7 +56,12 @@
         }
     }
 
-    .detail-discover-date {
+    .detail-shopping-description img {
+        margin: auto;
+        display: block;
+    }
+
+    .detail-shopping-date {
         text-align: right;
         font-style: italic;
 

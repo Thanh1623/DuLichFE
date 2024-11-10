@@ -36,10 +36,10 @@ const TableShoppingAdmin = (props) => {
                                         <td>{`${item.opening_hours} to ${item.closing_time}`}</td>
                                         <td>{item.address}</td>
                                         <td>
-                                            <button className="btn btn-success mx-1"
+                                            <button className="btn btn-success mx-1 my-1"
                                                 onClick={() => props.handleClickBtnUpdate(item)}
                                             >Update</button>
-                                            <button className="btn btn-danger"
+                                            <button className="btn btn-danger mx-1 my-1"
                                                 onClick={() => props.handleClickBtnDelete(item)}
                                             >Delete</button>
                                         </td>

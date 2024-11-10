@@ -1,0 +1,172 @@
+.detail-home-container {
+    margin-bottom: 50px;
+
+    .detail-home-home {
+        display: flex;
+        align-items: center;
+
+        .home {
+            font-size: 22px;
+            color: rgb(26, 89, 191);
+            cursor: pointer;
+        }
+
+        .text-home {
+            color: rgb(80, 78, 78);
+            font-weight: 600;
+            text-shadow: 1px 1px 2px rgb(103, 103, 103);
+            // text-decoration: underline;
+            cursor: pointer;
+        }
+
+        padding-bottom: 15px;
+    }
+
+    .detail-home-time {
+        font-size: 21px;
+        text-align: right;
+        color: rgb(0, 0, 0);
+        text-shadow: 1px 1px 2px red, 0 0 1em blue, 0 0 0.2em blue;
+    }
+
+    .detail-home-title {
+        font-size: 26px;
+        font-weight: 600;
+    }
+
+    .detail-home-description {
+        // max-width: 1000px !important;
+        max-width: 100%;
+        /* Đảm bảo rằng nội dung không vượt quá kích thước của container */
+        overflow-wrap: break-word;
+
+        .DesImg {
+            word-wrap: break-word;
+            /* Bẻ từ nếu quá dài */
+            overflow-wrap: break-word;
+            /* Hỗ trợ bẻ từ */
+            white-space: normal;
+            /* Cho phép văn bản tự động xuống dòng */
+            max-width: 100%;
+
+            img {
+                max-width: 300px !important;
+                max-height: 300px !important;
+            }
+        }
+    }
+
+    .detail-home-description img {
+        margin: auto;
+        display: block;
+    }
+
+    .detail-home-date {
+        text-align: right;
+        font-style: italic;
+
+    }
+
+    .book-tour {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .button {
+            min-width: 200px;
+            /* Giảm kích thước chiều rộng */
+            min-height: 40px;
+            /* Giảm kích thước chiều cao */
+            display: inline-flex;
+            font-family: 'Nunito', sans-serif;
+            font-size: 16px;
+            /* Giảm kích thước font */
+            align-items: center;
+            justify-content: center;
+            text-transform: uppercase;
+            text-align: center;
+            letter-spacing: 1px;
+            /* Giảm khoảng cách giữa các chữ */
+            font-weight: 700;
+            color: #313133;
+            background: linear-gradient(90deg, rgba(129, 230, 217, 1) 0%, rgba(79, 209, 197, 1) 100%);
+            border: none;
+            border-radius: 1000px;
+            box-shadow: 8px 8px 16px rgba(79, 209, 197, .64);
+            /* Giảm bóng */
+            transition: all 0.3s ease-in-out 0s;
+            cursor: pointer;
+            outline: none;
+            position: relative;
+            padding: 6px;
+            /* Giảm padding */
+        }
+
+        .button::before {
+            content: '';
+            border-radius: 1000px;
+            min-width: calc(200px + 8px);
+            /* Điều chỉnh kích thước */
+            min-height: calc(40px + 8px);
+            border: 4px solid #00FFCB;
+            box-shadow: 0 0 40px rgba(0, 255, 203, .64);
+            /* Giảm bóng */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: all .3s ease-in-out 0s;
+        }
+
+        .button:hover,
+        .button:focus {
+            color: #313133;
+            transform: translateY(-4px);
+            /* Giảm hiệu ứng dịch chuyển */
+        }
+
+        .button:hover::before,
+        .button:focus::before {
+            opacity: 1;
+        }
+
+        .button::after {
+            content: '';
+            width: 20px;
+            /* Giảm kích thước */
+            height: 20px;
+            border-radius: 100%;
+            border: 4px solid #00FFCB;
+            position: absolute;
+            z-index: -1;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: ring 1.5s infinite;
+        }
+
+        .button:hover::after,
+        .button:focus::after {
+            animation: none;
+            display: none;
+        }
+
+        @keyframes ring {
+            0% {
+                width: 20px;
+                /* Điều chỉnh kích thước */
+                height: 20px;
+                opacity: 1;
+            }
+
+            100% {
+                width: 200px;
+                /* Điều chỉnh kích thước */
+                height: 200px;
+                opacity: 0;
+            }
+        }
+    }
+}

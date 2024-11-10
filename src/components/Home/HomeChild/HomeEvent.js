@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import './HomeEvent.scss'
-import { getAllEvents, getAllNews } from '../../../Service/apiServices';
+import { getAllEvents, getAllNews, getAllNewsPaginate } from '../../../Service/apiServices';
 import { useNavigate } from 'react-router-dom';
 
 const HomeEvent = () => {
@@ -15,8 +15,8 @@ const HomeEvent = () => {
     }, [])
 
     const fetchListNews = async () => {
-        let data = await getAllNews();
-        if (data) {
+        let data = await getAllNewsPaginate(1,6);
+        if (data && data.code === 201) {
             setListNews(data.result)
         }
     }
@@ -55,6 +55,7 @@ const HomeEvent = () => {
 
     }
 
+    console.log('listNews: ', listNews);
     console.log('listEvents: ', listEvents);
 
 
@@ -75,7 +76,7 @@ const HomeEvent = () => {
                                         <div key={`news-${index}`} className="content"
                                             onClick={() => handleDetailNews(item)}>
                                             <div className="image">
-                                                <img src="http://dulichhp.ebizoffice.vn/Uploads/news/3341.jpg" />
+                                                <img src={`data:image/jpeg;base64,${item.news_image_base64}`} />
                                             </div>
                                             <div className="info">
                                                 <div className="title">

@@ -11,7 +11,7 @@ import { getAllUsers, getAllUsersPaginate } from "../../../Service/apiServices";
 
 
 const ManageUser = (props) => {
-    const LIMIT = 1;
+    const LIMIT = 6;
 
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1)
@@ -29,7 +29,7 @@ const ManageUser = (props) => {
 
     useEffect(() => {
         // fetchListUsers();
-        fetchListUsersWithPaginate(LIMIT, 1);
+        fetchListUsersWithPaginate(1);
     }, []);
 
     const fetchListUsers = async () => {
@@ -40,7 +40,7 @@ const ManageUser = (props) => {
     }
 
     const fetchListUsersWithPaginate = async (page) => {
-        let res = await getAllUsersPaginate(LIMIT, page);
+        let res = await getAllUsersPaginate(page, LIMIT);
         if (res.code === 201) {
             setListUsers(res.result);
             setPageCount(res.totalpage)

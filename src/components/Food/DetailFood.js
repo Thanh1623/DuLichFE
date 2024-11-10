@@ -60,7 +60,11 @@ const DetailFood = (props) => {
                     {detailFood.opening_hours} to {detailFood.closing_time}
                 </div>
                 <div className="detail-food-description">
-                    <div className="DesImg" dangerouslySetInnerHTML={{ __html: detailFood.description, height: '100px' }}>
+                    <div className="DesImg" dangerouslySetInnerHTML={{ __html: detailFood.description}}>
+                    </div>
+                </div>
+                <div className="detail-food-description">
+                    <div dangerouslySetInnerHTML={{ __html: detailFood.map }}>
                     </div>
                 </div>
 

@@ -16,11 +16,18 @@ const Discover = () => {
 
     const [pageCount, setPageCount] = useState(0);
     const [inputSearch, setInputSearch] = useState('');
-    
+    const [search, setSearch] = useState(false);
+
 
     useEffect(() => {
         fetchAllDiscoverUser(1)
     }, [])
+    useEffect(()=>{
+        if (inputSearch==='') {
+            fetchAllDiscoverUser(1);
+            setSearch(false);
+        }
+    },[inputSearch])
 
     const fetchAllDiscoverUser = async (page) => {
         let res = await getAllToursPaginate(page, LIMIT);
@@ -30,19 +37,30 @@ const Discover = () => {
         }
     }
 
-    const handleSearchDiscover = async() => {
+    const handleSearchDiscover = async (page) => {
         if (inputSearch) {
-            let res = await searchDiscover({
-                title: inputSearch
-            })
+            let res = await searchDiscover(page, 3, inputSearch)
             if (res && res.code === 201) {
-                setListDiscoverUser(res.data)
+                setListDiscoverUser(res.result)
+                setSearch(true);
+                setPageCount(res.totalpage);
             }
+        }
+        if (!inputSearch) {
+            setSearch(false);
+            fetchAllDiscoverUser(1)
         }
     }
 
     const handlePageClick = (event) => {
-        fetchAllDiscoverUser(+event.selected + 1)
+        
+        if (!search) {
+            fetchAllDiscoverUser(+event.selected + 1);
+        }
+        if (search) {
+            handleSearchDiscover(+event.selected + 1)
+        }
+
         // setCurrentPage(+event.selected + 1);
         console.log(`User requested page number ${event.selected}`);
     };
@@ -137,7 +155,7 @@ const Discover = () => {
                                 />
                                 <label className="form-label" for="form1">Search</label>
                             </div>
-                            <button id="search-button" type="button" className="btn btn-primary" 
+                            <button id="search-button" type="button" className="btn btn-primary"
                                 onClick={() => handleSearchDiscover()}
                             >
                                 <i className="fas fa-search"></i>
@@ -145,79 +163,6 @@ const Discover = () => {
                         </div>
                     </div>
                 </div>
-
-                {/* <div className="content-left col-12 col-sm-2">
-                    <div className="area">
-                        <div className="title">
-                            Khu vực
-                        </div>
-                        <div className="content-area">
-                            <select className="form-select" aria-label="Default select example">
-                                <option selected>Open this select menu</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div className="location">
-                        <div className="title-location">
-                            Loại địa điểm
-                        </div>
-                        <div className="content-location">
-                            <div className="form-check">
-                                <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-                                <label className="form-check-label" htmlFor="flexCheckDefault">
-                                    Default checkbox
-                                </label>
-                            </div>
-                            <div className="form-check">
-                                <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
-                                <label className="form-check-label" htmlFor="flexCheckChecked">
-                                    Checked checkbox
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="type">
-                        <div className="title-location">
-                            Loại hình du lịch
-                        </div>
-                        <div className="content-location">
-                            <div className="form-check">
-                                <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-                                <label className="form-check-label" htmlFor="flexCheckDefault">
-                                    Default checkbox
-                                </label>
-                            </div>
-                            <div className="form-check">
-                                <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
-                                <label className="form-check-label" htmlFor="flexCheckChecked">
-                                    Checked checkbox
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="FeeType">
-                        <div className="title-location">
-                            Loại phí
-                        </div>
-                        <div className="content-location">
-                            <div className="form-check">
-                                <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-                                <label className="form-check-label" htmlFor="flexCheckDefault">
-                                    Default checkbox
-                                </label>
-                            </div>
-                            <div className="form-check">
-                                <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
-                                <label className="form-check-label" htmlFor="flexCheckChecked">
-                                    Checked checkbox
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div> */}
                 <div className='food-content-right'>
                     {
                         listDiscoverUser && listDiscoverUser.length > 0 &&
@@ -226,7 +171,7 @@ const Discover = () => {
                                 <div className="card mb-3 content-right " key={`discover-${index}`}>
                                     <div className="row g-0" >
                                         <div className="col-md-4">
-                                            <img src={bistro} className="img-fluid rounded-start" alt="..." />
+                                            <img src={`data:image/jpeg;base64,${item.tour_image_base64}`} className="img-fluid rounded-start" alt="..." />
                                         </div>
                                         <div className="col-md-8 content"
                                             onClick={() => navigate(`/discover/${item.tour_id}`)}
@@ -272,7 +217,7 @@ const Discover = () => {
                     </div>
                 </div>
             </div>
-            
+
         </div>
     )
 }

@@ -33,11 +33,13 @@ import DetailShopping from "./components/Shopping/DetailShopping";
 import AllNews from "./components/Home/DetailNews/AllNews";
 import HomeStayUser from "./components/HomeStay/HomeStayUser";
 import DetailHome from "./components/HomeStay/DetailHome";
+import BookHome from "./components/HomeStay/BookHome";
+import ChangePass from "./components/Auth/ChangePass";
 
 const Layout = (props) => {
     const role = useSelector(state => state.user.account.role);
     const isAuthenticated = useSelector(state => state.user.isAuthenticated);
-    
+
     return (
         <>
             <Routes>
@@ -46,18 +48,20 @@ const Layout = (props) => {
                     <Route path="introduce" element={<Introduce />} />
                     <Route path="discover" element={<Discover />} />
                     <Route path="shopping" element={<Shopping />} />
-                    <Route path="homeStay" element={<HomeStayUser/>} />
+                    <Route path="homeStay" element={<HomeStayUser />} />
                     <Route path="food" element={<Food />} />
                     <Route path="allEvents" element={<AllEvents />} />
-                    <Route path="allNews" element={<AllNews  />} />
+                    <Route path="allNews" element={<AllNews />} />
                     <Route path="/news/:id" element={<DetailNews />} />
                     <Route path="/events/:id" element={<DetailEvent />} />
                     <Route path="/food/:id" element={<DetailFood />} />
                     <Route path="/discover/:id" element={<DetailDiscover />} />
                     <Route path="/shopping/:id" element={<DetailShopping />} />
                     <Route path="/homeStay/:id" element={<DetailHome />} />
+                    <Route path="changePassword" element={<ChangePass />} />
 
                     <Route path="/bookingTour" element={<BookTour />} />
+                    <Route path="/bookingHome" element={<BookHome />} />
                 </Route>
 
 
@@ -81,7 +85,7 @@ const Layout = (props) => {
                         <Route path="manage-booking-tour" element={<ManageBookingTour />} />
                         <Route path="admin-feedback" element={<FeedbackWeb />} />
                     </Route>
-                   
+
                 }
 
 

@@ -48,42 +48,37 @@ const DetailShopping = (props) => {
 
     return (
         <>
-            <div className="detail-discover-container container">
+            <div className="detail-shopping-container container">
 
-                <div className="detail-discover-home">
+                <div className="detail-shopping-home">
                     <FaHome className="home"
                         onClick={() => navigate('/')}
-                    /> <span className="text-discover" onClick={() => navigate('/shopping')}>&nbsp;&lt;Mua sắm và giải trí</span>
+                    /> <span className="text-shopping" onClick={() => navigate('/shopping')}>&nbsp;&lt;Mua sắm và giải trí</span>
                 </div>
-                <div className="detail-discover-title">
+                <div className="detail-shopping-title">
                     {detailShopping.title}
                 </div>
                 <hr />
-                <div className="detail-discover-time">
+                <div className="detail-shopping-time">
                     {detailShopping.type}
                 </div>
-                <div className="detail-discover-time">
+                <div className="detail-shopping-time">
                     {detailShopping.opening_hours} to {detailShopping.closing_time}
                 </div>
                 
-                <div className="detail-discover-description">
+                <div className="detail-shopping-description">
                     <div className="DesImg" dangerouslySetInnerHTML={{ __html: detailShopping.ContentHTML, height: '100px' }}>
                     </div>
                 </div>
 
-                <div className="detail-discover-description">
+                <div className="detail-shopping-description">
                     <div dangerouslySetInnerHTML={{ __html: detailShopping.map}}>
                     </div>
                 </div>
                 
-                <div className="detail-discover-date">
+                <div className="detail-shopping-date">
                     {convertToDate(detailShopping.created_at)}
                 </div>
-                {/* <div className="book-tour">
-                    <button className="btn button"
-                        onClick={() => handleBookTour()}
-                    >Book tour</button>
-                </div> */}
             </div>
         </>
     )

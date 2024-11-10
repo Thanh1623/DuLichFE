@@ -41,42 +41,42 @@ const DetailHome = (props) => {
     };
 
     const handleBookTour = () => {
-        navigate('/bookingTour', { state: { listDetailDiscover: detailHome } })
+        navigate('/bookingHome', { state: { listDetailHome: detailHome } })
     }
 
     console.log(detailHome)
 
     return (
         <>
-            <div className="detail-discover-container container">
+            <div className="detail-home-container container">
 
-                <div className="detail-discover-home">
+                <div className="detail-home-home">
                     <FaHome className="home"
                         onClick={() => navigate('/')}
-                    /> <span className="text-discover" onClick={() => navigate('/homeStay')}>&nbsp;&lt;Nghỉ Dưỡng</span>
+                    /> <span className="text-home" onClick={() => navigate('/homeStay')}>&nbsp;&lt;Nghỉ Dưỡng</span>
                 </div>
-                <div className="detail-discover-title">
+                <div className="detail-home-title">
                     {detailHome.title}
                 </div>
                 <hr />
-                <div className="detail-discover-time">
+                <div className="detail-home-time">
                     {detailHome.price}$ for 1 day
                 </div>
-                <div className="detail-discover-description">
+                <div className="detail-home-description">
                     <div className="DesImg" dangerouslySetInnerHTML={{ __html: detailHome.ContentHTML}}>
                     </div>
                 </div>
-                <div className="detail-discover-description">
+                <div className="detail-home-description">
                     <div dangerouslySetInnerHTML={{ __html: detailHome.map}}>
                     </div>
                 </div>
-                <div className="detail-discover-date">
+                <div className="detail-home-date">
                     {convertToDate(detailHome.created_at)}
                 </div>
                 <div className="book-tour">
                     <button className="btn button"
                         onClick={() => handleBookTour()}
-                    >Book tour</button>
+                    >Book Home</button>
                 </div>
             </div>
         </>

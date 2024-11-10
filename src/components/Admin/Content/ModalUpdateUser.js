@@ -102,7 +102,7 @@ function ModalUpdateUser(props) {
             if (data && data.code === 201) {
                 toast.success(data.message);
                 handleClose();
-                await props.fetchListUsers()
+                await props.fetchListUsersWithPaginate(props.currentPage);
                 // props.setCurrentPage(1);
                 // await props.fetchListUsersWithPaginate(props.currentPage)
             }

@@ -19,14 +19,6 @@ function ModalCreateUser(props) {
         setPhone('');
     };
 
-    // const [dataUser, setDataUser] = useState({
-    //     user_name: '',
-    //     full_name: '',
-    //     email: '',
-    //     password: '',
-    //     phone: '',
-    //     role: '',
-    // });
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [username, setUsername] = useState('');
@@ -106,7 +98,8 @@ function ModalCreateUser(props) {
             if (data && data.code === 201) {
                 toast.success(data.message);
                 handleClose();
-                await props.fetchListUsers()
+                props.setCurrentPage(1);
+                await props.fetchListUsersWithPaginate(1);
             }
             if (data && data.code !== 201) {
                 toast.error(data.message)

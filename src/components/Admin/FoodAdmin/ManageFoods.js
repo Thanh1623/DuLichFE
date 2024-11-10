@@ -8,7 +8,7 @@ import ModalUpdateFood from "./ModalUpdateFood";
 
 const ManageFoods = () => {
 
-    const LIMIT= 3;
+    const LIMIT = 3;
 
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1)
@@ -64,12 +64,30 @@ const ManageFoods = () => {
                 <div className="title">
                     Manage Food
                 </div>
-                <ModalCreateFood 
+                <ModalCreateFood
                     fetchListFood={fetchListFood}
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
                     fetchListFoodsWithPaginate={fetchListFoodsWithPaginate}
                 />
+                <div className="d-flex justify-content-end mb-3">
+                    <div className="input-group" style={{ maxWidth: '300px', border: '1px solid #3b71ca', borderRadius: '5px' }}>
+                        <div className="form-outline" data-mdb-input-init>
+
+                            <input id="search-input" type="search" className="form-control"
+                            // value={inputSearch}
+                            // onChange={(event) => setInputSearch(event.target.value)}
+                            />
+                            <label className="form-label" for="form1">Search</label>
+
+                        </div>
+                        <button id="search-button" type="button" className="btn btn-primary"
+                        // onClick={() => handleSearchDiscover()}
+                        >
+                            <i className="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
                 <div>
                     <TableFoodAdmin
                         listFoods={listFoods}

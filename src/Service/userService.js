@@ -34,24 +34,34 @@ const getEventById = (idEvent) => {
 const getFoodById = (idFood) => {
     return axios.get(`/api/cuisines/${idFood}`)
 }
+
+const searchFood = (page, limit, title) => {
+    return axios.get(`/api/cuisines/search?limit=${limit}&page=${page}&title=${title}`)
+}
+
 // DISCOVER
 const getDiscoverById = (idDiscover) => {
     return axios.get(`/api/tours/${idDiscover}`)
 }
-const searchDiscover = (data) => {
-    return axios.post(`/api/tours/search`, {...data})
+const searchDiscover = (page, limit, title) => {
+    return axios.get(`/api/tours/search?limit=${limit}&page=${page}&title=${title}`)
 }
 
 // SHOPPING
 const getShoppingById = (idShopping) => {
     return axios.get(`/api/shopping_centers/${idShopping}`)
 }
+const searchShopping = (page, limit, title) => {
+    return axios.get(`/api/shopping_centers/search?limit=${limit}&page=${page}&title=${title}`)
+}
 
 // HOME
 const getHomeById = (idHome) => {
     return axios.get(`/api/homestays/${idHome}`)
 }
-
+const searchHome = (page, limit, title) => {
+    return axios.get(`/api/homestays/search?limit=${limit}&page=${page}&title=${title}`)
+}
 
 // FEEDBACK
 const feedBackWeb = (data) => {
@@ -63,11 +73,25 @@ const feedBackWeb = (data) => {
 const ConfirmBookTourUser = (data) => {
     return axios.post(`/api/bookings/`, { ...data })
 }
+const ConfirmBookHomeUser = (data) => {
+    return axios.post(`/api/bookings/`, { ...data })
+}
+
+// CHANGE PASSWORD USER
+const ChangePasswordUser = (data) => {
+    return axios.post(`/api/auth/change-password`, { ...data })
+}
+
+// GET REVIEW
+const getReviewTours = (page, limit) => {
+    return axios.get(`/api/reviews/tours?limit=${limit}&page=${page}`)
+}
 
 
 export {
     postRegister, postLogin, postForgotPassword, postResetPassword,
     getNewsById, getEventById, getFoodById, getDiscoverById,
     feedBackWeb, searchDiscover, getShoppingById, ConfirmBookTourUser,
-    getHomeById
+    getHomeById, searchFood, searchHome, searchShopping, ConfirmBookHomeUser,
+    ChangePasswordUser, getReviewTours
 }

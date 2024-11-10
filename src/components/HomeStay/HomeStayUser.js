@@ -5,8 +5,9 @@ import { useEffect, useState } from 'react';
 import { getAllHomeStayPaginate, getAllTours } from '../../Service/apiServices';
 import { FaWalking } from "react-icons/fa";
 import { FaMapMarkedAlt } from "react-icons/fa";
-import { searchDiscover } from '../../Service/userService';
+import { searchDiscover, searchHome } from '../../Service/userService';
 import ReactPaginate from "react-paginate";
+import './HomeStayUser.scss'
 
 
 const HomeStayUser = () => {
@@ -18,10 +19,18 @@ const HomeStayUser = () => {
     const [pageCount, setPageCount] = useState(0);
 
     const [inputSearch, setInputSearch] = useState('');
+    const [search, setSearch] = useState(false);
+
 
     useEffect(() => {
         fetchAllHomesUser(1)
     }, [])
+    useEffect(() => {
+        if (inputSearch === '') {
+            fetchAllHomesUser(1);
+            setSearch(false);
+        }
+    }, [inputSearch])
 
     const fetchAllHomesUser = async (page) => {
         let res = await getAllHomeStayPaginate(page, LIMIT);
@@ -31,19 +40,28 @@ const HomeStayUser = () => {
         }
     }
 
-    const handleSearchDiscover = async () => {
+    const handleSearchHome = async (page) => {
         if (inputSearch) {
-            let res = await searchDiscover({
-                title: inputSearch
-            })
+            let res = await searchHome(page, 3, inputSearch)
             if (res && res.code === 201) {
-                setListHomesUser(res.data)
+                setListHomesUser(res.result)
+                setSearch(true);
+                setPageCount(res.totalpage);
             }
+        }
+        if (!inputSearch) {
+            setSearch(false);
+            fetchAllHomesUser(1)
         }
     }
 
     const handlePageClick = (event) => {
-        fetchAllHomesUser(+event.selected + 1)
+        if (!search) {
+            fetchAllHomesUser(+event.selected + 1);
+        }
+        if (search) {
+            handleSearchHome(+event.selected + 1)
+        }
         // setCurrentPage(+event.selected + 1);
         console.log(`User requested page number ${event.selected}`);
     };
@@ -51,12 +69,12 @@ const HomeStayUser = () => {
     console.log(listHomesUser);
 
     return (
-        <div className="discover-container container">
-            <div className="header-discover">
+        <div className="home-container container">
+            <div className="header-home">
                 <div>Trang chủ</div>
                 <div className='text-success'>Kết quả: {listHomesUser.length}</div>
             </div>
-            <div className="content-discover">
+            <div className="content-home">
                 <div className="list-group">
                     <button type="button" className="list-group-item list-group-item-action">A second item</button>
                     <div className="area list-group-item list-group-item-action">
@@ -139,7 +157,7 @@ const HomeStayUser = () => {
                                 <label className="form-label" for="form1">Search</label>
                             </div>
                             <button id="search-button" type="button" className="btn btn-primary"
-                                onClick={() => handleSearchDiscover()}
+                                onClick={() => handleSearchHome()}
                             >
                                 <i className="fas fa-search"></i>
                             </button>
@@ -152,7 +170,7 @@ const HomeStayUser = () => {
                         listHomesUser && listHomesUser.length > 0 &&
                         listHomesUser.map((item, index) => {
                             return (
-                                <div className="card mb-3 content-right " key={`discover-${index}`}>
+                                <div className="card mb-3 content-right " key={`home-${index}`}>
                                     <div className="row g-0" >
                                         <div className="col-md-4">
                                             <img src={`data:image/jpeg;base64,${item.homestay_image_base64}`} className="img-fluid rounded-start" alt="..." />
@@ -163,7 +181,7 @@ const HomeStayUser = () => {
                                             <div className="card-body">
                                                 <h5 className="card-title">{item.title}</h5>
                                                 <p className="card-text"> <FaMapMarkedAlt /> {item.address}</p>
-                                                <p className="card-text"> <FaWalking /> {+item.type === 0 ? 'Hết phòng' : 'Còn phòng'}</p>
+                                                <p className="card-text"> <FaWalking /> {+item.type_bed === 0 ? 'Hết phòng' : 'Còn phòng'}</p>
                                                 <p className="card-text text-end">
                                                     <small className="text-muted text-time">
                                                         {item.price}$ for 1 day

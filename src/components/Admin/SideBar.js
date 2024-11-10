@@ -76,7 +76,7 @@ const SideBar = (props) => {
                             title='Booking'
                         >
                             <MenuItem>
-                                Booking tour
+                                Booking home
                                 <Link to={'/admin/manage-booking-home'} />
                             </MenuItem>
                             <MenuItem>

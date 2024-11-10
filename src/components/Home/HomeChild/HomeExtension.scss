@@ -75,3 +75,57 @@
         }
     }
 }
+
+.tour-popular-container {
+
+    background-color: rgb(252, 252, 252);
+
+    .tour-popular {
+        display: flex;
+        justify-content: space-between;
+        padding: 15px 100px 0 100px;
+        flex-wrap: wrap;
+
+        .title-tour {
+            font-size: 30px;
+            font-weight: 600;
+            text-decoration: underline;
+        }
+
+        .new-tour {
+            font-size: 20px;
+            color: rgb(6, 81, 142);
+        }
+    }
+
+    .item-tour-popular {
+        justify-content: center;
+    }
+}
+
+.home-popular-container {
+    margin-top: 15px;
+    background-color: rgb(245, 245, 243);
+
+    .home-popular {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        padding: 15px 100px 0 100px;
+
+        .title-home {
+            font-size: 30px;
+            font-weight: 600;
+            text-decoration: underline;
+        }
+
+        .new-home {
+            font-size: 20px;
+            color: rgb(6, 81, 142);
+        }
+    }
+
+    .item-home-popular {
+        justify-content: center;
+    }
+}

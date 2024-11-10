@@ -20,7 +20,7 @@ const Header = () => {
     }
     const handleLogOut = () => {
         dispatch(doLogOut());
-        window.location.reload(true)
+        window.location.reload(true, handleLogin());
     }
     return (
         <div>
@@ -30,6 +30,7 @@ const Header = () => {
                         <img src={logo} style={{ maxWidth: '66px' }} />
                     </NavLink>
                     <MenuHeader />
+
                     <Navbar.Toggle aria-controls="basic-navbar-nav">
                         <CgUserList style={{ color: 'black', fontSize: '29px' }} />
                     </Navbar.Toggle>
@@ -51,8 +52,8 @@ const Header = () => {
                                 </>
                                 :
                                 < NavDropdown title="Settings" id="basic-nav-dropdown">
-                                    <NavDropdown.Item >
-                                        Profile
+                                    <NavDropdown.Item onClick={() => navigate('/changePassword')}>
+                                        Change password
                                     </NavDropdown.Item>
                                     <NavDropdown.Item onClick={() => handleLogOut()}>
                                         Log out

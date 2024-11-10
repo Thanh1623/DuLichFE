@@ -4,7 +4,7 @@ import axios from "../utils/axiosCustomize";
 const postCreateUser = (data) => {
     return axios.post(`/api/users`, { ...data })
 }
-const  getAllUsersPaginate = (limit, page) => {
+const getAllUsersPaginate = (page, limit) => {
     return axios.get(`/api/users?limit=${limit}&page=${page}`)
 }
 
@@ -65,7 +65,7 @@ const getAllEvents = () => {
     return axios.get(`/api/events`)
 }
 
-const getAllEventsPaginate = (page, limit ) => {
+const getAllEventsPaginate = (page, limit) => {
     return axios.get(`/api/events?limit=${limit}&page=${page}`)
 }
 
@@ -335,6 +335,38 @@ const getFeedbackWebPaginate = (page, limit) => {
     return axios.get(`/api/feedback?limit=${limit}&page=${page}`)
 }
 
+// BOOK TOUR
+const getBookTourHomePaginate = (page, limit) => {
+    return axios.get(`/api/bookings?limit=${limit}&page=${page}`)
+}
+const UpdateBookTour = (data) => {
+    return axios.put(`/api/bookings/admin/approvetours`, { ...data })
+}
+const UpdateBookHome = (data) => {
+    return axios.put(`/api/bookings/admin/approvehomestays`, { ...data })
+}
+const TourPaginate = (page, limit) => {
+    return axios.get(`/api/bookings/tours?limit=${limit}&page=${page}`)
+}
+const HomePaginate = (page, limit) => {
+    return axios.get(`/api/bookings/homestays?limit=${limit}&page=${page}`)
+}
+
+// INTRO
+const getIntro = () => {
+    return axios.get(`/api/intro`)
+}
+
+const putIntro = (idIntro, data) => {
+    return axios.put(`/api/intro/${idIntro}`, { ...data })
+}
+
+const postReview = (data) => {
+    return axios.post(`/api/reviews/`, { ...data })
+}
+
+
+
 export {
     postCreateUser, getAllUsers, putUsers, deleteUsers, getAllUsersPaginate,
     postCreateEvent, getAllEvents, deleteEvent, putEvent, getAllEventsPaginate,
@@ -343,5 +375,8 @@ export {
     getAllTours, postCreateTour, deleteTour, putTour, getAllToursPaginate,
     getAllShopping, postCreateShopping, deleteShopping, putShopping, getAllShoppingPaginate,
     getAllHomeStay, postCreateHome, deleteHome, putHome, getAllHomeStayPaginate,
-    getFeedbackWebPaginate
+    getFeedbackWebPaginate,
+    getBookTourHomePaginate, UpdateBookTour, TourPaginate, HomePaginate, UpdateBookHome,
+    getIntro, putIntro,
+    postReview
 }

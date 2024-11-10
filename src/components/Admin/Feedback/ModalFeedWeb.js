@@ -25,11 +25,13 @@ function ModalViewFeed(props) {
     };
 
     const [content, setContent] = useState('');
+    const [user, setUser] = useState('');
 
     useEffect(() => {
         if (!_.isEmpty(dataView)) {
             console.log('dataView: ', dataView);
             setContent(dataView.content);
+            setUser(`${dataView.email} - ${dataView.phone}`);
         }
     }, [dataView])
 
@@ -49,7 +51,15 @@ function ModalViewFeed(props) {
                 <Modal.Body>
                     <div className='col-12 row'>
                         <div className="mb-3">
-                            <label className="form-label">Restaurant name:</label>
+                            <label className="form-label">User:</label>
+                            <textarea className="form-control" rows="1" disabled
+                                value={user}
+                            ></textarea>
+                        </div>
+                    </div>
+                    <div className='col-12 row'>
+                        <div className="mb-3">
+                            <label className="form-label">Content:</label>
                             <textarea className="form-control" rows="1" disabled
                                 value={content}
                             ></textarea>

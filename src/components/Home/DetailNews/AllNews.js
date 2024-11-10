@@ -3,23 +3,33 @@ import { useNavigate } from "react-router-dom";
 import { FaHome, FaWalking } from "react-icons/fa";
 import { FaMapMarkedAlt } from "react-icons/fa";
 import bistro from '../../../assets/bistro.jpg'
-import { getAllEvents, getAllNews, getAllTours } from "../../../Service/apiServices";
+import { getAllEvents, getAllNews, getAllNewsPaginate, getAllTours } from "../../../Service/apiServices";
 import './AllNews.scss';
+import ReactPaginate from "react-paginate";
+
 
 const AllNews = () => {
     const [listAllNews, setListAllNews] = useState([]);
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const LIMIT = 3;
+    const [pageCount, setPageCount] = useState(0);
 
     useEffect(() => {
-        fetchAllEvent()
+        fetchAllNews(1)
     }, [])
 
-    const fetchAllEvent = async () => {
-        let data = await getAllNews();
+    const fetchAllNews = async (page) => {
+        let data = await getAllNewsPaginate(page, LIMIT);
         if (data && data.code === 201) {
-            setListAllNews(data.result)
+            setListAllNews(data.result);
+            setPageCount(data.totalpage);
         }
     }
+    const handlePageClick = (event) => {
+        fetchAllNews(+event.selected + 1)
+        // setCurrentPage(+event.selected + 1);
+        console.log(`User requested page number ${event.selected}`);
+    };
     const convertToDate = (isoTimestamp) => {
         let date = new Date(isoTimestamp);
         let year = date.getFullYear();
@@ -71,6 +81,29 @@ const AllNews = () => {
                         )
                     })
                 }
+                <div className="user-pagination">
+                    <ReactPaginate
+                        nextLabel="next >"
+                        onPageChange={handlePageClick}
+                        pageRangeDisplayed={3}
+                        marginPagesDisplayed={2}
+                        pageCount={pageCount}
+                        previousLabel="< previous"
+                        pageClassName="page-item"
+                        pageLinkClassName="page-link"
+                        previousClassName="page-item"
+                        previousLinkClassName="page-link"
+                        nextClassName="page-item"
+                        nextLinkClassName="page-link"
+                        breakLabel="..."
+                        breakClassName="page-item"
+                        breakLinkClassName="page-link"
+                        containerClassName="pagination"
+                        activeClassName="active"
+                        renderOnZeroPageCount={null}
+                    // forcePage={currentPage - 1}
+                    />
+                </div>
             </div>
         </div>
     )

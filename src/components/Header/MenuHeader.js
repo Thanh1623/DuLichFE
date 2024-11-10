@@ -38,13 +38,13 @@ const MenuHeader = (props) => {
                         <div className='title'>
                             Du lịch
                         </div>
-                        <MenuItem onClick={() => navigate('/login')}>
+                        <MenuItem onClick={() => navigate('/homeStay')}>
                             Lưu trú
                         </MenuItem>
-                        <MenuItem>
+                        <MenuItem onClick={() => navigate('/discover')}>
                             Khám phá
                         </MenuItem>
-                        <MenuItem>
+                        <MenuItem onClick={() => navigate('/food')}>
                             Ẩm thực
                         </MenuItem>
                     </div>
@@ -52,14 +52,8 @@ const MenuHeader = (props) => {
                         <div className='title'>
                             Danh mục
                         </div>
-                        <MenuItem onClick={() => navigate('/login')}>
+                        <MenuItem onClick={() => navigate('/shopping')}>
                             Trung tâm mua sắm, giải trí
-                        </MenuItem>
-                        <MenuItem>
-                            Khám phá
-                        </MenuItem>
-                        <MenuItem onClick={() => navigate('/food')}>
-                            Ẩm thực
                         </MenuItem>
                     </div>
                 </div>

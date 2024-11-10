@@ -7,6 +7,7 @@ import { FaMapMarkedAlt } from "react-icons/fa";
 import { FcHome } from "react-icons/fc";
 import './Shopping.scss';
 import ReactPaginate from "react-paginate";
+import { searchShopping } from "../../Service/userService";
 
 
 const Shopping = () => {
@@ -15,9 +16,10 @@ const Shopping = () => {
     const navigate = useNavigate();
     const LIMIT = 3;
     const [pageCount, setPageCount] = useState(0);
-
-
     const [inputSearch, setInputSearch] = useState('');
+    const [search, setSearch] = useState(false);
+
+
 
     useEffect(() => {
         fetchAllShoppingUser(1)
@@ -31,19 +33,28 @@ const Shopping = () => {
         }
     }
 
-    const handleSearchShopping = async () => {
-        // if (inputSearch) {
-        //     let res = await searchDiscover({
-        //         title: inputSearch
-        //     })
-        //     if (res && res.code === 201) {
-        //         setListDiscoverUser(res.data)
-        //     }
-        // }
+    const handleSearchShopping = async (page) => {
+        if (inputSearch) {
+            let res = await searchShopping(page, 3, inputSearch)
+            if (res && res.code === 201) {
+                setListShoppingUser(res.result)
+                setSearch(true);
+                setPageCount(res.totalpage);
+            }
+        }
+        if (!inputSearch) {
+            setSearch(false);
+            fetchAllShoppingUser(1)
+        }
     }
 
     const handlePageClick = (event) => {
-        fetchAllShoppingUser(+event.selected + 1)
+        if (!search) {
+            fetchAllShoppingUser(+event.selected + 1);
+        }
+        if (search) {
+            handleSearchShopping(+event.selected + 1)
+        }
         // setCurrentPage(+event.selected + 1);
         console.log(`User requested page number ${event.selected}`);
     };
@@ -153,7 +164,7 @@ const Shopping = () => {
                                 <div className="card mb-3 content-right " key={`shopping-${index}`}>
                                     <div className="row g-0" >
                                         <div className="col-md-4">
-                                            <img src={bistro} className="img-fluid rounded-start" alt="..." />
+                                            <img src={`data:image/jpeg;base64,${item.shopping_center_image_base64}`} className="img-fluid rounded-start" alt="..." />
                                         </div>
                                         <div className="col-md-8 content"
                                             onClick={() => navigate(`/shopping/${item.shopping_center_id}`)}
