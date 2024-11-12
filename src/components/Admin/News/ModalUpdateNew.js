@@ -161,9 +161,9 @@ const ModalUpdateNew = (props) => {
                 <Modal.Body>
                     <div className='col-12 row'>
 
-                        <div class="mb-3">
-                            <label class="form-label">Title</label>
-                            <textarea class="form-control" rows="3"
+                        <div className="mb-3">
+                            <label className="form-label">Title</label>
+                            <textarea className="form-control" rows="3"
                                 value={title}
                                 onChange={(event) => setTitle(event.target.value)}
                             ></textarea>
@@ -186,8 +186,8 @@ const ModalUpdateNew = (props) => {
                         </div>
 
 
-                        {/* <div class="mb-3 col-6">
-                            <label class="form-label">Time of writing: </label>
+                        {/* <div className="mb-3 col-6">
+                            <label className="form-label">Time of writing: </label>
                             <DatePicker disabled showIcon icon={<IoIosCalendar />} selected={startDate} onChange={(date) => setStartDate(formatDate(date))} />
                         </div> */}
                         <div>

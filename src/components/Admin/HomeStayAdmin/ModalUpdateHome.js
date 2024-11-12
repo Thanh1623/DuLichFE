@@ -173,7 +173,15 @@ function ModalUpdateHomeStay(props) {
             if (data && data.message === 'Update Homestays Successful') {
                 toast.success(data.message);
                 handleClose();
-                await props.fetchListHomesWithPaginate(props.currentPage);
+
+                if (!props.search) {
+                    await props.fetchListHomesWithPaginate(props.currentPage);
+                }
+                if (props.search) {
+                    props.handleSearchHome(props.currentPage);
+                }
+
+                // await props.fetchListHomesWithPaginate(props.currentPage);
 
             }
             if (data && data.message !== 'Update Homestays Successful') {

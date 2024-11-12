@@ -3,11 +3,21 @@ import ReactPaginate from "react-paginate";
 
 const TableUserPaginate = (props) => {
 
-    const { listUsers, pageCount } = props;
+    const { listUsers, pageCount, search } = props;
 
     const handlePageClick = (event) => {
-        props.fetchListUsersWithPaginate(+event.selected + 1)
-        props.setCurrentPage(+event.selected + 1);
+
+        if (!search) {
+            props.fetchListUsersWithPaginate(+event.selected + 1)
+            props.setCurrentPage(+event.selected + 1);
+        }
+        if (search) {
+            props.handleSearchUser(+event.selected + 1);
+            props.setCurrentPage(+event.selected + 1);
+        }
+
+        // props.fetchListUsersWithPaginate(+event.selected + 1)
+        // props.setCurrentPage(+event.selected + 1);
         // console.log(`User requested page number ${event.selected}`);
     };
 

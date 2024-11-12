@@ -3,11 +3,21 @@ import ReactPaginate from "react-paginate";
 
 const TableShoppingAdmin = (props) => {
 
-    const { listShops, pageCount } = props;
+    const { listShops, pageCount, search } = props;
 
     const handlePageClick = (event) => {
-        props.fetchListShoppingWithPaginate(+event.selected + 1)
-        props.setCurrentPage(+event.selected + 1);
+
+        if (!search) {
+            props.fetchListShoppingWithPaginate(+event.selected + 1)
+            props.setCurrentPage(+event.selected + 1);
+        }
+        if (search) {
+            props.handleSearchShop(+event.selected + 1);
+            props.setCurrentPage(+event.selected + 1);
+        }
+
+        // props.fetchListShoppingWithPaginate(+event.selected + 1)
+        // props.setCurrentPage(+event.selected + 1);
         console.log(`User requested page number ${event.selected}`);
     };
 

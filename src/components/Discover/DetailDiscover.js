@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import './DetailDiscover.scss';
 import { FaHome } from "react-icons/fa";
-import { getDiscoverById, getFoodById, getReviewTours } from "../../Service/userService";
+import { deleteReview, getDiscoverById, getFoodById, getReviewTours, putReview } from "../../Service/userService";
 import ListGroup from 'react-bootstrap/ListGroup';
 
 import { v4 as uuidv4 } from 'uuid';
@@ -12,15 +12,21 @@ import Typography from '@mui/material/Typography';
 import { postReview } from "../../Service/apiServices";
 import { toast } from 'react-toastify';
 import ReactPaginate from "react-paginate";
+import { useSelector } from "react-redux";
 
 
 const DetailDiscover = (props) => {
+
+    const role = useSelector(state => state.user.account.role);
+    const idUser = useSelector(state => state.user.account.idUser);
+    const isAuthenticated = useSelector(state => state.user.isAuthenticated);
 
     const params = useParams();
     const location = useLocation();
     const [detailDiscover, setDetailDiscover] = useState({});
     const idDiscover = params.id;
     const navigate = useNavigate();
+
     const [value, setValue] = useState(5);
     const [contentReview, setContentReview] = useState('');
 
@@ -29,6 +35,10 @@ const DetailDiscover = (props) => {
 
     const [listReviewTour, setListReviewTour] = useState('');
     const [userSend, setUserSend] = useState(false);
+    const [answer, setAnswer] = useState(false);
+    const [idAnswer, setIdAnswer] = useState('');
+
+    const [contentUpdate, setContentUpdate] = useState('');
 
 
     useEffect(() => {
@@ -47,7 +57,7 @@ const DetailDiscover = (props) => {
 
     }
     const fetchReviewTours = async (page) => {
-        let data = await getReviewTours(page, 5);
+        let data = await getReviewTours(page, 5, idDiscover);
         if (data && data.code === 200) {
             setListReviewTour(data.result);
             setPageCount(data.totalpage);
@@ -95,6 +105,38 @@ const DetailDiscover = (props) => {
         console.log(`User requested page number ${event.selected}`);
     };
 
+    const handleAnswerReview = (item) => {
+        setAnswer(!answer);
+        setIdAnswer(item.review_id)
+    }
+    useEffect(() => {
+        setAnswer(true)
+    }, [idAnswer])
+
+    const handleUpdateReview = async (idReview) => {
+        let res = await putReview(idReview, {
+            content_answer: contentUpdate
+        })
+        if (res && res.code === 200) {
+            toast.success(res.message);
+            setContentUpdate('');
+            fetchReviewTours(1)
+        }
+        if (res && res.code !== 200) {
+            toast.error(res.message)
+        }
+
+    }
+    const handleDeleteReview = async (idReview) => {
+        let res = await deleteReview(idReview);
+        if (res && res.code === 200) {
+            toast.success(res.message);
+            fetchReviewTours(1);
+        }
+        if (res && res.code !== 200) {
+            toast.error(res.message);
+        }
+    }
 
     return (
         <>
@@ -125,7 +167,7 @@ const DetailDiscover = (props) => {
                         onClick={() => handleBookTour()}
                     >Book tour</button>
                 </div>
-                <div>
+                <div className="Review">
                     <div>
                         Đánh giá:
                     </div>
@@ -147,7 +189,46 @@ const DetailDiscover = (props) => {
                                                         value={item.rating}
                                                         readOnly
                                                     />
+                                                    <Box sx={{ ml: 2 }}>{convertToDate(item.review_created_at)}</Box>
                                                 </Box>
+                                                {
+                                                    item.review_content_answer !== 'Chờ phản hồi'  &&
+                                                    <div>
+                                                        Admin: {item.review_content_answer}
+                                                    </div>
+                                                }
+                                                {
+                                                    role === 'admin' && isAuthenticated === true &&
+                                                    <div>
+                                                        <button type="button" style={{ border: 'none', background: 'none', color: 'blue' }}
+                                                            onClick={() => handleAnswerReview(item)}
+                                                        >Trả lời</button>
+                                                        <button type="button" style={{ border: 'none', background: 'none', color: 'red' }}
+                                                            onClick={() => handleDeleteReview(item.review_id)}
+                                                        >Xóa</button>
+                                                    </div>
+
+                                                }
+                                                {
+                                                    role === 'user' && isAuthenticated === true && idUser === item.user_id &&
+                                                    <button type="button" style={{ border: 'none', background: 'none', color: 'red' }}
+                                                        onClick={() => handleDeleteReview(item.review_id)}
+                                                    >Xóa</button>
+                                                }
+
+                                                {
+                                                    answer === true && idAnswer === item.review_id &&
+                                                    <div className="input-group mt-0">
+                                                        <input type="search" className="form-control rounded" placeholder="Phản hồi đánh giá" aria-label="Search" aria-describedby="search-addon"
+                                                            onChange={(event) => setContentUpdate(event.target.value)}
+                                                            value={contentUpdate}
+                                                        />
+
+                                                        <button type="button" className="btn btn-outline-primary" data-mdb-ripple-init
+                                                            onClick={() => handleUpdateReview(item.review_id)}
+                                                        >Gửi</button>
+                                                    </div>
+                                                }
                                             </ListGroup.Item>
                                         )
                                     })
@@ -174,18 +255,18 @@ const DetailDiscover = (props) => {
                                 containerClassName="pagination"
                                 activeClassName="active"
                                 renderOnZeroPageCount={null}
-                                // forcePage={currentPage - 1}
+                            // forcePage={currentPage - 1}
                             />
                         </div>
                     </div>
 
-                    <div class="input-group mt-5">
-                        <input type="search" class="form-control rounded" placeholder="Đánh giá của bạn" aria-label="Search" aria-describedby="search-addon"
+                    <div className="input-group mt-5">
+                        <input type="search" className="form-control rounded" placeholder="Đánh giá của bạn" aria-label="Search" aria-describedby="search-addon"
                             onChange={(event) => setContentReview(event.target.value)}
                             value={contentReview}
                         />
 
-                        <button type="button" class="btn btn-outline-primary" data-mdb-ripple-init
+                        <button type="button" className="btn btn-outline-primary" data-mdb-ripple-init
                             onClick={() => handleSubmitReview()}
                         >Gửi</button>
                     </div>

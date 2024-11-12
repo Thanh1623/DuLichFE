@@ -154,7 +154,7 @@ const HomeStayUser = () => {
                                     value={inputSearch}
                                     onChange={(event) => setInputSearch(event.target.value)}
                                 />
-                                <label className="form-label" for="form1">Search</label>
+                                <label className="form-label" htmlFor="form1">Search</label>
                             </div>
                             <button id="search-button" type="button" className="btn btn-primary"
                                 onClick={() => handleSearchHome()}

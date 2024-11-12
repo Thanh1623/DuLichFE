@@ -180,7 +180,15 @@ function ModalUpdateFood(props) {
             if (data && data.code === 201) {
                 toast.success(data.message);
                 handleClose();
-                await props.fetchListFoodsWithPaginate(props.currentPage);
+                if (!props.search) {
+                    await props.fetchListFoodsWithPaginate(props.currentPage);
+                }
+                if (props.search) {
+                    props.handleSearchFood(props.currentPage);
+                }
+
+                // await props.fetchListFoodsWithPaginate(props.currentPage);
+
                 // props.setCurrentPage(1);
                 // await props.fetchListUsersWithPaginate(props.currentPage);
             }

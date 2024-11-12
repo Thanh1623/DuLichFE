@@ -171,7 +171,13 @@ function ModalUpdateShopping(props) {
             if (data && data.code === 201) {
                 toast.success(data.message);
                 handleClose();
-                await props.fetchListShoppingWithPaginate(props.currentPage);
+                if (!props.search) {
+                    await props.fetchListShoppingWithPaginate(props.currentPage);
+                }
+                if (props.search) {
+                    props.handleSearchShop(props.currentPage);
+                }
+                // await props.fetchListShoppingWithPaginate(props.currentPage);
             }
             if (data && data.code !== 201) {
                 toast.error(data.message)
@@ -259,9 +265,9 @@ function ModalUpdateShopping(props) {
                             </select>
                         </div>
                         <div>
-                            <MdEditor style={{ height: '500px' }} 
-                            value={contentMarkdown} 
-                            renderHTML={text => mdParser.render(text)} onChange={handleEditorChange} />
+                            <MdEditor style={{ height: '500px' }}
+                                value={contentMarkdown}
+                                renderHTML={text => mdParser.render(text)} onChange={handleEditorChange} />
                             {validationErrors.content && <span className="text-danger">{validationErrors.content}</span>}
 
                         </div>

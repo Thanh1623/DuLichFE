@@ -197,7 +197,16 @@ function ModalUpdateTour(props) {
             if (data && data.code === 201) {
                 toast.success(data.message);
                 handleClose();
-                await props.fetchListToursWithPaginate(props.currentPage);
+
+                if (!props.search) {
+                    await props.fetchListToursWithPaginate(props.currentPage);
+                }
+                if (props.search) {
+                    props.handleSearchTour(props.currentPage);
+                }
+
+                // await props.fetchListToursWithPaginate(props.currentPage);
+
                 // props.setCurrentPage(1);
                 // await props.fetchListUsersWithPaginate(props.currentPage)
             }

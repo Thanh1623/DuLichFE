@@ -4,11 +4,12 @@ import ModalCreateHomeStay from "./ModalCreateHome";
 import TableHomeStayAdmin from "./TableHomeAdmin";
 import ModalDeleteHomeStay from "./ModalDeleteHome";
 import ModalUpdateHomeStay from "./ModalUpdateHome";
+import { searchHome } from "../../../Service/userService";
 
 
 const ManageHomeStay = () => {
 
-    const LIMIT = 6;
+    const LIMIT = 3;
 
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1)
@@ -24,16 +25,40 @@ const ManageHomeStay = () => {
 
     const [listHomeStay, setListHomeStay] = useState([]);
 
+    const [inputSearch, setInputSearch] = useState('');
+    const [search, setSearch] = useState(false);
+
+
     useEffect(() => {
         // fetchListHomeStay()
         fetchListHomesWithPaginate(1);
     }, [])
+    useEffect(() => {
+        if (inputSearch === '') {
+            fetchListHomesWithPaginate(1);
+            setSearch(false);
+        }
+    }, [inputSearch])
 
     const fetchListHomeStay = async () => {
         // let res = await getAllHomeStay();
         // if (res && res.code === 201) {
         //     setListHomeStay(res.result)
         // }
+    }
+    const handleSearchHome = async (page) => {
+        if (inputSearch) {
+            let res = await searchHome(page, 3, inputSearch)
+            if (res && res.code === 201) {
+                setListHomeStay(res.result)
+                setSearch(true);
+                setPageCount(res.totalpage);
+            }
+        }
+        if (!inputSearch) {
+            setSearch(false);
+            fetchListHomesWithPaginate(1)
+        }
     }
 
     const fetchListHomesWithPaginate = async (page) => {
@@ -69,6 +94,24 @@ const ManageHomeStay = () => {
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
                 />
+                <div className="d-flex justify-content-end mb-3">
+                    <div className="input-group" style={{ maxWidth: '300px', border: '1px solid #3b71ca', borderRadius: '5px' }}>
+                        <div className="form-outline" data-mdb-input-init>
+
+                            <input id="search-input" type="search" className="form-control"
+                                value={inputSearch}
+                                onChange={(event) => setInputSearch(event.target.value)}
+                            />
+                            <label className="form-label" htmlFor="form1">Search</label>
+
+                        </div>
+                        <button id="search-button" type="button" className="btn btn-primary"
+                            onClick={() => handleSearchHome()}
+                        >
+                            <i className="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
                 <div>
                     <TableHomeStayAdmin
                         listHomeStay={listHomeStay}
@@ -78,6 +121,8 @@ const ManageHomeStay = () => {
                         pageCount={pageCount}
                         currentPage={currentPage}
                         setCurrentPage={setCurrentPage}
+                        search={search}
+                        handleSearchHome={handleSearchHome}
                     />
                 </div>
                 <ModalDeleteHomeStay
@@ -98,6 +143,8 @@ const ManageHomeStay = () => {
                     fetchListHomesWithPaginate={fetchListHomesWithPaginate}
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
+                    search={search}
+                    handleSearchHome={handleSearchHome}
                 />
             </div>
         </>

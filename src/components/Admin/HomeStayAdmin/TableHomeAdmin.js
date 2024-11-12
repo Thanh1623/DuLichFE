@@ -3,11 +3,20 @@ import ReactPaginate from "react-paginate";
 
 const TableHomeStayAdmin = (props) => {
 
-    const { listHomeStay, pageCount } = props;
+    const { listHomeStay, pageCount, search } = props;
 
     const handlePageClick = (event) => {
         props.fetchListHomesWithPaginate(+event.selected + 1)
         props.setCurrentPage(+event.selected + 1);
+
+        if (!search) {
+            props.fetchListHomesWithPaginate(+event.selected + 1)
+            props.setCurrentPage(+event.selected + 1);
+        }
+        if (search) {
+            props.handleSearchHome(+event.selected + 1);
+            props.setCurrentPage(+event.selected + 1);
+        }
         console.log(`User requested page number ${event.selected}`);
     };
 

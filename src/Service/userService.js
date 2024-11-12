@@ -83,8 +83,20 @@ const ChangePasswordUser = (data) => {
 }
 
 // GET REVIEW
-const getReviewTours = (page, limit) => {
-    return axios.get(`/api/reviews/tours?limit=${limit}&page=${page}`)
+const getReviewTours = (page, limit, idTour) => {
+    return axios.get(`/api/reviews/tours/${idTour}?limit=${limit}&page=${page}`)
+}
+const getReviewFoods = (page, limit, idFood) => {
+    return axios.get(`/api/reviews/cuisines/${idFood}?limit=${limit}&page=${page}`)
+}
+const getReviewHomestay = (page, limit, idHome) => {
+    return axios.get(`/api/reviews/homestays/${idHome}?limit=${limit}&page=${page}`)
+}
+const putReview = (idReview, data) => {
+    return axios.put(`/api/reviews/${idReview}/answer`, { ...data })
+}
+const deleteReview = (idReview) => {
+    return axios.delete(`/api/reviews/${idReview}`)
 }
 
 
@@ -93,5 +105,6 @@ export {
     getNewsById, getEventById, getFoodById, getDiscoverById,
     feedBackWeb, searchDiscover, getShoppingById, ConfirmBookTourUser,
     getHomeById, searchFood, searchHome, searchShopping, ConfirmBookHomeUser,
-    ChangePasswordUser, getReviewTours
+    ChangePasswordUser, getReviewTours, putReview, deleteReview, getReviewFoods,
+    getReviewHomestay
 }

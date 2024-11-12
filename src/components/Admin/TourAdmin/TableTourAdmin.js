@@ -3,11 +3,21 @@ import ReactPaginate from "react-paginate";
 
 const TableTourAdmin = (props) => {
 
-    const { listTours, pageCount } = props;
+    const { listTours, pageCount, search } = props;
 
     const handlePageClick = (event) => {
-        props.fetchListToursWithPaginate(+event.selected + 1)
-        props.setCurrentPage(+event.selected + 1);
+
+        if (!search) {
+            props.fetchListToursWithPaginate(+event.selected + 1)
+            props.setCurrentPage(+event.selected + 1);
+        }
+        if (search) {
+            props.handleSearchTour(+event.selected + 1);
+            props.setCurrentPage(+event.selected + 1);
+        }
+
+        // props.fetchListToursWithPaginate(+event.selected + 1)
+        // props.setCurrentPage(+event.selected + 1);
         console.log(`User requested page number ${event.selected}`);
     };
 

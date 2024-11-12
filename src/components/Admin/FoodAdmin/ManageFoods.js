@@ -4,6 +4,7 @@ import { getAllFoods, getAllFoodsPaginate } from "../../../Service/apiServices";
 import TableFoodAdmin from "./TableFoodAdmin";
 import ModalDeleteFood from "./ModalDeleteFood";
 import ModalUpdateFood from "./ModalUpdateFood";
+import { searchFood } from "../../../Service/userService";
 
 
 const ManageFoods = () => {
@@ -24,16 +25,40 @@ const ManageFoods = () => {
 
     const [listFoods, setListFoods] = useState([]);
 
+    const [inputSearch, setInputSearch] = useState('');
+    const [search, setSearch] = useState(false);
+
     useEffect(() => {
         // fetchListFood()
         fetchListFoodsWithPaginate(1)
     }, [])
+    useEffect(() => {
+        if (inputSearch === '') {
+            fetchListFoodsWithPaginate(1);
+            setSearch(false);
+        }
+    }, [inputSearch])
 
     const fetchListFood = async () => {
         // let res = await getAllFoods();
         // if (res && res.code === 201) {
         //     setListFoods(res.result)
         // }
+    }
+
+    const handleSearchFood = async (page) => {
+        if (inputSearch) {
+            let res = await searchFood(page, 3, inputSearch)
+            if (res && res.code === 201) {
+                setListFoods(res.result)
+                setSearch(true);
+                setPageCount(res.totalpage);
+            }
+        }
+        if (!inputSearch) {
+            setSearch(false);
+            fetchListFoodsWithPaginate(1)
+        }
     }
 
     const fetchListFoodsWithPaginate = async (page) => {
@@ -75,14 +100,14 @@ const ManageFoods = () => {
                         <div className="form-outline" data-mdb-input-init>
 
                             <input id="search-input" type="search" className="form-control"
-                            // value={inputSearch}
-                            // onChange={(event) => setInputSearch(event.target.value)}
+                                value={inputSearch}
+                                onChange={(event) => setInputSearch(event.target.value)}
                             />
-                            <label className="form-label" for="form1">Search</label>
+                            <label className="form-label" htmlFor="form1">Search</label>
 
                         </div>
                         <button id="search-button" type="button" className="btn btn-primary"
-                        // onClick={() => handleSearchDiscover()}
+                            onClick={() => handleSearchFood()}
                         >
                             <i className="fas fa-search"></i>
                         </button>
@@ -97,6 +122,8 @@ const ManageFoods = () => {
                         pageCount={pageCount}
                         currentPage={currentPage}
                         setCurrentPage={setCurrentPage}
+                        search={search}
+                        handleSearchFood={handleSearchFood}
                     />
                 </div>
                 <ModalDeleteFood
@@ -117,6 +144,8 @@ const ManageFoods = () => {
                     fetchListFoodsWithPaginate={fetchListFoodsWithPaginate}
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
+                    search={search}
+                    handleSearchFood={handleSearchFood}
                 />
             </div>
         </>

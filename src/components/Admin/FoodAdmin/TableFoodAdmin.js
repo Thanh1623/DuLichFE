@@ -3,11 +3,18 @@ import ReactPaginate from "react-paginate";
 
 const TableFoodAdmin = (props) => {
 
-    const { listFoods, pageCount } = props;
+    const { listFoods, pageCount, search } = props;
 
     const handlePageClick = (event) => {
-        props.fetchListFoodsWithPaginate(+event.selected + 1)
-        props.setCurrentPage(+event.selected + 1);
+        if (!search) {
+            props.fetchListFoodsWithPaginate(+event.selected + 1)
+            props.setCurrentPage(+event.selected + 1);
+        }
+        if (search) {
+            props.handleSearchFood(+event.selected + 1);
+            props.setCurrentPage(+event.selected + 1);
+        }
+
         console.log(`User requested page number ${event.selected}`);
     };
 
