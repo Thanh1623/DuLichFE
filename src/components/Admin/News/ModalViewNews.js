@@ -15,9 +15,9 @@ import Lightbox from "react-awesome-lightbox";
 
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
-const ModalUpdateNew = (props) => {
+const ModalViewNew = (props) => {
     const { show, setShow } = props;
-    const { dataUpdate } = props;
+    const { dataView } = props;
 
     const handleClose = () => {
         setShow(false);
@@ -92,23 +92,23 @@ const ModalUpdateNew = (props) => {
     }
 
     useEffect(() => {
-        if (!_.isEmpty(dataUpdate)) {
-            console.log('dataUpdate: ', dataUpdate);
+        if (!_.isEmpty(dataView)) {
+            console.log('dataView: ', dataView);
 
-            setContentMarkdown(dataUpdate.ContentMarkDown);
-            setContentHTML(dataUpdate.ContentHTML);
-            setTitle(dataUpdate.title);
+            setContentMarkdown(dataView.ContentMarkDown);
+            setContentHTML(dataView.ContentHTML);
+            setTitle(dataView.title);
 
-            setImage(base64ToFile(`data:image/jpeg;base64,${dataUpdate.news_image_base64}`));
+            setImage(base64ToFile(`data:image/jpeg;base64,${dataView.news_image_base64}`));
 
 
-            setImageP(`data:image/jpeg;base64,${dataUpdate.news_image_base64}`);
+            setImageP(`data:image/jpeg;base64,${dataView.news_image_base64}`);
             setDataImagePreview({
-                url: `data:image/jpeg;base64,${dataUpdate.news_image_base64}`,
+                url: `data:image/jpeg;base64,${dataView.news_image_base64}`,
             })
 
         }
-    }, [dataUpdate])
+    }, [dataView])
 
     const handleEditorChange = ({ html, text }) => {
         setContentHTML(html);
@@ -138,7 +138,7 @@ const ModalUpdateNew = (props) => {
         const validation = validate();
 
         if (validation === true) {
-            let data = await putNews(dataUpdate.news_id, title, image, contentMarkdown, contentHTML);
+            let data = await putNews(dataView.news_id, title, image, contentMarkdown, contentHTML);
             if (data && data.code === 201) {
                 toast.success(data.message);
                 handleClose();
@@ -164,7 +164,7 @@ const ModalUpdateNew = (props) => {
         <>
             <Modal show={show} onHide={handleClose} size='xl' autoFocus='true' backdrop="static">
                 <Modal.Header closeButton>
-                    <Modal.Title>Update a News</Modal.Title>
+                    <Modal.Title>View a News</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className='col-12 row'>
@@ -174,6 +174,7 @@ const ModalUpdateNew = (props) => {
                             <textarea className="form-control" rows="3"
                                 value={title}
                                 onChange={(event) => setTitle(event.target.value)}
+                                disabled
                             ></textarea>
                             {validationErrors.title && <span className="text-danger">{validationErrors.title}</span>}
 
@@ -182,6 +183,7 @@ const ModalUpdateNew = (props) => {
                             <label className="form-label">Image title: </label>
                             <input className="form-control" type='file'
                                 onChange={(event) => handleOnchangeFile(event)}
+                                disabled
                             ></input>
                             {validationErrors.image && <span className="text-danger">{validationErrors.image}</span>}
 
@@ -202,7 +204,9 @@ const ModalUpdateNew = (props) => {
                             <MdEditor style={{ height: '300px' }}
                                 value={contentMarkdown}
                                 renderHTML={text => mdParser.render(text)}
-                                onChange={handleEditorChange} />
+                                onChange={handleEditorChange}
+                                readOnly
+                            />
                             {validationErrors.content && <span className="text-danger">{validationErrors.content}</span>}
 
                         </div>
@@ -224,13 +228,13 @@ const ModalUpdateNew = (props) => {
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={handleUpdateNews}>
+                    {/* <Button variant="primary" onClick={handleUpdateNews}>
                         Save Changes
-                    </Button>
+                    </Button> */}
                 </Modal.Footer>
             </Modal>
         </>
     )
 }
 
-export default ModalUpdateNew;
+export default ModalViewNew;

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import './DetailFood.scss';
+import './DetailMove.scss';
 import { FaHome } from "react-icons/fa";
-import { deleteReview, getFoodById, getReviewFoods, putReview } from "../../Service/userService";
+import { deleteReview, getFoodById, getMoveById, getReviewFoods, getReviewMoves, putReview } from "../../Service/userService";
 import Header from "../Header/Header";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -15,7 +15,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 
 
 
-const DetailFood = (props) => {
+const DetailMove = (props) => {
 
     const role = useSelector(state => state.user.account.role);
     const idUser = useSelector(state => state.user.account.idUser);
@@ -23,39 +23,39 @@ const DetailFood = (props) => {
 
     const params = useParams();
     const location = useLocation();
-    const [detailFood, setDetailFood] = useState({});
-    const idFood = params.id;
+    const [detailMove, setDetailMove] = useState({});
+    const idMove = params.id;
     const navigate = useNavigate();
 
     const [value, setValue] = useState(5);
     const [contentReview, setContentReview] = useState('');
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1)
-    const [listReviewFoods, setListReviewFoods] = useState('');
+    const [listReviewMoves, setListReviewMoves] = useState('');
     const [userSend, setUserSend] = useState(false);
     const [answer, setAnswer] = useState(false);
     const [idAnswer, setIdAnswer] = useState('');
     const [contentUpdate, setContentUpdate] = useState('');
 
     useEffect(() => {
-        fetchDetailFoodById();
-        fetchReviewFoods(1);
+        fetchDetailMoveById();
+        fetchReviewMoves(1);
     }, [])
     useEffect(() => {
-        fetchReviewFoods(1)
+        fetchReviewMoves(1)
     }, [userSend])
 
-    const fetchDetailFoodById = async () => {
-        let data = await getFoodById(idFood);
+    const fetchDetailMoveById = async () => {
+        let data = await getMoveById(idMove);
         if (data && data.code === 201) {
-            setDetailFood(data.result)
+            setDetailMove(data.result)
         }
 
     }
-    const fetchReviewFoods = async (page) => {
-        let data = await getReviewFoods(page, 5, idFood);
+    const fetchReviewMoves = async (page) => {
+        let data = await getReviewMoves(page, 5, idMove);
         if (data && data.code === 200) {
-            setListReviewFoods(data.result);
+            setListReviewMoves(data.result);
             setPageCount(data.totalpage);
         }
 
@@ -78,7 +78,7 @@ const DetailFood = (props) => {
 
     const handleSubmitReview = async () => {
         let res = await postReview({
-            cuisines_id: detailFood.cuisines_id,
+            moves_id: detailMove.moves_id,
             content_question: contentReview,
             rating: value
         })
@@ -93,7 +93,7 @@ const DetailFood = (props) => {
         }
     }
     const handlePageClick = (event) => {
-        fetchReviewFoods(+event.selected + 1)
+        fetchReviewMoves(+event.selected + 1)
         // setCurrentPage(+event.selected + 1);
         console.log(`User requested page number ${event.selected}`);
     };
@@ -117,7 +117,7 @@ const DetailFood = (props) => {
         if (res && res.code === 200) {
             toast.success(res.message);
             setContentUpdate('');
-            fetchReviewFoods(1);
+            fetchReviewMoves(1);
         }
         if (res && res.code !== 200) {
             toast.error(res.message)
@@ -128,42 +128,42 @@ const DetailFood = (props) => {
         let res = await deleteReview(idReview);
         if (res && res.code === 200) {
             toast.success(res.message);
-            fetchReviewFoods(1);
+            fetchReviewMoves(1);
         }
         if (res && res.code !== 200) {
             toast.error(res.message);
         }
     }
 
-    console.log(detailFood)
+    console.log(detailMove)
 
     return (
         <>
-            <div className="detail-food-container container">
+            <div className="detail-move-container container">
 
-                <div className="detail-food-home">
+                <div className="detail-move-home">
                     <FaHome className="home"
                         onClick={() => navigate('/')}
-                    /> <span className="text-food" onClick={() => navigate('/food')}>&nbsp;&lt;Ẩm thực</span>
+                    /> <span className="text-move" onClick={() => navigate('/move')}>&nbsp;&lt;Di chuyển</span>
                 </div>
-                <div className="detail-food-title">
-                    {detailFood.title}
+                <div className="detail-move-title">
+                    {detailMove.title}
                 </div>
                 <hr />
-                <div className="detail-food-time">
-                    {detailFood.opening_hours} to {detailFood.closing_time}
+                <div className="detail-move-time">
+                    {detailMove.type_vehicle}
                 </div>
-                <div className="detail-food-description">
-                    <div className="DesImg" dangerouslySetInnerHTML={{ __html: detailFood.description }}>
+                <div className="detail-move-description">
+                    <div className="DesImg" dangerouslySetInnerHTML={{ __html: detailMove.description }}>
                     </div>
                 </div>
-                <div className="detail-food-description">
-                    <div dangerouslySetInnerHTML={{ __html: detailFood.map }}>
+                <div className="detail-move-description">
+                    <div dangerouslySetInnerHTML={{ __html: detailMove.map }}>
                     </div>
                 </div>
 
-                <div className="detail-food-date">
-                    {convertToDate(detailFood.created_at)}
+                <div className="detail-move-date">
+                    {convertToDate(detailMove.created_at)}
                 </div>
 
                 <div className="Review">
@@ -174,10 +174,10 @@ const DetailFood = (props) => {
                         <div>
                             <ListGroup>
                                 {
-                                    listReviewFoods && listReviewFoods.length > 0 &&
-                                    listReviewFoods.map((item, index) => {
+                                    listReviewMoves && listReviewMoves.length > 0 &&
+                                    listReviewMoves.map((item, index) => {
                                         return (
-                                            <ListGroup.Item key={`review-food-${index}`}>
+                                            <ListGroup.Item key={`review-move-${index}`}>
                                                 <div style={{ fontSize: '18px', fontWeight: '600' }}>
                                                     {item.user_name}:
                                                 </div>
@@ -285,4 +285,4 @@ const DetailFood = (props) => {
     )
 }
 
-export default DetailFood;
+export default DetailMove;

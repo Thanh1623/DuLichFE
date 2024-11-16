@@ -9,6 +9,7 @@ import { getAllHomeStayPaginate, getAllToursPaginate } from '../../../Service/ap
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router-dom';
+import { FaMoneyCheckAlt } from "react-icons/fa";
 
 const HomeExtension = (props) => {
 
@@ -187,7 +188,7 @@ const HomeExtension = (props) => {
                                     <Card.Body>
                                         <Card.Title>{item.title}</Card.Title>
                                         <Card.Text>
-                                            {item.price}$ for {item.members} members
+                                            <FaMoneyCheckAlt /> {item.price}$ cho {item.members} thành viên
                                         </Card.Text>
                                         <Button variant="primary" onClick={() => navigate(`/discover/${item.tour_id}`)}>Chi tiết</Button>
                                     </Card.Body>
@@ -216,7 +217,7 @@ const HomeExtension = (props) => {
                                     <Card.Body>
                                         <Card.Title>{item.title}</Card.Title>
                                         <Card.Text>
-                                            {item.price}$ for 1 day
+                                            <FaMoneyCheckAlt /> {item.price}$ cho 1 ngày
                                         </Card.Text>
                                         <Button variant="primary" onClick={() => navigate(`/homeStay/${item.homestay_id}`)}>Chi tiết</Button>
                                     </Card.Body>

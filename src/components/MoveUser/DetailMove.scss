@@ -1,33 +1,35 @@
-.detail-food-container {
-    .detail-food-home {
+.detail-move-container {
+    .detail-move-home {
         .home {
             font-size: 20px;
             color: rgb(26, 89, 191);
             cursor: pointer;
         }
 
-        .text-food {
+        .text-move {
             color: rgb(80, 78, 78);
             font-weight: 600;
             text-shadow: 1px 1px 2px rgb(103, 103, 103);
             // text-decoration: underline;
             cursor: pointer;
         }
+
         padding-top: 10px;
+
         padding-bottom: 15px;
     }
 
-    .detail-food-time {
+    .detail-move-time {
         font-size: 21px;
         text-align: right;
     }
 
-    .detail-food-title {
+    .detail-move-title {
         font-size: 26px;
         font-weight: 600;
     }
 
-    .detail-food-description {
+    .detail-move-description {
         // max-width: 1000px !important;
         max-width: 100%;
         /* Đảm bảo rằng nội dung không vượt quá kích thước của container */
@@ -49,12 +51,12 @@
         }
     }
 
-    .detail-food-description img {
+    .detail-move-description img {
         margin: auto;
         display: block;
     }
 
-    .detail-food-date {
+    .detail-move-date {
         text-align: right;
         font-style: italic;
 

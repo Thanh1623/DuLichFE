@@ -12,13 +12,22 @@
 
         .admin-header {
             height: 40px;
-            span{
+
+            span {
                 margin-left: 5px;
+            }
+
+            padding-left: 5px;
+            padding-right: 25px;
+            .logout{
+                font-size: 26px;
+                cursor: pointer;
             }
         }
 
         .admin-main {
             height: calc(100vh - 40px);
+
             .user-pagination {
                 display: flex;
                 justify-content: center;

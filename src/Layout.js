@@ -35,6 +35,9 @@ import HomeStayUser from "./components/HomeStay/HomeStayUser";
 import DetailHome from "./components/HomeStay/DetailHome";
 import BookHome from "./components/HomeStay/BookHome";
 import ChangePass from "./components/Auth/ChangePass";
+import ManageMove from "./components/Admin/Move/ManageMoveAdmin";
+import Move from "./components/MoveUser/Move";
+import DetailMove from "./components/MoveUser/DetailMove";
 
 const Layout = (props) => {
     const role = useSelector(state => state.user.account.role);
@@ -50,6 +53,7 @@ const Layout = (props) => {
                     <Route path="shopping" element={<Shopping />} />
                     <Route path="homeStay" element={<HomeStayUser />} />
                     <Route path="food" element={<Food />} />
+                    <Route path="move" element={<Move />} />
                     <Route path="allEvents" element={<AllEvents />} />
                     <Route path="allNews" element={<AllNews />} />
                     <Route path="/news/:id" element={<DetailNews />} />
@@ -58,6 +62,7 @@ const Layout = (props) => {
                     <Route path="/discover/:id" element={<DetailDiscover />} />
                     <Route path="/shopping/:id" element={<DetailShopping />} />
                     <Route path="/homeStay/:id" element={<DetailHome />} />
+                    <Route path="/move/:id" element={<DetailMove />} />
                     <Route path="changePassword" element={<ChangePass />} />
 
                     <Route path="/bookingTour" element={<BookTour />} />
@@ -80,6 +85,7 @@ const Layout = (props) => {
                         <Route path="manage-tours" element={<ManageTour />} />
                         <Route path="manage-shops" element={<ManageShopping />} />
                         <Route path="manage-homestays" element={<ManageHomeStay />} />
+                        <Route path="manage-move" element={<ManageMove />} />
                         <Route path="manage-booking-home" element={<ManageBookingHome />} />
                         <Route path="manage-booking-tour" element={<ManageBookingTour />} />
                         <Route path="manage-booking-tour" element={<ManageBookingTour />} />

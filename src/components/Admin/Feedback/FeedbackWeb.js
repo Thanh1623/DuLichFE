@@ -58,6 +58,7 @@ const FeedbackWeb = () => {
                     <thead>
                         <tr>
                             <th scope="col">ID</th>
+                            <th scope="col">Email</th>
                             <th scope="col">Feedback</th>
                             <th scope="col">Action</th>
                         </tr>
@@ -70,6 +71,7 @@ const FeedbackWeb = () => {
                                     return (
                                         <tr key={`table-fb-${index}`}>
                                             <td>{item.feedback_id}</td>
+                                            <td>{item.email}</td>
                                             <td>{item.content}</td>
                                             <td>
                                                 <button className="btn btn-primary mx-1 my-1"

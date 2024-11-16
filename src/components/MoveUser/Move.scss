@@ -1,11 +1,11 @@
-.food-container {
-    .header-food {
+.move-container {
+    .header-move {
         display: flex;
         justify-content: space-between;
         padding-top: 10px;
     }
 
-    .content-food {
+    .content-move {
         display: flex;
         flex-wrap: wrap;
         margin-top: 20px;
@@ -17,7 +17,7 @@
             gap: 15px;
         }
 
-        .food-content-right {
+        .move-content-right {
             // display: flex;
             // flex-direction: column;
             // flex-wrap: wrap;

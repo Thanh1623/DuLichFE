@@ -28,6 +28,7 @@ const TableFoodAdmin = (props) => {
                         <th scope="col">Title</th>
                         <th scope="col">Time</th>
                         <th scope="col">Address</th>
+                        <th scope="col">Image</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
@@ -43,6 +44,12 @@ const TableFoodAdmin = (props) => {
                                         <td>{`${item.opening_hours} to ${item.closing_time}`}</td>
                                         <td>{item.address}</td>
                                         <td>
+                                            <img src={`data:image/jpeg;base64,${item.cuisines_image_base64}`} class="rounded mx-auto d-block" style={{maxWidth: '200px'}} alt="..."></img>
+                                        </td>
+                                        <td>
+                                            <button className="btn btn-info mx-1 my-1"
+                                                onClick={() => props.handleClickBtnView(item)}
+                                            >View</button>
                                             <button className="btn btn-success mx-1 my-1"
                                                 onClick={() => props.handleClickBtnUpdate(item)}
                                             >Update</button>

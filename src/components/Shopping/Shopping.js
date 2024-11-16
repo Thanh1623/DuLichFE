@@ -15,6 +15,8 @@ const Shopping = () => {
     const [listShoppingUser, setListShoppingUser] = useState([]);
     const navigate = useNavigate();
     const LIMIT = 3;
+    const [currentPage, setCurrentPage] = useState(1)
+
     const [pageCount, setPageCount] = useState(0);
     const [inputSearch, setInputSearch] = useState('');
     const [search, setSearch] = useState(false);
@@ -24,6 +26,13 @@ const Shopping = () => {
     useEffect(() => {
         fetchAllShoppingUser(1)
     }, [])
+    useEffect(() => {
+        if (inputSearch === '') {
+            fetchAllShoppingUser(1);
+            setSearch(false);
+            setCurrentPage(1)
+        }
+    }, [inputSearch])
 
     const fetchAllShoppingUser = async (page) => {
         let res = await getAllShoppingPaginate(page, LIMIT);
@@ -45,6 +54,8 @@ const Shopping = () => {
         if (!inputSearch) {
             setSearch(false);
             fetchAllShoppingUser(1)
+            setCurrentPage(1)
+
         }
     }
 
@@ -55,7 +66,7 @@ const Shopping = () => {
         if (search) {
             handleSearchShopping(+event.selected + 1)
         }
-        // setCurrentPage(+event.selected + 1);
+        setCurrentPage(+event.selected + 1);
         console.log(`User requested page number ${event.selected}`);
     };
 
@@ -63,7 +74,7 @@ const Shopping = () => {
     return (
         <div className="shopping-container container">
             <div className="header-shopping">
-                <div>Trang chủ</div>
+                <div onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>Trang chủ</div>
                 <div className='text-success'>Kết quả: {listShoppingUser.length}</div>
             </div>
             <div className="content-shopping">
@@ -205,7 +216,7 @@ const Shopping = () => {
                             containerClassName="pagination"
                             activeClassName="active"
                             renderOnZeroPageCount={null}
-                        // forcePage={currentPage - 1}
+                            forcePage={currentPage - 1}
                         />
                     </div>
                 </div>

@@ -63,7 +63,7 @@ const SideBar = (props) => {
                             title='User'
                         >
                             <MenuItem >
-                                Quản lý Users
+                                Manage Users
                                 <Link to={'/admin/manage-users'} />
                             </MenuItem>
 
@@ -91,12 +91,12 @@ const SideBar = (props) => {
                             title='Events-News'
                         >
                             <MenuItem>
-                                Quản lý tin tức
+                                Manage news
                                 <Link to={'/admin/manage-news'} />
                             </MenuItem>
                             <MenuItem>
                                 <Link to={'/admin/manage-events'} />
-                                Quản lý sự kiện
+                                Manage event
                             </MenuItem>
                         </SubMenu>
                     </Menu>
@@ -106,20 +106,24 @@ const SideBar = (props) => {
                             title='Service'
                         >
                             <MenuItem>
-                                Ẩm thực
+                                Food
                                 <Link to={'/admin/manage-foods'} />
                             </MenuItem>
                             <MenuItem>
-                                Du lịch
+                                Tour
                                 <Link to={'/admin/manage-tours'} />
                             </MenuItem>
                             <MenuItem>
-                                Mua sắm
+                                Shopping
                                 <Link to={'/admin/manage-shops'} />
                             </MenuItem>
                             <MenuItem>
                                 HomeStay
                                 <Link to={'/admin/manage-homestays'} />
+                            </MenuItem>
+                            <MenuItem>
+                                Move
+                                <Link to={'/admin/manage-move'} />
                             </MenuItem>
                         </SubMenu>
                     </Menu>
@@ -129,7 +133,7 @@ const SideBar = (props) => {
                             title='Feed back'
                         >
                             <MenuItem>
-                                  Feedback Web
+                                Feedback Web
                                 <Link to={'/admin/admin-feedback'} />
                             </MenuItem>
                         </SubMenu>

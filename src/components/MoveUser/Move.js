@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import bistro from '../../assets/bistro.jpg';
-import './Food.scss'
-import { getAllFoods, getAllFoodsPaginate } from '../../Service/apiServices';
+import './Move.scss'
+import { getAllFoods, getAllFoodsPaginate, getAllMovePaginate } from '../../Service/apiServices';
 import { useNavigate } from 'react-router-dom';
 import ReactPaginate from "react-paginate";
-import { searchFood } from '../../Service/userService';
+import { searchFood, searchMove } from '../../Service/userService';
 
 
-const Food = (props) => {
-    const [listFoodUser, setListFoodUser] = useState([]);
+const Move = (props) => {
+    const [listMoveUser, setListMoveUser] = useState([]);
     const navigate = useNavigate();
     const LIMIT = 3;
     const [currentPage, setCurrentPage] = useState(1)
@@ -17,60 +17,62 @@ const Food = (props) => {
     const [search, setSearch] = useState(false);
 
     useEffect(() => {
-        fetchAllFoodUser(1)
+        fetchAllMoveUser(1)
     }, [])
 
     useEffect(() => {
         if (inputSearch === '') {
-            fetchAllFoodUser(1);
+            fetchAllMoveUser(1);
             setSearch(false);
             setCurrentPage(1)
+
         }
     }, [inputSearch])
 
-    const fetchAllFoodUser = async (page) => {
-        let data = await getAllFoodsPaginate(page, LIMIT);
+    const fetchAllMoveUser = async (page) => {
+        let data = await getAllMovePaginate(page, LIMIT);
         if (data && data.code === 201) {
-            setListFoodUser(data.result);
+            setListMoveUser(data.result);
             setPageCount(data.totalpage);
         }
     }
     const handlePageClick = (event) => {
 
         if (!search) {
-            fetchAllFoodUser(+event.selected + 1);
+            fetchAllMoveUser(+event.selected + 1);
         }
         if (search) {
-            handleSearchFood(+event.selected + 1)
+            handleSearchMove(+event.selected + 1)
         }
 
         setCurrentPage(+event.selected + 1);
         console.log(`User requested page number ${event.selected}`);
     };
-    const handleSearchFood = async (page) => {
+    const handleSearchMove = async (page) => {
         if (inputSearch) {
-            let res = await searchFood(page, 3, inputSearch)
+            let res = await searchMove(page, 3, inputSearch)
             if (res && res.code === 201) {
-                setListFoodUser(res.result)
+                setListMoveUser(res.result)
                 setSearch(true);
                 setPageCount(res.totalpage);
             }
         }
         if (!inputSearch) {
             setSearch(false);
-            fetchAllFoodUser(1);
+            fetchAllMoveUser(1);
             setCurrentPage(1)
+
         }
     }
 
     return (
         <>
-            <div className="food-container container">
-                <div className="header-food">
-                    <div onClick={() => navigate('/')} style={{cursor: 'pointer'}}>Trang chủ</div>
-                    <div>Kết quả: {listFoodUser.length}</div>
+            <div className="move-container container">
+                <div className="header-move">
+                    <div onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>Trang chủ</div>
+                    <div>Kết quả: {listMoveUser.length}</div>
                 </div>
-                <div className="content-food">
+                <div className="content-move">
                     <div className="list-group">
                         <div className="area list-group-item list-group-item-action">
                             <div className="title">
@@ -152,33 +154,33 @@ const Food = (props) => {
                                     <label className="form-label" for="form1">Search</label>
                                 </div>
                                 <button id="search-button" type="button" className="btn btn-primary"
-                                    onClick={() => handleSearchFood()}
+                                    onClick={() => handleSearchMove()}
                                 >
                                     <i className="fas fa-search"></i>
                                 </button>
                             </div>
                         </div>
                     </div>
-                    <div className='food-content-right'>
+                    <div className='move-content-right'>
 
                         {
-                            listFoodUser && listFoodUser.length > 0 &&
-                            listFoodUser.map((item, index) => {
+                            listMoveUser && listMoveUser.length > 0 &&
+                            listMoveUser.map((item, index) => {
                                 return (
-                                    <div className="card mb-3 content-right " key={`food-${index}`}>
+                                    <div className="card mb-3 content-right " key={`move-${index}`}>
                                         <div className="row g-0" >
                                             <div className="col-md-4">
-                                                <img src={`data:image/jpeg;base64,${item.cuisines_image_base64}`} className="img-fluid rounded-start" alt="..." />
+                                                <img src={`data:image/jpeg;base64,${item.moves_image_base64}`} className="img-fluid rounded-start" alt="..." />
                                             </div>
                                             <div className="col-md-8 content"
-                                                onClick={() => navigate(`/food/${item.cuisines_id}`)}
+                                                onClick={() => navigate(`/move/${item.moves_id}`)}
                                             >
                                                 <div className="card-body">
                                                     <h5 className="card-title">{item.title}</h5>
                                                     <p className="card-text">{item.address}</p>
                                                     <p className="card-text text-end">
                                                         <small className="text-muted text-time">
-                                                            {item.opening_hours} to {item.closing_time}
+                                                            {item.type_vehicle}
                                                         </small>
                                                     </p>
                                                 </div>
@@ -217,4 +219,4 @@ const Food = (props) => {
         </>
     )
 }
-export default Food;
+export default Move;

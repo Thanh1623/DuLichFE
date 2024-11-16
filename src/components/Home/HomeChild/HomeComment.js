@@ -7,6 +7,8 @@ import { ToastContainer, toast } from 'react-toastify';
 
 const HomeComment = (props) => {
 
+    const isAuthenticated = useSelector(state => state.user.isAuthenticated);
+
     const [content, setContent] = useState('');
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -43,7 +45,7 @@ const HomeComment = (props) => {
                 <div>
                     <div className="mb-3">
                         <label htmlFor="exampleInputEmail1" className="form-label">Họ tên</label>
-                        <input type="text" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" 
+                        <input type="text" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
                             value={name}
                             onChange={(event) => setName(event.target.value)}
                         />
@@ -62,9 +64,17 @@ const HomeComment = (props) => {
                             onChange={(event) => setContent(event.target.value)}
                         />
                     </div>
-                    <button className="btn btn-primary"
-                        onClick={() => handleFeedBackWeb()}
-                    >Gửi</button>
+                    {
+                        isAuthenticated === true ?
+                            <button className="btn btn-primary"
+                                onClick={() => handleFeedBackWeb()}
+                            >Gửi</button>
+                            :
+                            <div style={{color: 'red'}}>
+                                * Đăng nhập để đánh giá
+                            </div>
+                    }
+
                 </div>
             </div>
             <div className='faq-body'>

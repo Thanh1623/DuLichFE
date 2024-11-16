@@ -65,6 +65,10 @@ const getAllEvents = () => {
     return axios.get(`/api/events`)
 }
 
+const searchEvents = (page, limit, title) => {
+    return axios.get(`/api/events/search?limit=${limit}&page=${page}&title=${title}`)
+}
+
 const getAllEventsPaginate = (page, limit) => {
     return axios.get(`/api/events?limit=${limit}&page=${page}`)
 }
@@ -97,6 +101,10 @@ const getAllNews = () => {
 
 const getAllNewsPaginate = (page, limit) => {
     return axios.get(`/api/news?limit=${limit}&page=${page}`)
+}
+
+const searchNews = (page, limit, title) => {
+    return axios.get(`/api/news/search?limit=${limit}&page=${page}&title=${title}`)
 }
 
 const postCreateNew = (title, image, contentMarkdown, contentHTML, view) => {
@@ -365,12 +373,53 @@ const postReview = (data) => {
     return axios.post(`/api/reviews/`, { ...data })
 }
 
+// MOVE
+const getAllMovePaginate = (page, limit) => {
+    return axios.get(`/api/moves?limit=${limit}&page=${page}`)
+}
+
+const searchMove = (page, limit, title) => {
+    return axios.get(`/api/moves/search?limit=${limit}&page=${page}&title=${title}`)
+}
+const postCreateMove = (title, address, contentHTML, contentMarkdown, type, image, map) => {
+    const data = new FormData();
+    data.append('title', title);
+    data.append('address', address);
+    data.append('ContentHTML', contentHTML);
+    data.append('ContentMarkDown', contentMarkdown);
+    data.append('type_vehicle', type);
+    data.append('description', type);
+    data.append('moves_image', image);
+    data.append('content_image', image);
+    data.append('map', map);
+
+    return axios.post(`/api/moves`, data)
+}
+
+const deleteMove = (idMove) => {
+    return axios.delete(`/api/moves/${idMove}`)
+}
+
+const putMove = (idMove,title, address, contentHTML, contentMarkdown, type, image, map) => {
+    const data = new FormData();
+    data.append('title', title);
+    data.append('address', address);
+    data.append('ContentHTML', contentHTML);
+    data.append('ContentMarkDown', contentMarkdown);
+    data.append('type_vehicle', type);
+    data.append('description', type);
+    data.append('moves_image', image);
+    data.append('content_image', image);
+    data.append('map', map);
+
+    return axios.put(`/api/moves/${idMove}`, data)
+}
 
 
 export {
     postCreateUser, getAllUsers, putUsers, deleteUsers, getAllUsersPaginate,
-    postCreateEvent, getAllEvents, deleteEvent, putEvent, getAllEventsPaginate,
-    getAllNews, postCreateNew, deleteNew, putNews, getAllNewsPaginate,
+    postCreateEvent, getAllEvents, deleteEvent, putEvent, getAllEventsPaginate, searchEvents,
+    getAllNews, postCreateNew, deleteNew, putNews, getAllNewsPaginate, searchNews,
     getAllFoods, postCreateFood, deleteFood, putFood, getAllFoodsPaginate,
     getAllTours, postCreateTour, deleteTour, putTour, getAllToursPaginate,
     getAllShopping, postCreateShopping, deleteShopping, putShopping, getAllShoppingPaginate,
@@ -378,5 +427,7 @@ export {
     getFeedbackWebPaginate,
     getBookTourHomePaginate, UpdateBookTour, TourPaginate, HomePaginate, UpdateBookHome,
     getIntro, putIntro,
-    postReview
+    postReview,
+    getAllMovePaginate, postCreateMove, deleteMove, putMove, searchMove
+
 }

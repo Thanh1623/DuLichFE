@@ -20,6 +20,7 @@ const TableHomeStayAdmin = (props) => {
         console.log(`User requested page number ${event.selected}`);
     };
 
+    const [type, setType] = useState('');
 
     return (
         <>
@@ -29,6 +30,9 @@ const TableHomeStayAdmin = (props) => {
                         <th scope="col">ID</th>
                         <th scope="col">Title</th>
                         <th scope="col">Address</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Image</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
@@ -42,7 +46,15 @@ const TableHomeStayAdmin = (props) => {
                                         <td>{item.homestay_id}</td>
                                         <td>{item.title}</td>
                                         <td>{item.address}</td>
+                                        <td>{item.price}$</td>
+                                        <td>{+item.type_bed === 0 ? "Hết phòng" : "Còn phòng"}</td>
                                         <td>
+                                            <img src={`data:image/jpeg;base64,${item.homestay_image_base64}`} className="rounded mx-auto d-block" style={{ maxWidth: '200px' }} alt="..."></img>
+                                        </td>
+                                        <td>
+                                            <button className="btn btn-info mx-1 my-1"
+                                                onClick={() => props.handleClickBtnView(item)}
+                                            >View</button>
                                             <button className="btn btn-success mx-1 my-1"
                                                 onClick={() => props.handleClickBtnUpdate(item)}
                                             >Update</button>

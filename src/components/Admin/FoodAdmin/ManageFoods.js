@@ -5,6 +5,7 @@ import TableFoodAdmin from "./TableFoodAdmin";
 import ModalDeleteFood from "./ModalDeleteFood";
 import ModalUpdateFood from "./ModalUpdateFood";
 import { searchFood } from "../../../Service/userService";
+import ModalViewFood from "./ModalViewFood";
 
 
 const ManageFoods = () => {
@@ -16,6 +17,9 @@ const ManageFoods = () => {
 
     const [showModalCreateUser, setShowModalCreateUser] = useState(false);
     const [showModalUpdateUser, setShowModalUpdateUser] = useState(false);
+    const [showModalView, setShowModalView] = useState(false);
+
+    const [dataView, setDataView] = useState({});
 
 
     const [dataUpdate, setDataUpdate] = useState({});
@@ -36,6 +40,7 @@ const ManageFoods = () => {
         if (inputSearch === '') {
             fetchListFoodsWithPaginate(1);
             setSearch(false);
+            setCurrentPage(1);
         }
     }, [inputSearch])
 
@@ -57,7 +62,8 @@ const ManageFoods = () => {
         }
         if (!inputSearch) {
             setSearch(false);
-            fetchListFoodsWithPaginate(1)
+            fetchListFoodsWithPaginate(1);
+            setCurrentPage(1);
         }
     }
 
@@ -72,6 +78,10 @@ const ManageFoods = () => {
     const handleClickBtnUpdate = (user) => {
         setShowModalUpdateUser(true);
         setDataUpdate(user);
+    }
+    const handleClickBtnView = (user) => {
+        setShowModalView(true);
+        setDataView(user);
     }
 
     const resetUpdateData = () => {
@@ -118,6 +128,7 @@ const ManageFoods = () => {
                         listFoods={listFoods}
                         handleClickBtnUpdate={handleClickBtnUpdate}
                         handleClickBtnDelete={handleClickBtnDelete}
+                        handleClickBtnView={handleClickBtnView}
                         fetchListFoodsWithPaginate={fetchListFoodsWithPaginate}
                         pageCount={pageCount}
                         currentPage={currentPage}
@@ -139,6 +150,18 @@ const ManageFoods = () => {
                     show={showModalUpdateUser}
                     setShow={setShowModalUpdateUser}
                     dataUpdate={dataUpdate}
+                    fetchListFood={fetchListFood}
+                    resetUpdateData={resetUpdateData}
+                    fetchListFoodsWithPaginate={fetchListFoodsWithPaginate}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                    search={search}
+                    handleSearchFood={handleSearchFood}
+                />
+                <ModalViewFood
+                    show={showModalView}
+                    setShow={setShowModalView}
+                    dataView={dataView}
                     fetchListFood={fetchListFood}
                     resetUpdateData={resetUpdateData}
                     fetchListFoodsWithPaginate={fetchListFoodsWithPaginate}

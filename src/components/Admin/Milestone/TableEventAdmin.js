@@ -4,11 +4,19 @@ import ReactDOM from 'react-dom';
 
 const TableEventAdmin = (props) => {
 
-    const { listEvents, pageCount } = props;
+    const { listEvents, pageCount, search } = props;
 
     const handlePageClick = (event) => {
-        props.fetchListEventsWithPaginate(+event.selected + 1)
-        props.setCurrentPage(+event.selected + 1);
+        if (!search) {
+            props.fetchListEventsWithPaginate(+event.selected + 1)
+            props.setCurrentPage(+event.selected + 1);
+        }
+        if (search) {
+            props.handleSearchEvent(+event.selected + 1);
+            props.setCurrentPage(+event.selected + 1);
+        }
+        // props.fetchListEventsWithPaginate(+event.selected + 1)
+        // props.setCurrentPage(+event.selected + 1);
         console.log(`User requested page number ${event.selected}`);
     };
 
@@ -38,6 +46,8 @@ const TableEventAdmin = (props) => {
                         <th scope="col">Title</th>
                         <th scope="col">Start time</th>
                         <th scope="col">End time</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Image</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
@@ -52,7 +62,14 @@ const TableEventAdmin = (props) => {
                                         <td>{item.title}</td>
                                         <td>{item.opening_hours_event}</td>
                                         <td>{item.closing_time_event}</td>
+                                        <td>{item.description}</td>
                                         <td>
+                                            <img src={`data:image/jpeg;base64,${item.eventimg_url}`} class="rounded mx-auto d-block" style={{ maxWidth: '200px' }} alt="..."></img>
+                                        </td>
+                                        <td>
+                                            <button className="btn btn-info mx-1 my-1"
+                                                onClick={() => props.handleClickBtnView(item)}
+                                            >View</button>
                                             <button className="btn btn-success mx-1 my-1"
                                                 onClick={() => props.handleClickBtnUpdate(item)}
                                             >Update</button>

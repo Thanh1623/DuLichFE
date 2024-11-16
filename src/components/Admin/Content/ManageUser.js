@@ -8,6 +8,7 @@ import ModalUpdateUser from "./ModalUpdateUser";
 import ModalDeleteUser from "./ModalDeleteUser";
 import TableUserPaginate from "./TableUserPaginate";
 import { getAllUsers, getAllUsersPaginate } from "../../../Service/apiServices";
+import ModalViewUser from "./ModalViewUser";
 
 
 const ManageUser = (props) => {
@@ -18,7 +19,9 @@ const ManageUser = (props) => {
 
     const [showModalCreateUser, setShowModalCreateUser] = useState(false);
     const [showModalUpdateUser, setShowModalUpdateUser] = useState(false);
+    const [showModalViewUser, setShowModalViewUser] = useState(false);
 
+    const [dataView, setDataView] = useState({});
 
     const [dataUpdate, setDataUpdate] = useState({});
 
@@ -52,6 +55,10 @@ const ManageUser = (props) => {
         setShowModalUpdateUser(true);
         setDataUpdate(user);
     }
+    const handleClickBtnView = (user) => {
+        setShowModalViewUser(true);
+        setDataView(user);
+    }
 
     const resetUpdateData = () => {
         setDataUpdate({});
@@ -84,6 +91,7 @@ const ManageUser = (props) => {
                         listUsers={listUsers}
                         handleClickBtnUpdate={handleClickBtnUpdate}
                         handleClickBtnDelete={handleClickBtnDelete}
+                        handleClickBtnView={handleClickBtnView}
                         fetchListUsers={fetchListUsers}
                         fetchListUsersWithPaginate={fetchListUsersWithPaginate}
                         pageCount={pageCount}
@@ -113,6 +121,15 @@ const ManageUser = (props) => {
                     show={showModalDeleteUser}
                     setShow={setShowModalDeleteUser}
                     dataDelete={dataDelete}
+                    fetchListUsers={fetchListUsers}
+                    fetchListUsersWithPaginate={fetchListUsersWithPaginate}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                />
+                <ModalViewUser
+                    show={showModalViewUser}
+                    setShow={setShowModalViewUser}
+                    dataView={dataView}
                     fetchListUsers={fetchListUsers}
                     fetchListUsersWithPaginate={fetchListUsersWithPaginate}
                     currentPage={currentPage}

@@ -13,9 +13,9 @@ import { putEvent } from '../../../Service/apiServices';
 
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
-function ModalUpdateEvent(props) {
+function ModalViewEvent(props) {
     const { show, setShow } = props;
-    const { dataUpdate } = props;
+    const { dataView } = props;
 
     const handleClose = () => {
         setShow(false);
@@ -107,26 +107,26 @@ function ModalUpdateEvent(props) {
     }
 
     useEffect(() => {
-        if (!_.isEmpty(dataUpdate)) {
-            console.log('dataUpdate: ', dataUpdate);
+        if (!_.isEmpty(dataView)) {
+            console.log('dataView: ', dataView);
 
-            setContentMarkdown(dataUpdate.ContentMarkDown);
-            setContentHTML(dataUpdate.ContentHTML);
-            setTitle(dataUpdate.title);
-            setAddress(dataUpdate.description);
-            setMap(dataUpdate.content);
-            setValueOpen(dataUpdate.opening_hours_event);
-            setValueClose(dataUpdate.closing_time_event);
+            setContentMarkdown(dataView.ContentMarkDown);
+            setContentHTML(dataView.ContentHTML);
+            setTitle(dataView.title);
+            setAddress(dataView.description);
+            setMap(dataView.content);
+            setValueOpen(dataView.opening_hours_event);
+            setValueClose(dataView.closing_time_event);
 
-            setImageTitle(base64ToFile(`data:image/jpeg;base64,${dataUpdate.eventimg_url}`));
+            setImageTitle(base64ToFile(`data:image/jpeg;base64,${dataView.eventimg_url}`));
 
 
-            setImageP(`data:image/jpeg;base64,${dataUpdate.eventimg_url}`);
+            setImageP(`data:image/jpeg;base64,${dataView.eventimg_url}`);
             setDataImagePreview({
-                url: `data:image/jpeg;base64,${dataUpdate.eventimg_url}`,
+                url: `data:image/jpeg;base64,${dataView.eventimg_url}`,
             })
         }
-    }, [dataUpdate])
+    }, [dataView])
     const handleEditorChange = ({ html, text }) => {
         // console.log('handleEditorChange', html, text);
         setContentHTML(html);
@@ -173,7 +173,7 @@ function ModalUpdateEvent(props) {
         const validation = validate();
 
         if (validation === true) {
-            let data = await putEvent(dataUpdate.event_id, title, valueOpen, valueClose, imageTitle, contentMarkdown, contentHTML,
+            let data = await putEvent(dataView.event_id, title, valueOpen, valueClose, imageTitle, contentMarkdown, contentHTML,
                 map, address, view
             )
             if (data && data.code === 201) {
@@ -207,7 +207,7 @@ function ModalUpdateEvent(props) {
                 className='modal-add-user'
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Update a event</Modal.Title>
+                    <Modal.Title>Update a user</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className='col-12 row'>
@@ -216,19 +216,20 @@ function ModalUpdateEvent(props) {
                             <textarea className="form-control" rows="3"
                                 value={title}
                                 onChange={(event) => setTitle(event.target.value)}
+                                disabled
                             ></textarea>
                             {validationErrors.title && <span className="text-danger">{validationErrors.title}</span>}
 
                         </div>
                         <div className="mb-3 col-5">
                             <label className="form-label">Open time: </label>
-                            <TimePicker onChange={setValueOpen} value={valueOpen} />
+                            <TimePicker onChange={setValueOpen} value={valueOpen} disabled />
                             {validationErrors.valueOpen && <span className="text-danger">{validationErrors.valueOpen}</span>}
 
                         </div>
                         <div className="mb-3 col-5">
                             <label className="form-label">Close time: </label>
-                            <TimePicker onChange={setValueClose} value={valueClose} />
+                            <TimePicker onChange={setValueClose} value={valueClose} disabled />
                             {validationErrors.valueClose && <span className="text-danger">{validationErrors.valueClose}</span>}
 
                         </div>
@@ -236,6 +237,7 @@ function ModalUpdateEvent(props) {
                             <label className="form-label">Image title: </label>
                             <input className="form-control" type='file'
                                 onChange={(event) => handleOnchangeFile(event)}
+                                disabled
                             ></input>
                             {validationErrors.imageTitle && <span className="text-danger">{validationErrors.imageTitle}</span>}
 
@@ -250,6 +252,7 @@ function ModalUpdateEvent(props) {
                             <input type='text' placeholder='VD: 136 Xuân Thủy, Cầu Giấy, Hà Nội' className="form-control"
                                 value={address}
                                 onChange={(event) => setAddress(event.target.value)}
+                                disabled
                             ></input>
                             {validationErrors.address && <span className="text-danger">{validationErrors.address}</span>}
 
@@ -259,12 +262,15 @@ function ModalUpdateEvent(props) {
                             <textarea className="form-control" rows="2"
                                 value={map}
                                 onChange={(event) => setMap(event.target.value)}
+                                disabled
                             ></textarea>
                             {validationErrors.map && <span className="text-danger">{validationErrors.map}</span>}
 
                         </div>
                         <div>
-                            <MdEditor style={{ height: '500px' }} renderHTML={text => mdParser.render(text)} onChange={handleEditorChange} value={contentMarkdown} />
+                            <MdEditor style={{ height: '500px' }} renderHTML={text => mdParser.render(text)} onChange={handleEditorChange} value={contentMarkdown}
+                                readOnly
+                            />
                             {validationErrors.content && <span className="text-danger">{validationErrors.content}</span>}
 
                         </div>
@@ -283,13 +289,13 @@ function ModalUpdateEvent(props) {
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={() => handleSubmitUpdateEvent()}>
+                    {/* <Button variant="primary" onClick={() => handleSubmitUpdateEvent()}>
                         Save
-                    </Button>
+                    </Button> */}
                 </Modal.Footer>
             </Modal>
         </>
     );
 }
 
-export default ModalUpdateEvent;
+export default ModalViewEvent;

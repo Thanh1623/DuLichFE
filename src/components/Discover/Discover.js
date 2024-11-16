@@ -13,7 +13,7 @@ const Discover = () => {
     const [listDiscoverUser, setListDiscoverUser] = useState([]);
     const navigate = useNavigate();
     const LIMIT = 3;
-
+    const [currentPage, setCurrentPage] = useState(1)
     const [pageCount, setPageCount] = useState(0);
     const [inputSearch, setInputSearch] = useState('');
     const [search, setSearch] = useState(false);
@@ -22,12 +22,13 @@ const Discover = () => {
     useEffect(() => {
         fetchAllDiscoverUser(1)
     }, [])
-    useEffect(()=>{
-        if (inputSearch==='') {
+    useEffect(() => {
+        if (inputSearch === '') {
             fetchAllDiscoverUser(1);
             setSearch(false);
+            setCurrentPage(1)
         }
-    },[inputSearch])
+    }, [inputSearch])
 
     const fetchAllDiscoverUser = async (page) => {
         let res = await getAllToursPaginate(page, LIMIT);
@@ -49,11 +50,12 @@ const Discover = () => {
         if (!inputSearch) {
             setSearch(false);
             fetchAllDiscoverUser(1)
+            setCurrentPage(1)
         }
     }
 
     const handlePageClick = (event) => {
-        
+
         if (!search) {
             fetchAllDiscoverUser(+event.selected + 1);
         }
@@ -61,7 +63,7 @@ const Discover = () => {
             handleSearchDiscover(+event.selected + 1)
         }
 
-        // setCurrentPage(+event.selected + 1);
+        setCurrentPage(+event.selected + 1);
         console.log(`User requested page number ${event.selected}`);
     };
 
@@ -70,7 +72,7 @@ const Discover = () => {
     return (
         <div className="discover-container container">
             <div className="header-discover">
-                <div>Trang chủ</div>
+                <div onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>Trang chủ</div>
                 <div className='text-success'>Kết quả: {listDiscoverUser.length}</div>
             </div>
             <div className="content-discover">
@@ -212,7 +214,7 @@ const Discover = () => {
                             containerClassName="pagination"
                             activeClassName="active"
                             renderOnZeroPageCount={null}
-                        // forcePage={currentPage - 1}
+                            forcePage={currentPage - 1}
                         />
                     </div>
                 </div>

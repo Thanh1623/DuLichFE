@@ -5,6 +5,7 @@ import TableHomeStayAdmin from "./TableHomeAdmin";
 import ModalDeleteHomeStay from "./ModalDeleteHome";
 import ModalUpdateHomeStay from "./ModalUpdateHome";
 import { searchHome } from "../../../Service/userService";
+import ModalViewHomeStay from "./ModalViewHome";
 
 
 const ManageHomeStay = () => {
@@ -16,6 +17,9 @@ const ManageHomeStay = () => {
 
     const [showModalCreateUser, setShowModalCreateUser] = useState(false);
     const [showModalUpdateUser, setShowModalUpdateUser] = useState(false);
+    const [showModalView, setShowModalView] = useState(false);
+
+    const [dataView, setDataView] = useState({});
 
 
     const [dataUpdate, setDataUpdate] = useState({});
@@ -37,6 +41,7 @@ const ManageHomeStay = () => {
         if (inputSearch === '') {
             fetchListHomesWithPaginate(1);
             setSearch(false);
+            setCurrentPage(1);
         }
     }, [inputSearch])
 
@@ -57,7 +62,8 @@ const ManageHomeStay = () => {
         }
         if (!inputSearch) {
             setSearch(false);
-            fetchListHomesWithPaginate(1)
+            fetchListHomesWithPaginate(1);
+            setCurrentPage(1);
         }
     }
 
@@ -72,6 +78,10 @@ const ManageHomeStay = () => {
     const handleClickBtnUpdate = (user) => {
         setShowModalUpdateUser(true);
         setDataUpdate(user);
+    }
+    const handleClickBtnView = (user) => {
+        setShowModalView(true);
+        setDataView(user);
     }
 
     const resetUpdateData = () => {
@@ -117,6 +127,7 @@ const ManageHomeStay = () => {
                         listHomeStay={listHomeStay}
                         handleClickBtnUpdate={handleClickBtnUpdate}
                         handleClickBtnDelete={handleClickBtnDelete}
+                        handleClickBtnView={handleClickBtnView}
                         fetchListHomesWithPaginate={fetchListHomesWithPaginate}
                         pageCount={pageCount}
                         currentPage={currentPage}
@@ -146,6 +157,19 @@ const ManageHomeStay = () => {
                     search={search}
                     handleSearchHome={handleSearchHome}
                 />
+                <ModalViewHomeStay
+                    show={showModalView}
+                    setShow={setShowModalView}
+                    dataView={dataView}
+                    fetchListHomeStay={fetchListHomeStay}
+                    resetUpdateData={resetUpdateData}
+                    fetchListHomesWithPaginate={fetchListHomesWithPaginate}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                    search={search}
+                    handleSearchHome={handleSearchHome}
+                />
+                
             </div>
         </>
     )

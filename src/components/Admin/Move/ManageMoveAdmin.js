@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
-import { getAllFoods, getAllTours, getAllToursPaginate } from "../../../Service/apiServices";
-import ModalCreateTour from "./ModalCreateTour";
-import TableTourAdmin from "./TableTourAdmin";
-import ModalDeleteTour from "./ModalDeleteTour";
-import ModalUpdateTour from "./ModalUpdateTour";
-import { searchDiscover } from "../../../Service/userService";
-import ModalViewTour from "./ModalViewTour";
+import { getAllFoods, getAllMovePaginate, getAllShopping, getAllShoppingPaginate, searchMove } from "../../../Service/apiServices";
+
+import { searchShopping } from "../../../Service/userService";
+import ModalCreateMove from "./ModalCreateMove";
+import TableMove from "./TableMove";
+import ModalDeleteMove from './ModalDeleteMove'
+import ModalUpdateMove from './ModalUpdateMove';
+import ModalViewMove from './ModalViewMove';
 
 
 
-
-const ManageTour = () => {
+const ManageMove = () => {
 
     const LIMIT = 3;
 
@@ -24,56 +24,54 @@ const ManageTour = () => {
     const [dataView, setDataView] = useState({});
 
 
-
     const [dataUpdate, setDataUpdate] = useState({});
 
     const [showModalDeleteUser, setShowModalDeleteUser] = useState(false);
     const [dataDelete, setDataDelete] = useState({});
 
-    const [listTours, setListTours] = useState([]);
+    const [listMove, setListMove] = useState([]);
 
     const [inputSearch, setInputSearch] = useState('');
     const [search, setSearch] = useState(false);
 
     useEffect(() => {
-        // fetchListTours();
-        fetchListToursWithPaginate(1);
+        // fetchListShop();
+        fetchListMoveWithPaginate(1);
     }, [])
     useEffect(() => {
         if (inputSearch === '') {
-            fetchListToursWithPaginate(1);
+            fetchListMoveWithPaginate(1);
             setSearch(false);
             setCurrentPage(1);
         }
     }, [inputSearch])
 
-    const fetchListTours = async () => {
-        // let res = await getAllTours();
+    const fetchListShop = async () => {
+        // let res = await getAllShopping();
         // if (res && res.code === 201) {
-        //     setListTours(res.result)
+        //     setListMove(res.result)
         // }
     }
-
-    const handleSearchTour = async (page) => {
+    const handleSearchMove = async (page) => {
         if (inputSearch) {
-            let res = await searchDiscover(page, 3, inputSearch)
+            let res = await searchMove(page, 3, inputSearch)
             if (res && res.code === 201) {
-                setListTours(res.result)
+                setListMove(res.result)
                 setSearch(true);
                 setPageCount(res.totalpage);
             }
         }
         if (!inputSearch) {
             setSearch(false);
-            fetchListToursWithPaginate(1);
+            fetchListMoveWithPaginate(1);
             setCurrentPage(1);
         }
     }
 
-    const fetchListToursWithPaginate = async (page) => {
-        let res = await getAllToursPaginate(page, LIMIT);
+    const fetchListMoveWithPaginate = async (page) => {
+        let res = await getAllMovePaginate(page, LIMIT);
         if (res.code === 201) {
-            setListTours(res.result);
+            setListMove(res.result);
             setPageCount(res.totalpage);
         }
     }
@@ -100,12 +98,13 @@ const ManageTour = () => {
         <>
             <div className="admin-food-container container">
                 <div className="title">
-                    Manage Tour
+                    Manage Shopping
                 </div>
-                <ModalCreateTour
+                <ModalCreateMove
+                    fetchListShop={fetchListShop}
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
-                    fetchListToursWithPaginate={fetchListToursWithPaginate}
+                    fetchListMoveWithPaginate={fetchListMoveWithPaginate}
                 />
                 <div className="d-flex justify-content-end mb-3">
                     <div className="input-group" style={{ maxWidth: '300px', border: '1px solid #3b71ca', borderRadius: '5px' }}>
@@ -119,63 +118,62 @@ const ManageTour = () => {
 
                         </div>
                         <button id="search-button" type="button" className="btn btn-primary"
-                            onClick={() => handleSearchTour()}
+                            onClick={() => handleSearchMove()}
                         >
                             <i className="fas fa-search"></i>
                         </button>
                     </div>
                 </div>
                 <div>
-
-                    <TableTourAdmin
-                        listTours={listTours}
+                    <TableMove
+                        listMove={listMove}
                         handleClickBtnUpdate={handleClickBtnUpdate}
                         handleClickBtnDelete={handleClickBtnDelete}
                         handleClickBtnView={handleClickBtnView}
-                        fetchListToursWithPaginate={fetchListToursWithPaginate}
+                        fetchListMoveWithPaginate={fetchListMoveWithPaginate}
                         pageCount={pageCount}
                         currentPage={currentPage}
                         setCurrentPage={setCurrentPage}
                         search={search}
-                        handleSearchTour={handleSearchTour}
+                        handleSearchMove={handleSearchMove}
                     />
                 </div>
-                <ModalDeleteTour
+                <ModalDeleteMove
                     show={showModalDeleteUser}
                     setShow={setShowModalDeleteUser}
                     dataDelete={dataDelete}
-                    fetchListTours={fetchListTours}
-                    fetchListToursWithPaginate={fetchListToursWithPaginate}
+                    fetchListShop={fetchListShop}
+                    fetchListMoveWithPaginate={fetchListMoveWithPaginate}
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
                 />
-                <ModalUpdateTour
+                <ModalUpdateMove
                     show={showModalUpdateUser}
                     setShow={setShowModalUpdateUser}
                     dataUpdate={dataUpdate}
-                    fetchListTours={fetchListTours}
+                    fetchListShop={fetchListShop}
                     resetUpdateData={resetUpdateData}
-                    fetchListToursWithPaginate={fetchListToursWithPaginate}
+                    fetchListMoveWithPaginate={fetchListMoveWithPaginate}
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
                     search={search}
-                    handleSearchTour={handleSearchTour}
+                    handleSearchMove={handleSearchMove}
                 />
-                <ModalViewTour
+                <ModalViewMove
                     show={showModalView}
                     setShow={setShowModalView}
                     dataView={dataView}
-                    fetchListTours={fetchListTours}
+                    fetchListShop={fetchListShop}
                     resetUpdateData={resetUpdateData}
-                    fetchListToursWithPaginate={fetchListToursWithPaginate}
+                    fetchListMoveWithPaginate={fetchListMoveWithPaginate}
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
                     search={search}
-                    handleSearchTour={handleSearchTour}
+                    handleSearchMove={handleSearchMove}
                 />
             </div>
         </>
     )
 }
 
-export default ManageTour;
+export default ManageMove;

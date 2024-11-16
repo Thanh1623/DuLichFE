@@ -55,6 +55,9 @@ const MenuHeader = (props) => {
                         <MenuItem onClick={() => navigate('/shopping')}>
                             Trung tâm mua sắm, giải trí
                         </MenuItem>
+                        <MenuItem onClick={() => navigate('/move')}>
+                            Di chuyển
+                        </MenuItem>
                     </div>
                 </div>
                 <hr />

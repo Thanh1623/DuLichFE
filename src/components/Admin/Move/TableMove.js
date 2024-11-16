@@ -1,40 +1,26 @@
 import { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 
-const TableNewAdmin = (props) => {
+const TableMove = (props) => {
 
-    const { listNews, pageCount, search } = props;
+    const { listMove, pageCount, search } = props;
 
     const handlePageClick = (event) => {
 
         if (!search) {
-            props.fetchListNewsWithPaginate(+event.selected + 1)
+            props.fetchListMoveWithPaginate(+event.selected + 1)
             props.setCurrentPage(+event.selected + 1);
         }
         if (search) {
-            props.handleSearchNews(+event.selected + 1);
+            props.handleSearchMove(+event.selected + 1);
             props.setCurrentPage(+event.selected + 1);
         }
 
-        // props.fetchListNewsWithPaginate(+event.selected + 1)
+        // props.fetchListShoppingWithPaginate(+event.selected + 1)
         // props.setCurrentPage(+event.selected + 1);
         console.log(`User requested page number ${event.selected}`);
     };
-    const convertToDate = (isoTimestamp) => {
-        let date = new Date(isoTimestamp);
-        let year = date.getFullYear();
-        let month = date.getMonth() + 1;
-        let dt = date.getDate();
 
-        if (dt < 10) {
-            dt = '0' + dt;
-        }
-        if (month < 10) {
-            month = '0' + month;
-        }
-
-        return `${year}-${month}-${dt}`;
-    };
 
     return (
         <>
@@ -43,23 +29,25 @@ const TableNewAdmin = (props) => {
                     <tr>
                         <th scope="col">ID</th>
                         <th scope="col">Title</th>
-                        <th scope="col">Time of writing</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Vehicle</th>
                         <th scope="col">Image</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     {
-                        listNews && listNews.length > 0
+                        listMove && listMove.length > 0
                             ?
-                            listNews.map((item, index) => {
+                            listMove.map((item, index) => {
                                 return (
-                                    <tr key={`table-users-${index}`}>
-                                        <td>{item.news_id}</td>
+                                    <tr key={`table-move-${index}`}>
+                                        <td>{item.moves_id}</td>
                                         <td>{item.title}</td>
-                                        <td>{convertToDate(`${item.created_at}`)}</td>
+                                        <td>{item.address}</td>
+                                        <td>{item.type_vehicle}</td>
                                         <td>
-                                            <img src={`data:image/jpeg;base64,${item.news_image_base64}`} class="rounded mx-auto d-block" style={{ maxWidth: '200px' }} alt="..."></img>
+                                            <img src={`data:image/jpeg;base64,${item.moves_image_base64}`} class="rounded mx-auto d-block" style={{ maxWidth: '200px' }} alt="..."></img>
                                         </td>
                                         <td>
                                             <button className="btn btn-info mx-1 my-1"
@@ -109,4 +97,4 @@ const TableNewAdmin = (props) => {
     )
 }
 
-export default TableNewAdmin;
+export default TableMove;

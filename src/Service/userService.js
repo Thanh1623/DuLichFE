@@ -63,6 +63,13 @@ const searchHome = (page, limit, title) => {
     return axios.get(`/api/homestays/search?limit=${limit}&page=${page}&title=${title}`)
 }
 
+// MOVE
+const searchMove = (page, limit, title) => {
+    return axios.get(`/api/moves/search?limit=${limit}&page=${page}&title=${title}`)
+}
+const getMoveById = (idMove) => {
+    return axios.get(`/api/moves/${idMove}`)
+}
 // FEEDBACK
 const feedBackWeb = (data) => {
     return axios.post(`/api/feedback`, { ...data })
@@ -89,6 +96,15 @@ const getReviewTours = (page, limit, idTour) => {
 const getReviewFoods = (page, limit, idFood) => {
     return axios.get(`/api/reviews/cuisines/${idFood}?limit=${limit}&page=${page}`)
 }
+const getReviewEvent = (page, limit, idEvent) => {
+    return axios.get(`/api/reviews/events/${idEvent}?limit=${limit}&page=${page}`)
+}
+const getReviewNews = (page, limit, idNews) => {
+    return axios.get(`/api/reviews/news/${idNews}?limit=${limit}&page=${page}`)
+}
+const getReviewMoves = (page, limit, idMove) => {
+    return axios.get(`/api/reviews/moves/${idMove}?limit=${limit}&page=${page}`)
+}
 const getReviewHomestay = (page, limit, idHome) => {
     return axios.get(`/api/reviews/homestays/${idHome}?limit=${limit}&page=${page}`)
 }
@@ -106,5 +122,6 @@ export {
     feedBackWeb, searchDiscover, getShoppingById, ConfirmBookTourUser,
     getHomeById, searchFood, searchHome, searchShopping, ConfirmBookHomeUser,
     ChangePasswordUser, getReviewTours, putReview, deleteReview, getReviewFoods,
-    getReviewHomestay
+    getReviewHomestay, searchMove, getMoveById, getReviewEvent, getReviewNews,
+    getReviewMoves
 }

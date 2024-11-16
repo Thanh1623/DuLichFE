@@ -15,6 +15,7 @@ const HomeStayUser = () => {
     const [listHomesUser, setListHomesUser] = useState([]);
     const navigate = useNavigate();
     const LIMIT = 3;
+    const [currentPage, setCurrentPage] = useState(1)
 
     const [pageCount, setPageCount] = useState(0);
 
@@ -29,6 +30,7 @@ const HomeStayUser = () => {
         if (inputSearch === '') {
             fetchAllHomesUser(1);
             setSearch(false);
+            setCurrentPage(1)
         }
     }, [inputSearch])
 
@@ -51,7 +53,8 @@ const HomeStayUser = () => {
         }
         if (!inputSearch) {
             setSearch(false);
-            fetchAllHomesUser(1)
+            fetchAllHomesUser(1);
+            setCurrentPage(1)
         }
     }
 
@@ -62,7 +65,7 @@ const HomeStayUser = () => {
         if (search) {
             handleSearchHome(+event.selected + 1)
         }
-        // setCurrentPage(+event.selected + 1);
+        setCurrentPage(+event.selected + 1);
         console.log(`User requested page number ${event.selected}`);
     };
 
@@ -71,7 +74,7 @@ const HomeStayUser = () => {
     return (
         <div className="home-container container">
             <div className="header-home">
-                <div>Trang chủ</div>
+                <div onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>Trang chủ</div>
                 <div className='text-success'>Kết quả: {listHomesUser.length}</div>
             </div>
             <div className="content-home">
@@ -214,7 +217,7 @@ const HomeStayUser = () => {
                             containerClassName="pagination"
                             activeClassName="active"
                             renderOnZeroPageCount={null}
-                        // forcePage={currentPage - 1}
+                            forcePage={currentPage - 1}
                         />
                     </div>
                 </div>

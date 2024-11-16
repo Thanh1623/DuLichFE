@@ -32,6 +32,9 @@ const TableTourAdmin = (props) => {
                         <th scope="col">Start day</th>
                         <th scope="col">Address</th>
                         <th scope="col">Vehicle</th>
+                        <th scope="col">Members</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Image</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
@@ -47,7 +50,15 @@ const TableTourAdmin = (props) => {
                                         <td>{item.tour_date}</td>
                                         <td>{item.address}</td>
                                         <td>{item.vehicle}</td>
+                                        <td>{item.members}</td>
+                                        <td>{item.price}$</td>
                                         <td>
+                                            <img src={`data:image/jpeg;base64,${item.tour_image_base64}`} class="rounded mx-auto d-block" style={{ maxWidth: '200px' }} alt="..."></img>
+                                        </td>
+                                        <td>
+                                            <button className="btn btn-info mx-1 my-1"
+                                                onClick={() => props.handleClickBtnView(item)}
+                                            >View</button>
                                             <button className="btn btn-success mx-1 my-1"
                                                 onClick={() => props.handleClickBtnUpdate(item)}
                                             >Update</button>

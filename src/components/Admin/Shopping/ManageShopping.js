@@ -9,6 +9,7 @@ import ModalDeleteShopping from "./ModalDeleteShopping";
 import ModalUpdateShopping from "./ModalUpdateShopping";
 import TableShoppingAdmin from "./TableShoppingAdmin";
 import { searchShopping } from "../../../Service/userService";
+import ModalViewShopping from "./ModalViewShopping";
 
 
 const ManageShopping = () => {
@@ -20,6 +21,9 @@ const ManageShopping = () => {
 
     const [showModalCreateUser, setShowModalCreateUser] = useState(false);
     const [showModalUpdateUser, setShowModalUpdateUser] = useState(false);
+    const [showModalView, setShowModalView] = useState(false);
+
+    const [dataView, setDataView] = useState({});
 
 
     const [dataUpdate, setDataUpdate] = useState({});
@@ -40,6 +44,7 @@ const ManageShopping = () => {
         if (inputSearch === '') {
             fetchListShoppingWithPaginate(1);
             setSearch(false);
+            setCurrentPage(1);
         }
     }, [inputSearch])
 
@@ -60,7 +65,8 @@ const ManageShopping = () => {
         }
         if (!inputSearch) {
             setSearch(false);
-            fetchListShoppingWithPaginate(1)
+            fetchListShoppingWithPaginate(1);
+            setCurrentPage(1);
         }
     }
 
@@ -76,6 +82,10 @@ const ManageShopping = () => {
         setShowModalUpdateUser(true);
         setDataUpdate(user);
     }
+    const handleClickBtnView = (user) => {
+        setShowModalView(true);
+        setDataView(user);
+    }
 
     const resetUpdateData = () => {
         setDataUpdate({});
@@ -90,7 +100,7 @@ const ManageShopping = () => {
         <>
             <div className="admin-food-container container">
                 <div className="title">
-                    Manage Food
+                    Manage Shopping
                 </div>
                 <ModalCreateShopping
                     fetchListShop={fetchListShop}
@@ -121,6 +131,7 @@ const ManageShopping = () => {
                         listShops={listShops}
                         handleClickBtnUpdate={handleClickBtnUpdate}
                         handleClickBtnDelete={handleClickBtnDelete}
+                        handleClickBtnView={handleClickBtnView}
                         fetchListShoppingWithPaginate={fetchListShoppingWithPaginate}
                         pageCount={pageCount}
                         currentPage={currentPage}
@@ -142,6 +153,18 @@ const ManageShopping = () => {
                     show={showModalUpdateUser}
                     setShow={setShowModalUpdateUser}
                     dataUpdate={dataUpdate}
+                    fetchListShop={fetchListShop}
+                    resetUpdateData={resetUpdateData}
+                    fetchListShoppingWithPaginate={fetchListShoppingWithPaginate}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                    search={search}
+                    handleSearchShop={handleSearchShop}
+                />
+                <ModalViewShopping
+                    show={showModalView}
+                    setShow={setShowModalView}
+                    dataView={dataView}
                     fetchListShop={fetchListShop}
                     resetUpdateData={resetUpdateData}
                     fetchListShoppingWithPaginate={fetchListShoppingWithPaginate}

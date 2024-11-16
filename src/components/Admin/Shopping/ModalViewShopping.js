@@ -4,71 +4,67 @@ import Modal from 'react-bootstrap/Modal';
 import { FcPlus } from "react-icons/fc";
 import { toast } from 'react-toastify';
 // import { postCreateNewUser, putUpdateUser } from '../../../Service/apiService';
-import _, { update } from 'lodash';
-import Lightbox from "react-awesome-lightbox";
-import TimePicker from 'react-time-picker';
+import _ from 'lodash';
+import { putShopping, putUsers } from '../../../Service/apiServices';
+import DatePicker from "react-datepicker";
+import { IoIosCalendar } from "react-icons/io";
+import { Buffer } from 'buffer';
 import MarkdownIt from 'markdown-it';
 import MdEditor from 'react-markdown-editor-lite';
-import { putEvent } from '../../../Service/apiServices';
+import TimePicker from 'react-time-picker';
+import Lightbox from "react-awesome-lightbox";
 
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
-function ModalUpdateEvent(props) {
+function ModalViewShopping(props) {
     const { show, setShow } = props;
-    const { dataUpdate } = props;
+    const { dataView } = props;
 
     const handleClose = () => {
         setShow(false);
         props.resetUpdateData()
     };
 
-    // const [startDateOpen, setStartDateOpen] = useState(new Date());
-    // const [startDateClose, setStartDateClose] = useState(new Date());
     const [valueOpen, setValueOpen] = useState('');
     const [valueClose, setValueClose] = useState('');
     const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [imageTitle, setImageTitle] = useState('');
+    const [address, setAddress] = useState('');
     const [contentHTML, setContentHTML] = useState('');
     const [contentMarkdown, setContentMarkdown] = useState('');
-    const [content, setContent] = useState('');
+    const [type, setType] = useState('');
+    const [image, setImage] = useState('');
     const [map, setMap] = useState('');
-    const [address, setAddress] = useState('');
-    const [view, setView] = useState('100');
 
     const [imageP, setImageP] = useState('');
     const [isPreviewImage, setIsPreviewImage] = useState(false);
     const [dataImagePreview, setDataImagePreview] = useState({});
-
     const [validationErrors, setValidationErrors] = useState({});
 
+    // Validate function
     const validate = () => {
         const errors = {};
 
+        // Validate Title
         if (!title) {
             errors.title = 'Title is required';
         }
 
-        if (!valueOpen) {
-            errors.valueOpen = 'Open time is required';
-        }
-
-        if (!valueClose) {
-            errors.valueClose = 'Close time is required';
-        }
-
-        if (!imageTitle) {
-            errors.imageTitle = 'Image title is required';
-        }
-
+        // Validate Address
         if (!address) {
             errors.address = 'Address is required';
         }
 
+        // Validate Image
+        if (!image) {
+            errors.image = 'Image title is required';
+        }
+
+        // Validate Location on map
         if (!map) {
             errors.map = 'Location on map is required';
         }
 
+        // Validate Content (Markdown or HTML)
         if (!contentHTML || !contentMarkdown) {
             errors.content = 'Content is required';
         }
@@ -107,31 +103,29 @@ function ModalUpdateEvent(props) {
     }
 
     useEffect(() => {
-        if (!_.isEmpty(dataUpdate)) {
-            console.log('dataUpdate: ', dataUpdate);
+        if (!_.isEmpty(dataView)) {
+            console.log('dataView: ', dataView);
+            setTitle(dataView.title);
+            setValueOpen(dataView.opening_hours);
+            setValueClose(dataView.closing_time);
+            setAddress(dataView.address);
+            setContentHTML(dataView.ContentHTML);
+            setContentMarkdown(dataView.ContentMarkDown);
+            setType(dataView.type);
+            setMap(dataView.map);
 
-            setContentMarkdown(dataUpdate.ContentMarkDown);
-            setContentHTML(dataUpdate.ContentHTML);
-            setTitle(dataUpdate.title);
-            setAddress(dataUpdate.description);
-            setMap(dataUpdate.content);
-            setValueOpen(dataUpdate.opening_hours_event);
-            setValueClose(dataUpdate.closing_time_event);
-
-            setImageTitle(base64ToFile(`data:image/jpeg;base64,${dataUpdate.eventimg_url}`));
+            setImage(base64ToFile(`data:image/jpeg;base64,${dataView.shopping_center_image_base64}`));
 
 
-            setImageP(`data:image/jpeg;base64,${dataUpdate.eventimg_url}`);
+            setImageP(`data:image/jpeg;base64,${dataView.shopping_center_image_base64}`);
             setDataImagePreview({
-                url: `data:image/jpeg;base64,${dataUpdate.eventimg_url}`,
+                url: `data:image/jpeg;base64,${dataView.shopping_center_image_base64}`,
             })
+
         }
-    }, [dataUpdate])
-    const handleEditorChange = ({ html, text }) => {
-        // console.log('handleEditorChange', html, text);
-        setContentHTML(html);
-        setContentMarkdown(text);
-    }
+    }, [dataView])
+
+    console.log(valueClose, valueOpen)
 
     // const handleUpLoadImage = (event) => {
     //     if (event.target && event.target.files && event.target.files[0]) {
@@ -142,11 +136,6 @@ function ModalUpdateEvent(props) {
     //         // setPreviewImage('');
     //     }
     // }
-
-    const formatDate = (date) => {
-        if (!date) return ""; // Kiểm tra nếu date là null
-        return date.toISOString().split("T")[0]; // Chuyển đổi sang YYYY-MM-DD
-    };
 
     const handlePreviewImage = () => {
         setIsPreviewImage(true);
@@ -159,7 +148,7 @@ function ModalUpdateEvent(props) {
             // Tạo object URL và cập nhật trực tiếp
             const objectURL = URL.createObjectURL(file);
             setImageP(objectURL);
-            setImageTitle(file);
+            setImage(file);
 
             // Cập nhật preview ngay lập tức
             setDataImagePreview({
@@ -167,29 +156,31 @@ function ModalUpdateEvent(props) {
             });
         }
     }
+    const handleEditorChange = ({ html, text }) => {
+        setContentHTML(html);
+        setContentMarkdown(text);
+    }
 
-
-    const handleSubmitUpdateEvent = async () => {
+    const handleSubmitCreateUser = async () => {
         const validation = validate();
 
         if (validation === true) {
-            let data = await putEvent(dataUpdate.event_id, title, valueOpen, valueClose, imageTitle, contentMarkdown, contentHTML,
-                map, address, view
-            )
+            // call api
+            let data = await putShopping(dataView.shopping_center_id, title, address, contentHTML, contentMarkdown,
+                valueClose, valueOpen, type, image, map)
             if (data && data.code === 201) {
-                toast.success(data.EM);
+                toast.success(data.message);
                 handleClose();
-
                 if (!props.search) {
-                    await props.fetchListEventsWithPaginate(props.currentPage);
+                    await props.fetchListShoppingWithPaginate(props.currentPage);
                 }
                 if (props.search) {
-                    props.handleSearchEvent(props.currentPage);
+                    props.handleSearchShop(props.currentPage);
                 }
-                // await props.fetchListEventsWithPaginate(props.currentPage);
+                // await props.fetchListShoppingWithPaginate(props.currentPage);
             }
             if (data && data.code !== 201) {
-                toast.error(data.EM)
+                toast.error(data.message)
             }
         } else {
             setValidationErrors(validation);
@@ -207,37 +198,47 @@ function ModalUpdateEvent(props) {
                 className='modal-add-user'
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Update a event</Modal.Title>
+                    <Modal.Title>View a Shopping</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className='col-12 row'>
                         <div className="mb-3">
-                            <label className="form-label">Title: </label>
-                            <textarea className="form-control" rows="3"
+                            <label className="form-label">Title:</label>
+                            <textarea className="form-control" rows="1"
                                 value={title}
                                 onChange={(event) => setTitle(event.target.value)}
+                                disabled
                             ></textarea>
                             {validationErrors.title && <span className="text-danger">{validationErrors.title}</span>}
 
                         </div>
-                        <div className="mb-3 col-5">
-                            <label className="form-label">Open time: </label>
-                            <TimePicker onChange={setValueOpen} value={valueOpen} />
-                            {validationErrors.valueOpen && <span className="text-danger">{validationErrors.valueOpen}</span>}
+                        <div className="mb-3">
+                            <label className="form-label">Address:</label>
+                            <textarea className="form-control" rows="3"
+                                value={address}
+                                onChange={(event) => setAddress(event.target.value)}
+                                disabled
+                            ></textarea>
+                            {validationErrors.address && <span className="text-danger">{validationErrors.address}</span>}
 
                         </div>
-                        <div className="mb-3 col-5">
-                            <label className="form-label">Close time: </label>
-                            <TimePicker onChange={setValueClose} value={valueClose} />
-                            {validationErrors.valueClose && <span className="text-danger">{validationErrors.valueClose}</span>}
+                        <div className='mb-3 col-12'>
+                            <label className="form-label">Location on map: </label>
+                            <textarea className="form-control" rows="2"
+                                value={map}
+                                onChange={(event) => setMap(event.target.value)}
+                                disabled
+                            ></textarea>
+                            {validationErrors.map && <span className="text-danger">{validationErrors.map}</span>}
 
                         </div>
                         <div className="mb-3 col-6">
                             <label className="form-label">Image title: </label>
                             <input className="form-control" type='file'
                                 onChange={(event) => handleOnchangeFile(event)}
+                                disabled
                             ></input>
-                            {validationErrors.imageTitle && <span className="text-danger">{validationErrors.imageTitle}</span>}
+                            {validationErrors.image && <span className="text-danger">{validationErrors.image}</span>}
 
                         </div>
                         <div className='col-12' style={{ height: '250px', width: 'fit-content', border: '1px solid' }}>
@@ -245,26 +246,36 @@ function ModalUpdateEvent(props) {
                                 onClick={() => handlePreviewImage()}
                             />
                         </div>
-                        <div className='mb-3 col-12'>
-                            <label className="form-label">Event venue:</label>
-                            <input type='text' placeholder='VD: 136 Xuân Thủy, Cầu Giấy, Hà Nội' className="form-control"
-                                value={address}
-                                onChange={(event) => setAddress(event.target.value)}
-                            ></input>
-                            {validationErrors.address && <span className="text-danger">{validationErrors.address}</span>}
-
+                        <div className='row mt-3'>
+                            <div className="mb-3 col-5">
+                                <label className="form-label">Open time: </label>
+                                <TimePicker onChange={setValueOpen} value={valueOpen} disabled />
+                            </div>
+                            <div className="mb-3 col-5">
+                                <label className="form-label">Close time: </label>
+                                <TimePicker onChange={setValueClose} value={valueClose} disabled />
+                            </div>
                         </div>
-                        <div className='mb-3 col-12'>
-                            <label className="form-label">Location on map:</label>
-                            <textarea className="form-control" rows="2"
-                                value={map}
-                                onChange={(event) => setMap(event.target.value)}
-                            ></textarea>
-                            {validationErrors.map && <span className="text-danger">{validationErrors.map}</span>}
 
+                        <div className="col-md-4">
+                            <label className="form-label">Type</label>
+                            <select className="form-select"
+                                value={type}
+                                onChange={(event) => setType(event.target.value)}
+                                disabled
+                            >
+                                <option value='Trung tâm thương mại'>Trung tâm thương mại</option>
+                                <option value='Trung tâm giải trí'>Trung tâm giải trí</option>
+                                <option value='Trung tâm mua sắm'>Trung tâm mua sắm</option>
+                            </select>
                         </div>
                         <div>
-                            <MdEditor style={{ height: '500px' }} renderHTML={text => mdParser.render(text)} onChange={handleEditorChange} value={contentMarkdown} />
+                            <MdEditor style={{ height: '500px' }}
+                                value={contentMarkdown}
+                                renderHTML={text => mdParser.render(text)} onChange={handleEditorChange} 
+                                disabled
+                                readOnly
+                                />
                             {validationErrors.content && <span className="text-danger">{validationErrors.content}</span>}
 
                         </div>
@@ -283,7 +294,7 @@ function ModalUpdateEvent(props) {
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={() => handleSubmitUpdateEvent()}>
+                    <Button variant="primary" onClick={() => handleSubmitCreateUser()}>
                         Save
                     </Button>
                 </Modal.Footer>
@@ -292,4 +303,4 @@ function ModalUpdateEvent(props) {
     );
 }
 
-export default ModalUpdateEvent;
+export default ModalViewShopping;

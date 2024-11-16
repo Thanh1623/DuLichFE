@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import './HomeEvent.scss'
 import { getAllEvents, getAllNews, getAllNewsPaginate } from '../../../Service/apiServices';
 import { useNavigate } from 'react-router-dom';
+import { MdAccessTime } from "react-icons/md";
 
 const HomeEvent = () => {
 
@@ -15,7 +16,7 @@ const HomeEvent = () => {
     }, [])
 
     const fetchListNews = async () => {
-        let data = await getAllNewsPaginate(1,6);
+        let data = await getAllNewsPaginate(1, 6);
         if (data && data.code === 201) {
             setListNews(data.result)
         }
@@ -83,7 +84,7 @@ const HomeEvent = () => {
                                                     {item.title}
                                                 </div>
                                                 <div className="time">
-                                                    {convertToDate(item.created_at)}
+                                                    <MdAccessTime /> {convertToDate(item.created_at)}
                                                 </div>
                                             </div>
                                         </div>
@@ -118,7 +119,7 @@ const HomeEvent = () => {
                                                 {item.title}
                                             </div>
                                             <div className="time">
-                                                {(item.opening_hours_event)} to {(item.closing_time_event)}
+                                                <MdAccessTime /> {(item.opening_hours_event)} to {(item.closing_time_event)}
                                             </div>
                                             {/* <div className="date">
                                                 Sự kiện đang diễn ra

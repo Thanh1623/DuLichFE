@@ -13,10 +13,16 @@ const Login = (props) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(false);
+    function handleKeyPress(e) {
+        var key = e.keyCode || e.which;
+        if (key === 13 || key === "Enter") {
+            handleLogin();
+        }
+    }
     const handleLogin = async () => {
         // validate
         if (!email) {
-            toast.error('Invalid email')
+            toast.error('Invalid username')
         }
         if (!password) {
             toast.error('Invalid password')
@@ -57,7 +63,7 @@ const Login = (props) => {
                 ThanhNguyen
             </div>
 
-           
+
 
             <div className='welcome col-4 mx-auto'>
                 Hello, who's this?
@@ -66,19 +72,24 @@ const Login = (props) => {
             <div className='content-form col-4 mx-auto'>
                 <div className='form-group'>
                     <label>Username</label>
-                    <input type='email' className='form-control'
-                        value={email} onChange={(event) => setEmail(event.target.value)} />
+                    <input type='' className='form-control'
+                        value={email} onChange={(event) => setEmail(event.target.value)}
+                        onKeyPress={(event) => handleKeyPress(event)}
+                    />
                 </div>
                 <div className='form-group'>
                     <label>Password</label>
                     <input type='password' className='form-control'
-                        value={password} onChange={(event) => setPassword(event.target.value)} />
+                        value={password} onChange={(event) => setPassword(event.target.value)}
+                        onKeyPress={(event) => handleKeyPress(event)}
+                    />
                 </div>
-                <span className='forgot-password' style={{cursor: 'pointer', color: 'blue'}} onClick={() => navigate('/forgot-password')}>Forgot password?</span>
+                <span className='forgot-password' style={{ cursor: 'pointer', color: 'blue' }} onClick={() => navigate('/forgot-password')}>Forgot password?</span>
                 <div>
                     <button className='btn-submit'
                         onClick={() => handleLogin()}
                         disabled={isLoading}
+
                     >
                         {
                             isLoading === true && <TbFidgetSpinner className='loader-icon' />
