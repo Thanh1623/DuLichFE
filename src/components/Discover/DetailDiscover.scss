@@ -18,6 +18,7 @@
             // text-decoration: underline;
             cursor: pointer;
         }
+
         padding-top: 10px;
         padding-bottom: 15px;
     }
@@ -50,13 +51,13 @@
             max-width: 100%;
 
             img {
-                max-width: 300px !important;
-                max-height: 300px !important;
+                max-width: 350px !important;
+                max-height: 350px !important;
             }
         }
     }
 
-    .detail-intro-description img {
+    .detail-discover-description img {
         margin: auto;
         display: block;
     }

@@ -39,7 +39,7 @@ const ModalCreateFood = (props) => {
         setMap('');
         setValidationErrors({});
     };
-    
+
     const validate = () => {
         const errors = {};
 
@@ -65,7 +65,7 @@ const ModalCreateFood = (props) => {
 
         if (!valueClose) {
             errors.valueClose = 'Close time is required';
-        } 
+        }
         // else if (valueClose <= valueOpen) {
         //     errors.valueClose = 'Close time must be later than open time';
         // }
@@ -145,6 +145,7 @@ const ModalCreateFood = (props) => {
                         <div className="mb-3">
                             <label className="form-label">Title image: </label>
                             <input type='file'
+                                accept="image/*" // Chỉ chấp nhận file ảnh
                                 onChange={(event) => setImage(event.target.files[0])}
                             />
                             {validationErrors.image && <span className="text-danger">{validationErrors.image}</span>}

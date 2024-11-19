@@ -108,6 +108,9 @@ const getReviewMoves = (page, limit, idMove) => {
 const getReviewHomestay = (page, limit, idHome) => {
     return axios.get(`/api/reviews/homestays/${idHome}?limit=${limit}&page=${page}`)
 }
+const getReviewShopping = (page, limit, idShopping) => {
+    return axios.get(`/api/reviews/shopping_centers/${idShopping}?limit=${limit}&page=${page}`)
+}
 const putReview = (idReview, data) => {
     return axios.put(`/api/reviews/${idReview}/answer`, { ...data })
 }
@@ -116,12 +119,36 @@ const deleteReview = (idReview) => {
 }
 
 
+
+// SUGGEST
+const getApiQuestions = () => {
+    return axios.get(`/api/questions`);
+}
+const getApiAnswer = (idQues) => {
+    return axios.get(`/api/questions/list/${idQues}`);
+}
+const getApiDownAnswer = (idAnswer) => {
+    return axios.get(`/api/downanswers/${idAnswer}/list`);
+}
+
+// PROFILE
+const getProfileUser = (idUser) => {
+    return axios.get(`/api/users/${idUser}`);
+}
+const putProfileUser = (idUser, data) => {
+    return axios.put(`/api/users/improveuser/${idUser}`, { ...data });
+}
+
+
+
 export {
     postRegister, postLogin, postForgotPassword, postResetPassword,
     getNewsById, getEventById, getFoodById, getDiscoverById,
     feedBackWeb, searchDiscover, getShoppingById, ConfirmBookTourUser,
     getHomeById, searchFood, searchHome, searchShopping, ConfirmBookHomeUser,
     ChangePasswordUser, getReviewTours, putReview, deleteReview, getReviewFoods,
-    getReviewHomestay, searchMove, getMoveById, getReviewEvent, getReviewNews,
-    getReviewMoves
+    getReviewHomestay, searchMove, getMoveById, getReviewEvent, getReviewNews, getReviewShopping,
+    getReviewMoves, getApiQuestions, getApiAnswer, getApiDownAnswer,
+    getProfileUser, putProfileUser
+
 }

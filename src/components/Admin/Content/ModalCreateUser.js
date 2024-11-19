@@ -100,6 +100,13 @@ function ModalCreateUser(props) {
                 handleClose();
                 props.setCurrentPage(1);
                 await props.fetchListUsersWithPaginate(1);
+                setEmail('')
+                setPassword('')
+                setUsername('')
+                setRole('user')
+                setPhone('')
+                setFullName('')
+                setValidationErrors({})
             }
             if (data && data.code !== 201) {
                 toast.error(data.message)
@@ -109,7 +116,7 @@ function ModalCreateUser(props) {
             setValidationErrors(validation);
             console.log(validation)
         }
-        
+
 
     }
     return (

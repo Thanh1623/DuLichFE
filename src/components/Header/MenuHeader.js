@@ -58,6 +58,9 @@ const MenuHeader = (props) => {
                         <MenuItem onClick={() => navigate('/move')}>
                             Di chuyển
                         </MenuItem>
+                        <MenuItem onClick={() => navigate('/suggest')}>
+                            Gợi ý thông minh
+                        </MenuItem>
                     </div>
                 </div>
                 <hr />

@@ -235,6 +235,7 @@ function ModalUpdateEvent(props) {
                         <div className="mb-3 col-6">
                             <label className="form-label">Image title: </label>
                             <input className="form-control" type='file'
+                                accept="image/*" // Chỉ chấp nhận file ảnh
                                 onChange={(event) => handleOnchangeFile(event)}
                             ></input>
                             {validationErrors.imageTitle && <span className="text-danger">{validationErrors.imageTitle}</span>}

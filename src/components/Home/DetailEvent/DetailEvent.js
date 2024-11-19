@@ -85,6 +85,7 @@ const DetailEvent = (props) => {
             setContentReview('');
             setValue(5)
             setUserSend(!userSend)
+            setCurrentPage(1)
         }
         if (res && res.code !== 200) {
             toast.error(res.message)
@@ -93,7 +94,7 @@ const DetailEvent = (props) => {
 
     const handlePageClick = (event) => {
         fetchReviewEvent(+event.selected + 1)
-        // setCurrentPage(+event.selected + 1);
+        setCurrentPage(+event.selected + 1);
         console.log(`User requested page number ${event.selected}`);
     };
 
@@ -116,7 +117,7 @@ const DetailEvent = (props) => {
         if (res && res.code === 200) {
             toast.success(res.message);
             setContentUpdate('');
-            fetchReviewEvent(1);
+            fetchReviewEvent(currentPage);
         }
         if (res && res.code !== 200) {
             toast.error(res.message)
@@ -128,6 +129,7 @@ const DetailEvent = (props) => {
         if (res && res.code === 200) {
             toast.success(res.message);
             fetchReviewEvent(1);
+            setCurrentPage(1)
         }
         if (res && res.code !== 200) {
             toast.error(res.message);
@@ -247,7 +249,7 @@ const DetailEvent = (props) => {
                             containerClassName="pagination"
                             activeClassName="active"
                             renderOnZeroPageCount={null}
-                        // forcePage={currentPage - 1}
+                            forcePage={currentPage - 1}
                         />
                     </div>
                 </div>

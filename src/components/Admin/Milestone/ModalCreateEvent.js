@@ -149,6 +149,7 @@ const ModalCreateEvent = (props) => {
                         <div className="mb-3 col-6">
                             <label className="form-label">Image title: </label>
                             <input className="form-control" type='file'
+                                accept="image/*" // Chỉ chấp nhận file ảnh
                                 onChange={(event) => setImageTitle(event.target.files[0])}
                             />
                             {validationErrors.imageTitle && <span className="text-danger">{validationErrors.imageTitle}</span>}

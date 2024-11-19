@@ -22,11 +22,11 @@ const AdminIntroduce = (props) => {
 
     useEffect(() => {
         fetchIntro()
-    },[])
+    }, [])
 
     const fetchIntro = async () => {
         let data = await getIntro();
-        if (data && data.code === 200) {
+        if (data && data.code === 201) {
             setIdIntro(data.result[0].intro_id)
             setContentMarkdown(data.result[0].ContentMarkDown);
         }
@@ -36,10 +36,10 @@ const AdminIntroduce = (props) => {
             ContentMarkDown: contentMarkdown,
             ContentHTML: contentHTML
         });
-        if (data && data.code===200) {
+        if (data && data.code === 201) {
             toast.success(data.message);
         }
-        if (data && data.code !== 200) {
+        if (data && data.code !== 201) {
             toast.error(data.message);
         }
     }

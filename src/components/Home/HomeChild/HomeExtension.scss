@@ -7,6 +7,9 @@
         margin-bottom: 25px;
     }
 
+
+
+
     .extension-content {
         display: flex;
         flex-wrap: wrap;
@@ -79,7 +82,8 @@
 .tour-popular-container {
 
     // background-color: rgb(252, 252, 252);
-    background-color: rgb(118, 152, 246);
+    background: rgb(83, 116, 241);
+    background: linear-gradient(191deg, rgba(83, 116, 241, 1) 0%, rgba(77, 159, 233, 1) 49%, rgba(0, 202, 255, 1) 100%);
 
     .tour-popular {
         display: flex;
@@ -105,8 +109,9 @@
 }
 
 .home-popular-container {
-    margin-top: 15px;
-    background-color: rgb(245, 245, 243);
+    // background-color: rgb(245, 245, 243);
+    background: rgb(83, 116, 241);
+        background: linear-gradient(5deg, rgba(83, 116, 241, 1) 0%, rgba(77, 159, 233, 1) 49%, rgba(0, 202, 255, 1) 100%);
 
     .home-popular {
         display: flex;

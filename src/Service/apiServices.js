@@ -400,7 +400,7 @@ const deleteMove = (idMove) => {
     return axios.delete(`/api/moves/${idMove}`)
 }
 
-const putMove = (idMove,title, address, contentHTML, contentMarkdown, type, image, map) => {
+const putMove = (idMove, title, address, contentHTML, contentMarkdown, type, image, map) => {
     const data = new FormData();
     data.append('title', title);
     data.append('address', address);
@@ -415,6 +415,63 @@ const putMove = (idMove,title, address, contentHTML, contentMarkdown, type, imag
     return axios.put(`/api/moves/${idMove}`, data)
 }
 
+// SUGGESt
+const getAllQuestionsAdmin = () => {
+    return axios.get(`/api/questions`);
+}
+const getApiQuestionsAdmin = (page, limit) => {
+    return axios.get(`/api/questions?limit=${limit}&page=${page}`);
+}
+const getSearchQuestionsAdmin = (page, limit, input) => {
+    return axios.get(`/api/questions/search?limit=${limit}&page=${page}&question_text=${input}`);
+}
+const postQuesAdmin = (data) => {
+    return axios.post(`/api/questions`, { ...data });
+}
+const deleteQuesAdmin = (idQues) => {
+    return axios.delete(`/api/questions/${idQues}`);
+}
+const putQuesAdmin = (idQues, data) => {
+    return axios.put(`/api/questions/${idQues}`, { ...data });
+}
+
+
+//////
+const getApiAnswerAdmin = (page, limit) => {
+    return axios.get(`/api/answers?limit=${limit}&page=${page}`);
+}
+const getSearchAnswerAdmin = (page, limit, input) => {
+    return axios.get(`/api/answers/search?limit=${limit}&page=${page}&answer_text=${input}`);
+}
+const postApiAnswerAdmin = (data) => {
+    return axios.post(`/api/answers`, { ...data });
+}
+const deleteApiAnswerAdmin = (idAnswer) => {
+    return axios.delete(`/api/answers/${idAnswer}`);
+}
+const putApiAnswerAdmin = (idAnswer, data) => {
+    return axios.put(`/api/answers/${idAnswer}`, { ...data });
+}
+
+
+///////
+const getApiDownAnswerAdmin = (page, limit) => {
+    return axios.get(`/api/downanswers?limit=${limit}&page=${page}`);
+}
+const getSearchDownAnswerAdmin = (page, limit, input) => {
+    return axios.get(`/api/downanswers/search?limit=${limit}&page=${page}&downanswer_text=${input}`);
+}
+const postApiDownAnswerAdmin = (data) => {
+    return axios.post(`/api/downanswers`, { ...data });
+}
+const putApiDownAnswerAdmin = (idDownAnswer, data) => {
+    return axios.put(`/api/downanswers/${idDownAnswer}`, { ...data });
+}
+const deleteApiDownAnswerAdmin = (idDownAnswer) => {
+    return axios.delete(`/api/downanswers/${idDownAnswer}`);
+}
+
+
 
 export {
     postCreateUser, getAllUsers, putUsers, deleteUsers, getAllUsersPaginate,
@@ -428,6 +485,10 @@ export {
     getBookTourHomePaginate, UpdateBookTour, TourPaginate, HomePaginate, UpdateBookHome,
     getIntro, putIntro,
     postReview,
-    getAllMovePaginate, postCreateMove, deleteMove, putMove, searchMove
+    getAllMovePaginate, postCreateMove, deleteMove, putMove, searchMove,
+    getApiQuestionsAdmin, postQuesAdmin, deleteQuesAdmin, putQuesAdmin, getAllQuestionsAdmin,
+    getApiAnswerAdmin, postApiAnswerAdmin, deleteApiAnswerAdmin, putApiAnswerAdmin,
+    getApiDownAnswerAdmin, postApiDownAnswerAdmin, putApiDownAnswerAdmin, deleteApiDownAnswerAdmin,
+    getSearchQuestionsAdmin, getSearchAnswerAdmin, getSearchDownAnswerAdmin
 
 }

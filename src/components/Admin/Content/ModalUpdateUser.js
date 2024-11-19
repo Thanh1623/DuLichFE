@@ -13,7 +13,13 @@ function ModalUpdateUser(props) {
 
     const handleClose = () => {
         setShow(false);
-        props.resetUpdateData()
+        // setEmail('')
+        // setPassword('')
+        // setUsername('')
+        // setRole('user')
+        // setPhone('')
+        // setFullName('')
+        // setValidationErrors({})
     };
 
     const [email, setEmail] = useState('');
@@ -103,6 +109,13 @@ function ModalUpdateUser(props) {
                 toast.success(data.message);
                 handleClose();
                 await props.fetchListUsersWithPaginate(props.currentPage);
+                setEmail('')
+                setPassword('')
+                setUsername('')
+                setRole('user')
+                setPhone('')
+                setFullName('')
+                setValidationErrors({})
                 // props.setCurrentPage(1);
                 // await props.fetchListUsersWithPaginate(props.currentPage)
             }

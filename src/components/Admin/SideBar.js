@@ -125,6 +125,10 @@ const SideBar = (props) => {
                                 Move
                                 <Link to={'/admin/manage-move'} />
                             </MenuItem>
+                            <MenuItem>
+                                Suggest
+                                <Link to={'/admin/manage-suggest'} />
+                            </MenuItem>
                         </SubMenu>
                     </Menu>
                     <Menu iconShape="circle">

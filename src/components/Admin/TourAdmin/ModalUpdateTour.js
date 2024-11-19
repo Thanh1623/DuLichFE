@@ -257,6 +257,7 @@ function ModalUpdateTour(props) {
                         <div className="mb-3 col-5">
                             <label className="form-label">Price:</label>
                             <input className="form-control" type='number'
+                                min="0"
                                 value={price}
                                 onChange={(event) => setPrice(+event.target.value)}
                             ></input>
@@ -289,6 +290,7 @@ function ModalUpdateTour(props) {
                         <div className="mb-3">
                             <label className="form-label">Title image: </label>
                             <input type='file'
+                                accept="image/*" // Chỉ chấp nhận file ảnh
                                 onChange={(event) => handleOnchangeFile(event)}
                             />
                             {validationErrors.image && <span className="text-danger">{validationErrors.image}</span>}

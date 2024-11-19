@@ -170,7 +170,7 @@ function ModalUpdateHomeStay(props) {
 
         if (validation === true) {
             let data = await putHome(dataUpdate.homestay_id, title, address, price, type, contentHTML, contentMarkdown, image, map)
-            if (data && data.message === 'Update Homestays Successful') {
+            if (data && data.code === 201) {
                 toast.success(data.message);
                 handleClose();
 
@@ -184,7 +184,7 @@ function ModalUpdateHomeStay(props) {
                 // await props.fetchListHomesWithPaginate(props.currentPage);
 
             }
-            if (data && data.message !== 'Update Homestays Successful') {
+            if (data && data.code !== 201) {
                 toast.error(data.message)
             }
         } else {
@@ -238,6 +238,7 @@ function ModalUpdateHomeStay(props) {
                         <div className="mb-3">
                             <label className="form-label">Price:</label>
                             <input className="form-control" rows="1" type='number'
+                                min="0"
                                 value={price}
                                 onChange={(event) => setPrice(event.target.value)}
                             ></input>
@@ -259,6 +260,7 @@ function ModalUpdateHomeStay(props) {
                         <div className="mb-3 col-6">
                             <label className="form-label">Image title: </label>
                             <input className="form-control" type='file'
+                                accept="image/*" // Chỉ chấp nhận file ảnh
                                 onChange={(event) => handleOnchangeFile(event)}
                             ></input>
                             {validationErrors.image && <span className="text-danger">{validationErrors.image}</span>}
@@ -270,10 +272,10 @@ function ModalUpdateHomeStay(props) {
                             />
                         </div>
                         <div>
-                            <MdEditor style={{ height: '500px' }} 
-                            value={contentMarkdown} 
-                            renderHTML={text => mdParser.render(text)} 
-                            onChange={handleEditorChange} />
+                            <MdEditor style={{ height: '500px' }}
+                                value={contentMarkdown}
+                                renderHTML={text => mdParser.render(text)}
+                                onChange={handleEditorChange} />
                             {validationErrors.content && <span className="text-danger">{validationErrors.content}</span>}
 
                         </div>

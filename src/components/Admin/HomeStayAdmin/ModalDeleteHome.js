@@ -12,16 +12,16 @@ const ModalDeleteHomeStay = (props) => {
 
     const handleSubmitDeleteUser = async () => {
         let data = await deleteHome(dataDelete.homestay_id)
-        if (data && data.message === 'Delete answers Successfull') {
+        if (data && data.code === 201) {
             toast.success(data.message);
-            
+
             handleClose();
             props.setCurrentPage(1);
             await props.fetchListHomesWithPaginate(1);
             // props.setCurrentPage(1);
             // await props.fetchListUsersWithPaginate(1)
         }
-        if (data && data.message !== 'Delete answers Successfull') {
+        if (data && data.code !== 201) {
             toast.error(data.message);
             handleClose();
         }

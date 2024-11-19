@@ -14,6 +14,7 @@ import { doLogOut } from '../../redux/action/userAction';
 const Header = () => {
     const navigate = useNavigate();
     const isAuthenticated = useSelector(state => state.user.isAuthenticated);
+    const role = useSelector(state => state.user.account.role);
     const dispatch = useDispatch();
     const handleLogin = () => {
         navigate('/login')
@@ -47,16 +48,25 @@ const Header = () => {
                                 <>
                                     <button className='btn-login'
                                         onClick={() => handleLogin()}
-                                    >Log in</button>
-                                    <button className='btn-signup' onClick={() => navigate('/register')}>Sign up</button>
+                                    >Đăng nhập</button>
+                                    <button className='btn-signup' onClick={() => navigate('/register')}>Đăng kí</button>
                                 </>
                                 :
-                                < NavDropdown title="Settings" id="basic-nav-dropdown">
-                                    <NavDropdown.Item onClick={() => navigate('/changePassword')}>
-                                        Change password
+                                < NavDropdown title="Cài đặt" id="basic-nav-dropdown">
+                                    <NavDropdown.Item onClick={() => navigate('/profile')}>
+                                        Cá nhân
                                     </NavDropdown.Item>
+                                    <NavDropdown.Item onClick={() => navigate('/changePassword')}>
+                                        Mật khẩu
+                                    </NavDropdown.Item>
+                                    {
+                                        role === 'admin' &&
+                                        <NavDropdown.Item onClick={() => navigate('/admin')}>
+                                            Quản lý
+                                        </NavDropdown.Item>
+                                    }
                                     <NavDropdown.Item onClick={() => handleLogOut()}>
-                                        Log out
+                                        Đăng xuất
                                     </NavDropdown.Item>
                                 </NavDropdown>
                             }

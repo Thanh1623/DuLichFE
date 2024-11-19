@@ -19,6 +19,7 @@ import "react-awesome-lightbox/build/style.css";
 
 
 
+
 // Import Bootstrap JS and Popper.js
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 

@@ -11,7 +11,7 @@ const Introduce = (props) => {
 
     const fetchIntro = async () => {
         let data = await getIntro();
-        if (data && data.code === 200) {
+        if (data && data.code === 201) {
             setIntro(data.result[0].ContentHTML)
         }
     }

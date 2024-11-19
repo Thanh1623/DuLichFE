@@ -94,6 +94,7 @@ const DetailDiscover = (props) => {
             setContentReview('');
             setValue(5)
             setUserSend(!userSend)
+            setCurrentPage(1)
         }
         if (res && res.code !== 200) {
             toast.error(res.message)
@@ -101,7 +102,7 @@ const DetailDiscover = (props) => {
     }
     const handlePageClick = (event) => {
         fetchReviewTours(+event.selected + 1)
-        // setCurrentPage(+event.selected + 1);
+        setCurrentPage(+event.selected + 1);
         console.log(`User requested page number ${event.selected}`);
     };
 
@@ -120,7 +121,7 @@ const DetailDiscover = (props) => {
         if (res && res.code === 200) {
             toast.success(res.message);
             setContentUpdate('');
-            fetchReviewTours(1)
+            fetchReviewTours(currentPage)
         }
         if (res && res.code !== 200) {
             toast.error(res.message)
@@ -132,6 +133,7 @@ const DetailDiscover = (props) => {
         if (res && res.code === 200) {
             toast.success(res.message);
             fetchReviewTours(1);
+            setCurrentPage(1)
         }
         if (res && res.code !== 200) {
             toast.error(res.message);
@@ -156,7 +158,7 @@ const DetailDiscover = (props) => {
                     {detailDiscover.price}$ for {detailDiscover.members} members
                 </div>
                 <div className="detail-discover-description">
-                    <div className="DesImg" dangerouslySetInnerHTML={{ __html: detailDiscover.description, height: '100px' }}>
+                    <div className="DesImg" dangerouslySetInnerHTML={{ __html: detailDiscover.ContentHTML, height: '100px' }}>
                     </div>
                 </div>
                 <div className="detail-discover-date">
@@ -192,7 +194,7 @@ const DetailDiscover = (props) => {
                                                     <Box sx={{ ml: 2 }}>{convertToDate(item.review_created_at)}</Box>
                                                 </Box>
                                                 {
-                                                    item.review_content_answer !== 'Chờ phản hồi'  &&
+                                                    item.review_content_answer !== 'Chờ phản hồi' &&
                                                     <div>
                                                         Admin: {item.review_content_answer}
                                                     </div>
@@ -255,7 +257,7 @@ const DetailDiscover = (props) => {
                                 containerClassName="pagination"
                                 activeClassName="active"
                                 renderOnZeroPageCount={null}
-                            // forcePage={currentPage - 1}
+                                forcePage={currentPage - 1}
                             />
                         </div>
                     </div>

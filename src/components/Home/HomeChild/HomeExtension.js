@@ -3,6 +3,7 @@ import VR360 from '../../../assets/VR360.png'
 import intro from '../../../assets/intro.jpg';
 import background from '../../../assets/background.jpg';
 import bg2 from '../../../assets/bg2.jpg';
+import bistro from '../../../assets/bistro.jpg';
 import Carousel from 'react-bootstrap/Carousel';
 import { useEffect, useState } from 'react';
 import { getAllHomeStayPaginate, getAllToursPaginate } from '../../../Service/apiServices';
