@@ -58,7 +58,7 @@ const DetailDiscover = (props) => {
     }
     const fetchReviewTours = async (page) => {
         let data = await getReviewTours(page, 5, idDiscover);
-        if (data && data.code === 200) {
+        if (data && data.code === 201) {
             setListReviewTour(data.result);
             setPageCount(data.totalpage);
         }
@@ -89,14 +89,14 @@ const DetailDiscover = (props) => {
             content_question: contentReview,
             rating: value
         })
-        if (res && res.code === 200) {
+        if (res && res.code === 201) {
             toast.success(res.message);
             setContentReview('');
             setValue(5)
             setUserSend(!userSend)
             setCurrentPage(1)
         }
-        if (res && res.code !== 200) {
+        if (res && res.code !== 201) {
             toast.error(res.message)
         }
     }
@@ -118,24 +118,24 @@ const DetailDiscover = (props) => {
         let res = await putReview(idReview, {
             content_answer: contentUpdate
         })
-        if (res && res.code === 200) {
+        if (res && res.code === 201) {
             toast.success(res.message);
             setContentUpdate('');
             fetchReviewTours(currentPage)
         }
-        if (res && res.code !== 200) {
+        if (res && res.code !== 201) {
             toast.error(res.message)
         }
 
     }
     const handleDeleteReview = async (idReview) => {
         let res = await deleteReview(idReview);
-        if (res && res.code === 200) {
+        if (res && res.code === 201) {
             toast.success(res.message);
             fetchReviewTours(1);
             setCurrentPage(1)
         }
-        if (res && res.code !== 200) {
+        if (res && res.code !== 201) {
             toast.error(res.message);
         }
     }

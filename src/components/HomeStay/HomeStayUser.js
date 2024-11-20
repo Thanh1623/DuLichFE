@@ -8,6 +8,7 @@ import { FaMapMarkedAlt } from "react-icons/fa";
 import { searchDiscover, searchHome } from '../../Service/userService';
 import ReactPaginate from "react-paginate";
 import './HomeStayUser.scss'
+import { toast } from 'react-toastify';
 
 
 const HomeStayUser = () => {
@@ -50,6 +51,12 @@ const HomeStayUser = () => {
                 setSearch(true);
                 setPageCount(res.totalpage);
             }
+            if (res && res.code !== 201) {
+                setListHomesUser(res.result)
+                setSearch(true);
+                setPageCount(res.totalpage);
+                toast.error(res.message)
+            }
         }
         if (!inputSearch) {
             setSearch(false);
@@ -75,7 +82,8 @@ const HomeStayUser = () => {
         <div className="home-container container">
             <div className="header-home">
                 <div onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>Trang chủ</div>
-                <div className='text-success'>Kết quả: {listHomesUser.length}</div>
+                <div>Kết quả: {listHomesUser !== undefined ? listHomesUser.length : 0}</div>
+
             </div>
             <div className="content-home">
                 <div className="list-group">
@@ -170,32 +178,37 @@ const HomeStayUser = () => {
 
                 <div className='food-content-right'>
                     {
-                        listHomesUser && listHomesUser.length > 0 &&
-                        listHomesUser.map((item, index) => {
-                            return (
-                                <div className="card mb-3 content-right " key={`home-${index}`}>
-                                    <div className="row g-0" >
-                                        <div className="col-md-4">
-                                            <img src={`data:image/jpeg;base64,${item.homestay_image_base64}`} className="img-fluid rounded-start" alt="..." />
-                                        </div>
-                                        <div className="col-md-8 content"
-                                            onClick={() => navigate(`/homeStay/${item.homestay_id}`)}
-                                        >
-                                            <div className="card-body">
-                                                <h5 className="card-title">{item.title}</h5>
-                                                <p className="card-text"> <FaMapMarkedAlt /> {item.address}</p>
-                                                <p className="card-text"> <FaWalking /> {+item.type_bed === 0 ? 'Hết phòng' : 'Còn phòng'}</p>
-                                                <p className="card-text text-end">
-                                                    <small className="text-muted text-time">
-                                                        {item.price}$ for 1 day
-                                                    </small>
-                                                </p>
+                        listHomesUser && listHomesUser.length > 0
+                            ?
+                            listHomesUser.map((item, index) => {
+                                return (
+                                    <div className="card mb-3 content-right " key={`home-${index}`}>
+                                        <div className="row g-0" >
+                                            <div className="col-md-4">
+                                                <img src={`data:image/jpeg;base64,${item.homestay_image_base64}`} className="img-fluid rounded-start" alt="..." />
+                                            </div>
+                                            <div className="col-md-8 content"
+                                                onClick={() => navigate(`/homeStay/${item.homestay_id}`)}
+                                            >
+                                                <div className="card-body">
+                                                    <h5 className="card-title">{item.title}</h5>
+                                                    <p className="card-text"> <FaMapMarkedAlt /> {item.address}</p>
+                                                    <p className="card-text"> <FaWalking /> {+item.type_bed === 0 ? 'Hết phòng' : 'Còn phòng'}</p>
+                                                    <p className="card-text text-end">
+                                                        <small className="text-muted text-time">
+                                                            {item.price}$ for 1 day
+                                                        </small>
+                                                    </p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            )
-                        })
+                                )
+                            })
+                            :
+                            <div>
+                                <span>Không có dữ liệu</span>
+                            </div>
                     }
                     <div className="user-pagination">
                         <ReactPaginate

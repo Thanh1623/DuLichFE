@@ -54,7 +54,7 @@ const DetailFood = (props) => {
     }
     const fetchReviewFoods = async (page) => {
         let data = await getReviewFoods(page, 5, idFood);
-        if (data && data.code === 200) {
+        if (data && data.code === 201) {
             setListReviewFoods(data.result);
             setPageCount(data.totalpage);
         }
@@ -82,14 +82,14 @@ const DetailFood = (props) => {
             content_question: contentReview,
             rating: value
         })
-        if (res && res.code === 200) {
+        if (res && res.code === 201) {
             toast.success(res.message);
             setContentReview('');
             setValue(5)
             setUserSend(!userSend)
             setCurrentPage(1)
         }
-        if (res && res.code !== 200) {
+        if (res && res.code !== 201) {
             toast.error(res.message)
         }
     }
@@ -115,24 +115,24 @@ const DetailFood = (props) => {
         let res = await putReview(idReview, {
             content_answer: contentUpdate
         })
-        if (res && res.code === 200) {
+        if (res && res.code === 201) {
             toast.success(res.message);
             setContentUpdate('');
             fetchReviewFoods(currentPage);
         }
-        if (res && res.code !== 200) {
+        if (res && res.code !== 201) {
             toast.error(res.message)
         }
 
     }
     const handleDeleteReview = async (idReview) => {
         let res = await deleteReview(idReview);
-        if (res && res.code === 200) {
+        if (res && res.code === 201) {
             toast.success(res.message);
             fetchReviewFoods(1);
             setCurrentPage(1)
         }
-        if (res && res.code !== 200) {
+        if (res && res.code !== 201) {
             toast.error(res.message);
         }
     }
@@ -256,7 +256,7 @@ const DetailFood = (props) => {
                                 containerClassName="pagination"
                                 activeClassName="active"
                                 renderOnZeroPageCount={null}
-                            forcePage={currentPage - 1}
+                                forcePage={currentPage - 1}
                             />
                         </div>
                     </div>

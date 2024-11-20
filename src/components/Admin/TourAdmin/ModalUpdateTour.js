@@ -267,6 +267,7 @@ function ModalUpdateTour(props) {
                         <div className="mb-3 col-2">
                             <label className="form-label">Members:</label>
                             <input className="form-control" type='number'
+                                step="1"
                                 value={members}
                                 onChange={(event) => setMembers(+event.target.value)}
                             ></input>

@@ -34,12 +34,12 @@ const ChangePass = () => {
                 oldPassword: oldPass,
                 newPassword: newPass
             })
-            if (res && res.code === 200) {
+            if (res && res.code === 201) {
                 toast.success(res.message);
                 setOldPass('');
                 setNewPass('');
             }
-            if (res && res.code !== 200) {
+            if (res && res.code !== 201) {
                 toast.error(res.message);
             }
 

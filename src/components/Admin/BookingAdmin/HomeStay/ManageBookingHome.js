@@ -31,7 +31,7 @@ const ManageBookingHome = () => {
 
     const fetchListBookHome = async (page) => {
         let res = await HomePaginate(page, LIMIT);
-        if (res && res.code === 200) {
+        if (res && res.code === 201) {
             setListBookTour(res.result);
             setPageCount(res.totalpage);
         }

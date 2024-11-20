@@ -28,7 +28,7 @@ const Suggest = () => {
 
     const fetchAllQues = async () => {
         let data = await getApiQuestions();
-        if (data && data.code === 200) {
+        if (data && data.code === 201) {
             setListQues(data.result);
         }
     }
@@ -41,11 +41,11 @@ const Suggest = () => {
 
     const handleSubmitQues = async () => {
         let data = await getApiAnswer(tickQues);
-        if (data && data.code === 200) {
+        if (data && data.code === 201) {
             setListAnswer(data.result);
             setShowAnswer(true)
         }
-        if (data && data.code !== 200) {
+        if (data && data.code !== 201) {
             setListAnswer([]);
         }
     }

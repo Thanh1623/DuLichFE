@@ -71,7 +71,7 @@ const TableTourAdmin = (props) => {
                             })
                             :
                             <tr>
-                                <td colSpan="5">Not found data</td>
+                                <td colSpan="9">Not found data</td>
                             </tr>
                     }
                 </tbody>

@@ -6,6 +6,7 @@ import ModalDeleteEvent from "./ModalDeleteEvent";
 import ModalUpdateEvent from "./ModalUpdateEvent";
 import ReactDOM from 'react-dom';
 import ModalViewEvent from "./ModalViewEvent";
+import { toast } from "react-toastify";
 
 
 
@@ -57,6 +58,12 @@ const ManageEvents = () => {
                 setListEvents(res.result)
                 setSearch(true);
                 setPageCount(res.totalpage);
+            }
+            if (res && res.code !== 201) {
+                setListEvents(res.result)
+                setSearch(true);
+                setPageCount(res.totalpage);
+                toast.error(res.message)
             }
         }
         if (!inputSearch) {

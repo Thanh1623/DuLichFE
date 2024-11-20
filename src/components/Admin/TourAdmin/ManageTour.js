@@ -6,6 +6,7 @@ import ModalDeleteTour from "./ModalDeleteTour";
 import ModalUpdateTour from "./ModalUpdateTour";
 import { searchDiscover } from "../../../Service/userService";
 import ModalViewTour from "./ModalViewTour";
+import { toast } from "react-toastify";
 
 
 
@@ -61,6 +62,12 @@ const ManageTour = () => {
                 setListTours(res.result)
                 setSearch(true);
                 setPageCount(res.totalpage);
+            }
+            if (res && res.code !== 201) {
+                setListTours(res.result)
+                setSearch(true);
+                setPageCount(res.totalpage);
+                toast.error(res.message);
             }
         }
         if (!inputSearch) {

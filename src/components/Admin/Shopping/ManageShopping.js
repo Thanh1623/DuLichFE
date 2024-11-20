@@ -10,6 +10,7 @@ import ModalUpdateShopping from "./ModalUpdateShopping";
 import TableShoppingAdmin from "./TableShoppingAdmin";
 import { searchShopping } from "../../../Service/userService";
 import ModalViewShopping from "./ModalViewShopping";
+import { toast } from "react-toastify";
 
 
 const ManageShopping = () => {
@@ -61,6 +62,12 @@ const ManageShopping = () => {
                 setListShops(res.result)
                 setSearch(true);
                 setPageCount(res.totalpage);
+            }
+            if (res && res.code !== 201) {
+                setListShops(res.result)
+                setSearch(true);
+                setPageCount(res.totalpage);
+                toast.error(res.message)
             }
         }
         if (!inputSearch) {

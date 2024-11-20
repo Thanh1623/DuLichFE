@@ -19,7 +19,7 @@ function ModalUpdateUser(props) {
         // setRole('user')
         // setPhone('')
         // setFullName('')
-        // setValidationErrors({})
+        setValidationErrors({})
     };
 
     const [email, setEmail] = useState('');
@@ -41,6 +41,7 @@ function ModalUpdateUser(props) {
             setPhone(dataUpdate.phone);
             setRole(dataUpdate.role);
             setPassword(dataUpdate.password);
+            setValidationErrors({})
         }
     }, [dataUpdate])
 

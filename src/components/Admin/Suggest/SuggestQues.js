@@ -22,6 +22,8 @@ const SuggestQues = () => {
     const [inputSearch, setInputSearch] = useState('');
     const [search, setSearch] = useState(false);
 
+    const [dataAnswer, setDataAnswer] = useState([]);
+
     useEffect(() => {
         getAllQues(1);
     }, [])
@@ -41,6 +43,12 @@ const SuggestQues = () => {
                 setSearch(true);
                 setPageCount(res.totalpage);
                 // setCurrentPage(1);
+            }
+            if (res && res.code !== 201) {
+                setListQues(res.result)
+                setSearch(true);
+                setPageCount(res.totalpage);
+                toast.error(res.message)
             }
         }
         if (!inputSearch) {
@@ -86,7 +94,7 @@ const SuggestQues = () => {
             setCurrentPage(1)
         }
         if (res && res.code !== 201) {
-            toast.success(res.message)
+            toast.error(res.message)
         }
     }
     const handleAddQues = () => {
@@ -134,6 +142,10 @@ const SuggestQues = () => {
         console.log(`User requested page number ${event.selected}`);
     };
 
+    const dataAnswerClick = (data) => {
+        setDataAnswer(data);
+    }
+
     return (
         <div className="suggest-admin-container container">
             <Accordion>
@@ -176,42 +188,47 @@ const SuggestQues = () => {
                         }
                         <hr />
                         {
-                            listQues && listQues.length > 0 &&
-                            listQues.map((item, index) => {
-                                return (
-                                    <div key={`ques-admin-${index}`}>
-                                        <div className="input-group mt-2 d-flex gap-1" >
-                                            <span class="input-group-text" id="basic-addon1">{item.question_id}</span>
+                            listQues && listQues.length > 0
+                                ?
+                                listQues.map((item, index) => {
+                                    return (
+                                        <div key={`ques-admin-${index}`}>
+                                            <div className="input-group mt-2 d-flex gap-1" >
+                                                <span class="input-group-text" id="basic-addon1">{item.question_id}</span>
 
-                                            <input type="search" className="form-control rounded " placeholder="Phản hồi đánh giá" aria-label="Search" aria-describedby="search-addon"
-                                                disabled
-                                                // onChange={(event) => setContentUpdate(event.target.value)}
-                                                value={item.question_text}
-                                            />
-
-                                            <button type="button" className="btn btn-outline-success" data-mdb-ripple-init
-                                                onClick={() => handleUpdateQues(item)}
-                                            >Update</button>
-
-                                            <button type="button" className="btn btn-outline-danger" data-mdb-ripple-init
-                                                onClick={() => handleDeleteQues(item)}
-                                            >Delete</button>
-                                        </div>
-                                        {
-                                            showUpdate === true && idUpdateQues === item.question_id &&
-                                            <div className="input-group mt-2 d-flex gap-1">
-                                                <input type="search" className="form-control rounded " placeholder="Câu hỏi" aria-label="Search" aria-describedby="search-addon"
-                                                    onChange={(event) => setContentUpdate(event.target.value)}
-                                                    value={contentUpdate}
+                                                <input type="search" className="form-control rounded " placeholder="Phản hồi đánh giá" aria-label="Search" aria-describedby="search-addon"
+                                                    disabled
+                                                    // onChange={(event) => setContentUpdate(event.target.value)}
+                                                    value={item.question_text}
                                                 />
-                                                <button type="button" className="btn btn-outline-primary" data-mdb-ripple-init
-                                                    onClick={() => handleConfirmUpdateQues()}
-                                                >Confirm Update</button>
+
+                                                <button type="button" className="btn btn-outline-success" data-mdb-ripple-init
+                                                    onClick={() => handleUpdateQues(item)}
+                                                >Update</button>
+
+                                                <button type="button" className="btn btn-outline-danger" data-mdb-ripple-init
+                                                    onClick={() => handleDeleteQues(item)}
+                                                >Delete</button>
                                             </div>
-                                        }
-                                    </div>
-                                )
-                            })
+                                            {
+                                                showUpdate === true && idUpdateQues === item.question_id &&
+                                                <div className="input-group mt-2 d-flex gap-1">
+                                                    <input type="search" className="form-control rounded " placeholder="Câu hỏi" aria-label="Search" aria-describedby="search-addon"
+                                                        onChange={(event) => setContentUpdate(event.target.value)}
+                                                        value={contentUpdate}
+                                                    />
+                                                    <button type="button" className="btn btn-outline-primary" data-mdb-ripple-init
+                                                        onClick={() => handleConfirmUpdateQues()}
+                                                    >Confirm Update</button>
+                                                </div>
+                                            }
+                                        </div>
+                                    )
+                                })
+                                :
+                                <div>
+                                    <span>Không có dữ liệu</span>
+                                </div>
                         }
                         <div className="user-pagination">
                             <ReactPaginate
@@ -239,8 +256,13 @@ const SuggestQues = () => {
 
                     </Accordion.Body>
                 </Accordion.Item>
-                <SuggestAnswer />
-                <SuggestDownAnswer />
+                <SuggestAnswer
+                    listQues={listQues}
+                    dataAnswerClick={dataAnswerClick}
+                />
+                <SuggestDownAnswer
+                    dataAnswer={dataAnswer}
+                />
             </Accordion>
         </div>
     )

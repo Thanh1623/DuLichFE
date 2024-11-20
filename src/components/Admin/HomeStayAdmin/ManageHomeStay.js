@@ -6,6 +6,7 @@ import ModalDeleteHomeStay from "./ModalDeleteHome";
 import ModalUpdateHomeStay from "./ModalUpdateHome";
 import { searchHome } from "../../../Service/userService";
 import ModalViewHomeStay from "./ModalViewHome";
+import { toast } from "react-toastify";
 
 
 const ManageHomeStay = () => {
@@ -58,6 +59,12 @@ const ManageHomeStay = () => {
                 setListHomeStay(res.result)
                 setSearch(true);
                 setPageCount(res.totalpage);
+            }
+            if (res && res.code !== 201) {
+                setListHomeStay(res.result)
+                setSearch(true);
+                setPageCount(res.totalpage);
+                toast.error(res.message)
             }
         }
         if (!inputSearch) {

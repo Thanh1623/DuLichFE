@@ -5,6 +5,7 @@ import { getAllFoods, getAllFoodsPaginate } from '../../Service/apiServices';
 import { useNavigate } from 'react-router-dom';
 import ReactPaginate from "react-paginate";
 import { searchFood } from '../../Service/userService';
+import { toast } from 'react-toastify';
 
 
 const Food = (props) => {
@@ -55,6 +56,13 @@ const Food = (props) => {
                 setSearch(true);
                 setPageCount(res.totalpage);
             }
+            if (res && res.code !== 201) {
+                setListFoodUser(res.result)
+                setSearch(true);
+                setPageCount(res.totalpage);
+                toast.error(res.message);
+            }
+            console.log('listFoodUser: ', listFoodUser)
         }
         if (!inputSearch) {
             setSearch(false);
@@ -67,8 +75,8 @@ const Food = (props) => {
         <>
             <div className="food-container container">
                 <div className="header-food">
-                    <div onClick={() => navigate('/')} style={{cursor: 'pointer'}}>Trang chủ</div>
-                    <div>Kết quả: {listFoodUser.length}</div>
+                    <div onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>Trang chủ</div>
+                    <div>Kết quả: {listFoodUser !== undefined ? listFoodUser.length : 0}</div>
                 </div>
                 <div className="content-food">
                     <div className="list-group">
@@ -92,13 +100,13 @@ const Food = (props) => {
                             <div className="content-location">
                                 <div className="form-check">
                                     <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-                                    <label className="form-check-label" for="flexCheckDefault">
+                                    <label className="form-check-label" htmlFor="flexCheckDefault">
                                         Default checkbox
                                     </label>
                                 </div>
                                 <div className="form-check">
                                     <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
-                                    <label className="form-check-label" for="flexCheckChecked">
+                                    <label className="form-check-label" htmlFor="flexCheckChecked">
                                         Checked checkbox
                                     </label>
                                 </div>
@@ -111,13 +119,13 @@ const Food = (props) => {
                             <div className="content-location">
                                 <div className="form-check">
                                     <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-                                    <label className="form-check-label" for="flexCheckDefault">
+                                    <label className="form-check-label" htmlFor="flexCheckDefault">
                                         Default checkbox
                                     </label>
                                 </div>
                                 <div className="form-check">
                                     <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
-                                    <label className="form-check-label" for="flexCheckChecked">
+                                    <label className="form-check-label" htmlFor="flexCheckChecked">
                                         Checked checkbox
                                     </label>
                                 </div>
@@ -130,13 +138,13 @@ const Food = (props) => {
                             <div className="content-location">
                                 <div className="form-check">
                                     <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-                                    <label className="form-check-label" for="flexCheckDefault">
+                                    <label className="form-check-label" htmlFor="flexCheckDefault">
                                         Default checkbox
                                     </label>
                                 </div>
                                 <div className="form-check">
                                     <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
-                                    <label className="form-check-label" for="flexCheckChecked">
+                                    <label className="form-check-label" htmlFor="flexCheckChecked">
                                         Checked checkbox
                                     </label>
                                 </div>
@@ -149,7 +157,7 @@ const Food = (props) => {
                                         value={inputSearch}
                                         onChange={(event) => setInputSearch(event.target.value)}
                                     />
-                                    <label className="form-label" for="form1">Search</label>
+                                    <label className="form-label" htmlFor="form1">Search</label>
                                 </div>
                                 <button id="search-button" type="button" className="btn btn-primary"
                                     onClick={() => handleSearchFood()}
@@ -162,31 +170,36 @@ const Food = (props) => {
                     <div className='food-content-right'>
 
                         {
-                            listFoodUser && listFoodUser.length > 0 &&
-                            listFoodUser.map((item, index) => {
-                                return (
-                                    <div className="card mb-3 content-right " key={`food-${index}`}>
-                                        <div className="row g-0" >
-                                            <div className="col-md-4">
-                                                <img src={`data:image/jpeg;base64,${item.cuisines_image_base64}`} className="img-fluid rounded-start" alt="..." />
-                                            </div>
-                                            <div className="col-md-8 content"
-                                                onClick={() => navigate(`/food/${item.cuisines_id}`)}
-                                            >
-                                                <div className="card-body">
-                                                    <h5 className="card-title">{item.title}</h5>
-                                                    <p className="card-text">{item.address}</p>
-                                                    <p className="card-text text-end">
-                                                        <small className="text-muted text-time">
-                                                            {item.opening_hours} to {item.closing_time}
-                                                        </small>
-                                                    </p>
+                            listFoodUser && listFoodUser.length > 0
+                                ?
+                                listFoodUser.map((item, index) => {
+                                    return (
+                                        <div className="card mb-3 content-right " key={`food-${index}`}>
+                                            <div className="row g-0" >
+                                                <div className="col-md-4">
+                                                    <img src={`data:image/jpeg;base64,${item.cuisines_image_base64}`} className="img-fluid rounded-start" alt="..." />
+                                                </div>
+                                                <div className="col-md-8 content"
+                                                    onClick={() => navigate(`/food/${item.cuisines_id}`)}
+                                                >
+                                                    <div className="card-body">
+                                                        <h5 className="card-title">{item.title}</h5>
+                                                        <p className="card-text">{item.address}</p>
+                                                        <p className="card-text text-end">
+                                                            <small className="text-muted text-time">
+                                                                {item.opening_hours} to {item.closing_time}
+                                                            </small>
+                                                        </p>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                )
-                            })
+                                    )
+                                })
+                                :
+                                <div>
+                                    <span>Không có dữ liệu</span>
+                                </div>
                         }
                         <div className="user-pagination">
                             <ReactPaginate

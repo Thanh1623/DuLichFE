@@ -8,6 +8,7 @@ import { FcHome } from "react-icons/fc";
 import './Shopping.scss';
 import ReactPaginate from "react-paginate";
 import { searchShopping } from "../../Service/userService";
+import { toast } from "react-toastify";
 
 
 const Shopping = () => {
@@ -50,6 +51,12 @@ const Shopping = () => {
                 setSearch(true);
                 setPageCount(res.totalpage);
             }
+            if (res && res.code !== 201) {
+                setListShoppingUser(res.result)
+                setSearch(true);
+                setPageCount(res.totalpage);
+                toast.error(res.message)
+            }
         }
         if (!inputSearch) {
             setSearch(false);
@@ -75,7 +82,7 @@ const Shopping = () => {
         <div className="shopping-container container">
             <div className="header-shopping">
                 <div onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>Trang chủ</div>
-                <div className='text-success'>Kết quả: {listShoppingUser.length}</div>
+                <div>Kết quả: {listShoppingUser !== undefined ? listShoppingUser.length : 0}</div>
             </div>
             <div className="content-shopping">
                 <div className="list-group">
@@ -169,32 +176,37 @@ const Shopping = () => {
                 </div>
                 <div className='food-content-right'>
                     {
-                        listShoppingUser && listShoppingUser.length > 0 &&
-                        listShoppingUser.map((item, index) => {
-                            return (
-                                <div className="card mb-3 content-right " key={`shopping-${index}`}>
-                                    <div className="row g-0" >
-                                        <div className="col-md-4">
-                                            <img src={`data:image/jpeg;base64,${item.shopping_center_image_base64}`} className="img-fluid rounded-start" alt="..." />
-                                        </div>
-                                        <div className="col-md-8 content"
-                                            onClick={() => navigate(`/shopping/${item.shopping_center_id}`)}
-                                        >
-                                            <div className="card-body">
-                                                <h5 className="card-title">{item.title}</h5>
-                                                <p className="card-text"> <FaMapMarkedAlt /> {item.address}</p>
-                                                <p className="card-text"> <FcHome /> {`${item.type}`}</p>
-                                                <p className="card-text text-end">
-                                                    <small className="text-muted text-time">
-                                                        {`${item.opening_hours} to ${item.closing_time}`}
-                                                    </small>
-                                                </p>
+                        listShoppingUser && listShoppingUser.length > 0
+                            ?
+                            listShoppingUser.map((item, index) => {
+                                return (
+                                    <div className="card mb-3 content-right " key={`shopping-${index}`}>
+                                        <div className="row g-0" >
+                                            <div className="col-md-4">
+                                                <img src={`data:image/jpeg;base64,${item.shopping_center_image_base64}`} className="img-fluid rounded-start" alt="..." />
+                                            </div>
+                                            <div className="col-md-8 content"
+                                                onClick={() => navigate(`/shopping/${item.shopping_center_id}`)}
+                                            >
+                                                <div className="card-body">
+                                                    <h5 className="card-title">{item.title}</h5>
+                                                    <p className="card-text"> <FaMapMarkedAlt /> {item.address}</p>
+                                                    <p className="card-text"> <FcHome /> {`${item.type}`}</p>
+                                                    <p className="card-text text-end">
+                                                        <small className="text-muted text-time">
+                                                            {`${item.opening_hours} to ${item.closing_time}`}
+                                                        </small>
+                                                    </p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            )
-                        })
+                                )
+                            })
+                            :
+                            < div >
+                                <span>Không có dữ liệu</span>
+                            </div>
                     }
                     <div className="user-pagination">
                         <ReactPaginate

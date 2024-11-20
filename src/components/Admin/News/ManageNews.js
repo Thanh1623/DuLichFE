@@ -8,6 +8,7 @@ import { getAllNews, getAllNewsPaginate, searchNews } from "../../../Service/api
 import TableNewAdmin from "./TableNewAdmin";
 import ModalDeleteNew from "./ModalDeleteNew";
 import ModalViewNew from "./ModalViewNews";
+import { toast } from "react-toastify";
 
 const ManageNews = (props) => {
     const LIMIT = 3;
@@ -58,6 +59,12 @@ const ManageNews = (props) => {
                 setListNews(res.result)
                 setSearch(true);
                 setPageCount(res.totalpage);
+            }
+            if (res && res.code !== 201) {
+                setListNews(res.result)
+                setSearch(true);
+                setPageCount(res.totalpage);
+                toast.error(res.message)
             }
         }
         if (!inputSearch) {

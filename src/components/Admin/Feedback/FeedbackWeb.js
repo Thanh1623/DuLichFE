@@ -30,7 +30,7 @@ const FeedbackWeb = () => {
 
     const fetchListFeedbackWeb = async (page) => {
         let res = await getFeedbackWebPaginate(page, LIMIT);
-        if (res && res.code === 200) {
+        if (res && res.code === 201) {
             setListFeedbackWeb(res.result);
             setPageCount(res.totalpage);
         }

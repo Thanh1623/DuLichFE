@@ -54,7 +54,7 @@ const DetailMove = (props) => {
     }
     const fetchReviewMoves = async (page) => {
         let data = await getReviewMoves(page, 5, idMove);
-        if (data && data.code === 200) {
+        if (data && data.code === 201) {
             setListReviewMoves(data.result);
             setPageCount(data.totalpage);
         }
@@ -82,14 +82,14 @@ const DetailMove = (props) => {
             content_question: contentReview,
             rating: value
         })
-        if (res && res.code === 200) {
+        if (res && res.code === 201) {
             toast.success(res.message);
             setContentReview('');
             setValue(5)
             setUserSend(!userSend)
             setCurrentPage(1)
         }
-        if (res && res.code !== 200) {
+        if (res && res.code !== 201) {
             toast.error(res.message)
         }
     }
@@ -115,24 +115,24 @@ const DetailMove = (props) => {
         let res = await putReview(idReview, {
             content_answer: contentUpdate
         })
-        if (res && res.code === 200) {
+        if (res && res.code === 201) {
             toast.success(res.message);
             setContentUpdate('');
             fetchReviewMoves(currentPage);
         }
-        if (res && res.code !== 200) {
+        if (res && res.code !== 201) {
             toast.error(res.message)
         }
 
     }
     const handleDeleteReview = async (idReview) => {
         let res = await deleteReview(idReview);
-        if (res && res.code === 200) {
+        if (res && res.code === 201) {
             toast.success(res.message);
             fetchReviewMoves(1);
             setCurrentPage(1)
         }
-        if (res && res.code !== 200) {
+        if (res && res.code !== 201) {
             toast.error(res.message);
         }
     }

@@ -7,6 +7,7 @@ import TableMove from "./TableMove";
 import ModalDeleteMove from './ModalDeleteMove'
 import ModalUpdateMove from './ModalUpdateMove';
 import ModalViewMove from './ModalViewMove';
+import { toast } from "react-toastify";
 
 
 
@@ -60,6 +61,12 @@ const ManageMove = () => {
                 setSearch(true);
                 setPageCount(res.totalpage);
             }
+            if (res && res.code !== 201) {
+                setListMove(res.result)
+                setSearch(true);
+                setPageCount(res.totalpage);
+                toast.error(res.message)
+            }
         }
         if (!inputSearch) {
             setSearch(false);
@@ -98,7 +105,7 @@ const ManageMove = () => {
         <>
             <div className="admin-food-container container">
                 <div className="title">
-                    Manage Shopping
+                    Manage Move
                 </div>
                 <ModalCreateMove
                     fetchListShop={fetchListShop}

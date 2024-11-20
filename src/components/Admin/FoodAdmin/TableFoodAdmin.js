@@ -44,7 +44,7 @@ const TableFoodAdmin = (props) => {
                                         <td>{`${item.opening_hours} to ${item.closing_time}`}</td>
                                         <td>{item.address}</td>
                                         <td>
-                                            <img src={`data:image/jpeg;base64,${item.cuisines_image_base64}`} class="rounded mx-auto d-block" style={{maxWidth: '200px'}} alt="..."></img>
+                                            <img src={`data:image/jpeg;base64,${item.cuisines_image_base64}`} className="rounded mx-auto d-block" style={{maxWidth: '200px'}} alt="..."></img>
                                         </td>
                                         <td>
                                             <button className="btn btn-info mx-1 my-1"
@@ -62,7 +62,7 @@ const TableFoodAdmin = (props) => {
                             })
                             :
                             <tr>
-                                <td colSpan="5">Not found data</td>
+                                <td colSpan="6">Not found data</td>
                             </tr>
                     }
                 </tbody>

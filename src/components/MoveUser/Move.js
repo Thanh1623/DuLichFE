@@ -5,6 +5,7 @@ import { getAllFoods, getAllFoodsPaginate, getAllMovePaginate } from '../../Serv
 import { useNavigate } from 'react-router-dom';
 import ReactPaginate from "react-paginate";
 import { searchFood, searchMove } from '../../Service/userService';
+import { toast } from 'react-toastify';
 
 
 const Move = (props) => {
@@ -56,6 +57,12 @@ const Move = (props) => {
                 setSearch(true);
                 setPageCount(res.totalpage);
             }
+            if (res && res.code !== 201) {
+                setListMoveUser(res.result)
+                setSearch(true);
+                setPageCount(res.totalpage);
+                toast.error(res.message)
+            }
         }
         if (!inputSearch) {
             setSearch(false);
@@ -70,7 +77,7 @@ const Move = (props) => {
             <div className="move-container container">
                 <div className="header-move">
                     <div onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>Trang chủ</div>
-                    <div>Kết quả: {listMoveUser.length}</div>
+                    <div>Kết quả: {listMoveUser !== undefined ? listMoveUser.length : 0}</div>
                 </div>
                 <div className="content-move">
                     <div className="list-group">
@@ -164,31 +171,36 @@ const Move = (props) => {
                     <div className='move-content-right'>
 
                         {
-                            listMoveUser && listMoveUser.length > 0 &&
-                            listMoveUser.map((item, index) => {
-                                return (
-                                    <div className="card mb-3 content-right " key={`move-${index}`}>
-                                        <div className="row g-0" >
-                                            <div className="col-md-4">
-                                                <img src={`data:image/jpeg;base64,${item.moves_image_base64}`} className="img-fluid rounded-start" alt="..." />
-                                            </div>
-                                            <div className="col-md-8 content"
-                                                onClick={() => navigate(`/move/${item.moves_id}`)}
-                                            >
-                                                <div className="card-body">
-                                                    <h5 className="card-title">{item.title}</h5>
-                                                    <p className="card-text">{item.address}</p>
-                                                    <p className="card-text text-end">
-                                                        <small className="text-muted text-time">
-                                                            {item.type_vehicle}
-                                                        </small>
-                                                    </p>
+                            listMoveUser && listMoveUser.length > 0
+                                ?
+                                listMoveUser.map((item, index) => {
+                                    return (
+                                        <div className="card mb-3 content-right " key={`move-${index}`}>
+                                            <div className="row g-0" >
+                                                <div className="col-md-4">
+                                                    <img src={`data:image/jpeg;base64,${item.moves_image_base64}`} className="img-fluid rounded-start" alt="..." />
+                                                </div>
+                                                <div className="col-md-8 content"
+                                                    onClick={() => navigate(`/move/${item.moves_id}`)}
+                                                >
+                                                    <div className="card-body">
+                                                        <h5 className="card-title">{item.title}</h5>
+                                                        <p className="card-text">{item.address}</p>
+                                                        <p className="card-text text-end">
+                                                            <small className="text-muted text-time">
+                                                                {item.type_vehicle}
+                                                            </small>
+                                                        </p>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                )
-                            })
+                                    )
+                                })
+                                :
+                                <div>
+                                    <span>Không có dữ liệu</span>
+                                </div>
                         }
                         <div className="user-pagination">
                             <ReactPaginate

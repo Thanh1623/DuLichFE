@@ -65,7 +65,7 @@ const TableShoppingAdmin = (props) => {
                             })
                             :
                             <tr>
-                                <td colSpan="5">Not found data</td>
+                                <td colSpan="6">Not found data</td>
                             </tr>
                     }
                 </tbody>

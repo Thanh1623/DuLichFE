@@ -6,6 +6,7 @@ import ModalDeleteFood from "./ModalDeleteFood";
 import ModalUpdateFood from "./ModalUpdateFood";
 import { searchFood } from "../../../Service/userService";
 import ModalViewFood from "./ModalViewFood";
+import { toast } from "react-toastify";
 
 
 const ManageFoods = () => {
@@ -59,13 +60,22 @@ const ManageFoods = () => {
                 setSearch(true);
                 setPageCount(res.totalpage);
             }
+            if (res && res.code !== 201) {
+                setListFoods(res.result)
+                setSearch(true);
+                setPageCount(res.totalpage);
+                toast.error(res.message)
+            }
         }
+
         if (!inputSearch) {
             setSearch(false);
             fetchListFoodsWithPaginate(1);
             setCurrentPage(1);
         }
     }
+
+    console.log('listFoods: ', listFoods)
 
     const fetchListFoodsWithPaginate = async (page) => {
         let res = await getAllFoodsPaginate(page, LIMIT);

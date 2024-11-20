@@ -24,7 +24,7 @@ const HomeComment = (props) => {
             user_id: idUser,
             content: content
         })
-        if (data && data.message === 'Add feedback Successful') {
+        if (data && data.code === 201) {
             toast.success(data.message);
             setName('');
             setEmail('');

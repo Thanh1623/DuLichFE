@@ -196,7 +196,7 @@ function ModalUpdateMove(props) {
                 className='modal-add-user'
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Update a Shopping</Modal.Title>
+                    <Modal.Title>Update a Move</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className='col-12 row'>

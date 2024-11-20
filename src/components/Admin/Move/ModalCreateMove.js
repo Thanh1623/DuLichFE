@@ -109,7 +109,7 @@ const ModalCreateMove = (props) => {
 
             <Modal show={show} onHide={handleClose} size='xl' autoFocus='true' backdrop="static">
                 <Modal.Header closeButton>
-                    <Modal.Title>Create new Shopping</Modal.Title>
+                    <Modal.Title>Create new Moves</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className='col-12 row'>

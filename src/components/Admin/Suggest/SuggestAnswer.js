@@ -5,7 +5,7 @@ import ReactPaginate from "react-paginate";
 import { toast } from 'react-toastify';
 import Select from 'react-select';
 
-const SuggestAnswer = () => {
+const SuggestAnswer = (props) => {
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -43,6 +43,10 @@ const SuggestAnswer = () => {
         getAllQues(1);
     }, [])
     useEffect(() => {
+        getAllAnswer(1);
+        getAllQues(1);
+    }, [props.listQues])
+    useEffect(() => {
         if (inputSearch === '') {
             getAllAnswer(1);
             // getAllQues(1);
@@ -59,6 +63,12 @@ const SuggestAnswer = () => {
                 setSearch(true);
                 setPageCount(res.totalpage);
                 // setCurrentPage(1);
+            }
+            if (res && res.code !== 201) {
+                setListAnswer(res.result)
+                setSearch(true);
+                setPageCount(res.totalpage);
+                toast.error(res.message)
             }
         }
         if (!inputSearch) {
@@ -119,7 +129,7 @@ const SuggestAnswer = () => {
             setCurrentPage(1)
         }
         if (res && res.code !== 201) {
-            toast.success(res.message)
+            toast.error(res.message)
         }
     }
     const handleAddQues = () => {
@@ -189,7 +199,7 @@ const SuggestAnswer = () => {
     }
     return (
         // <Accordion>
-        <Accordion.Item eventKey="1">
+        <Accordion.Item eventKey="1" onClick={() => props.dataAnswerClick(listAnswer)}>
             <Accordion.Header>Suggest Answer #2</Accordion.Header>
             <Accordion.Body>
                 <div className="d-flex justify-content-end mb-3">
@@ -216,7 +226,7 @@ const SuggestAnswer = () => {
                 {
                     showAdd === true &&
                     <div className="input-group mt-2 d-flex gap-1">
-                        <input type="search" className="form-control rounded " placeholder="Câu hỏi" aria-label="Search" aria-describedby="search-addon"
+                        <input type="search" className="form-control rounded " placeholder="Câu trả lời #2" aria-label="Search" aria-describedby="search-addon"
                             onChange={(event) => setContentAnswer(event.target.value)}
                             value={contentAnswer}
                         />
@@ -236,51 +246,57 @@ const SuggestAnswer = () => {
                 }
                 <hr />
                 {
-                    listAnswer && listAnswer.length > 0 &&
-                    listAnswer.map((item, index) => {
-                        return (
-                            <div key={`answer-admin-${index}`}>
-                                <div className="input-group mt-2 d-flex gap-1" >
-                                    <span class="input-group-text" id="basic-addon1">{item.answer_id}</span>
-                                    <input type="search" className="form-control rounded " placeholder="Phản hồi đánh giá" aria-label="Search" aria-describedby="search-addon"
-                                        disabled
-                                        // onChange={(event) => setContentUpdate(event.target.value)}
-                                        value={item.answer_text}
-                                    />
-                                    <span class="input-group-text" id="basic-addon1">ID Q: {item.question_id}</span>
-
-                                    <button type="button" className="btn btn-outline-success" data-mdb-ripple-init
-                                        onClick={() => handleUpdateAnswer(item)}
-                                    >Update</button>
-
-                                    <button type="button" className="btn btn-outline-danger" data-mdb-ripple-init
-                                        onClick={() => handleDeleteAnswer(item)}
-                                    >Delete</button>
-                                </div>
-                                {
-                                    showUpdate === true && idUpdateAnswer === item.answer_id &&
-                                    <div className="input-group mt-2 d-flex gap-1">
-                                        <input type="search" className="form-control rounded " placeholder="Câu hỏi" aria-label="Search" aria-describedby="search-addon"
-                                            onChange={(event) => setContentUpdate(event.target.value)}
-                                            value={contentUpdate}
+                    listAnswer && listAnswer.length > 0
+                        ?
+                        listAnswer.map((item, index) => {
+                            return (
+                                <div key={`answer-admin-${index}`}>
+                                    <div className="input-group mt-2 d-flex gap-1" >
+                                        <span class="input-group-text" id="basic-addon1">{item.answer_id}</span>
+                                        <input type="search" className="form-control rounded " placeholder="Phản hồi đánh giá" aria-label="Search" aria-describedby="search-addon"
+                                            disabled
+                                            // onChange={(event) => setContentUpdate(event.target.value)}
+                                            value={item.answer_text}
                                         />
-                                        <div className="App">
-                                            <Select
-                                                defaultValue={selectedOption}
-                                                onChange={setSelectedOption}
-                                                value={selectedOption}
-                                                options={options}
-                                                styles={colourStyles}
-                                            />
-                                        </div>
-                                        <button type="button" className="btn btn-outline-primary" data-mdb-ripple-init
-                                            onClick={() => handleConfirmUpdateAnswer()}
-                                        >Confirm Update</button>
+                                        <span class="input-group-text" id="basic-addon1">ID Q: {item.question_id}</span>
+
+                                        <button type="button" className="btn btn-outline-success" data-mdb-ripple-init
+                                            onClick={() => handleUpdateAnswer(item)}
+                                        >Update</button>
+
+                                        <button type="button" className="btn btn-outline-danger" data-mdb-ripple-init
+                                            onClick={() => { handleDeleteAnswer(item); props.dataAnswerClick(listAnswer) }}
+
+                                        >Delete</button>
                                     </div>
-                                }
-                            </div>
-                        )
-                    })
+                                    {
+                                        showUpdate === true && idUpdateAnswer === item.answer_id &&
+                                        <div className="input-group mt-2 d-flex gap-1">
+                                            <input type="search" className="form-control rounded " placeholder="Câu hỏi" aria-label="Search" aria-describedby="search-addon"
+                                                onChange={(event) => setContentUpdate(event.target.value)}
+                                                value={contentUpdate}
+                                            />
+                                            <div className="App">
+                                                <Select
+                                                    defaultValue={selectedOption}
+                                                    onChange={setSelectedOption}
+                                                    value={selectedOption}
+                                                    options={options}
+                                                    styles={colourStyles}
+                                                />
+                                            </div>
+                                            <button type="button" className="btn btn-outline-primary" data-mdb-ripple-init
+                                                onClick={() => handleConfirmUpdateAnswer()}
+                                            >Confirm Update</button>
+                                        </div>
+                                    }
+                                </div>
+                            )
+                        })
+                        :
+                        <div>
+                            <span>Không có dữ liệu</span>
+                        </div>
                 }
                 <div className="user-pagination">
                     <ReactPaginate
@@ -307,7 +323,7 @@ const SuggestAnswer = () => {
                 </div>
 
             </Accordion.Body>
-        </Accordion.Item>
+        </Accordion.Item >
         // </Accordion>
     )
 }
