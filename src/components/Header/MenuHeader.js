@@ -83,13 +83,10 @@ const MenuHeader = (props) => {
                         <div className='title'>
                             Mạng xã hội
                         </div>
-                        <MenuItem onClick={() => navigate('/login')}>
+                        <MenuItem onClick={() => { window.open('https://www.facebook.com/profile.php?id=61564989639710', '_blank'); }}>
                             Facebook
                         </MenuItem>
-                        <MenuItem>
-                            Instagram
-                        </MenuItem>
-                        <MenuItem>
+                        <MenuItem onClick={() => { window.open('https://zalo.me/0964710577', '_blank'); }}>
                             Zalo
                         </MenuItem>
                         <MenuItem>

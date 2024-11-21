@@ -86,7 +86,7 @@ const Shopping = () => {
             </div>
             <div className="content-shopping">
                 <div className="list-group">
-                    <button type="button" className="list-group-item list-group-item-action">A second item</button>
+                    {/* <button type="button" className="list-group-item list-group-item-action">A second item</button>
                     <div className="area list-group-item list-group-item-action">
                         <div className="title">
                             Khu vực
@@ -156,7 +156,7 @@ const Shopping = () => {
                                 </label>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                     <div className="FeeType list-group-item list-group-item-action">
                         <div className="input-group">
                             <div className="form-outline" data-mdb-input-init>

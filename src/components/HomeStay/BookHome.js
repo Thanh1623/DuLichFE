@@ -91,7 +91,7 @@ const BookHome = (props) => {
                     Để đặt lịch hẹn nhanh nhất, bạn có thể liên hệ với chúng tôi 24/7 qua:
                 </div>
                 <div className="text-contact">
-                    Zalo: 0123456789 or <a href="https://zalo.me/0964710577">Click vào đây</a>
+                    Zalo: 0123456789 or <a href="https://zalo.me/0964710577" target="_blank">Click vào đây</a>
                 </div>
                 <div className="text-contact">
                     Số điện thoại: 0123456789

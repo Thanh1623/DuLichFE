@@ -78,7 +78,13 @@ const DetailHome = (props) => {
     };
 
     const handleBookTour = () => {
-        navigate('/bookingHome', { state: { listDetailHome: detailHome } })
+
+        if (isAuthenticated === true) {
+            navigate('/bookingHome', { state: { listDetailHome: detailHome } })
+        }
+        else {
+            navigate('/login')
+        }
     }
 
     const handleSubmitReview = async () => {

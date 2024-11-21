@@ -81,7 +81,7 @@ const Move = (props) => {
                 </div>
                 <div className="content-move">
                     <div className="list-group">
-                        <div className="area list-group-item list-group-item-action">
+                        {/* <div className="area list-group-item list-group-item-action">
                             <div className="title">
                                 Khu vực
                             </div>
@@ -150,7 +150,7 @@ const Move = (props) => {
                                     </label>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                         <div className="FeeType list-group-item list-group-item-action">
                             <div className="input-group">
                                 <div className="form-outline" data-mdb-input-init>

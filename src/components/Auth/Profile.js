@@ -86,7 +86,7 @@ const Profile = () => {
             <div className="container">
                 <div>
                     <div className="mb-3 pt-4">
-                        <label htmlFor="exampleInputEmail1" className="div-label">Email address</label>
+                        <label htmlFor="exampleInputEmail1" className="div-label">Email: </label>
                         <input
                             type="email"
                             className={`form-control ${errors.email ? 'is-invalid' : ''}`}
@@ -97,7 +97,7 @@ const Profile = () => {
                         {errors.email && <div className="text-danger">{errors.email}</div>}
                     </div>
                     <div className="mb-3">
-                        <label htmlFor="exampleInputUsername1" className="form-label">Username</label>
+                        <label htmlFor="exampleInputUsername1" className="form-label">User name:</label>
                         <input
                             type="text"
                             className={`form-control ${errors.username ? 'is-invalid' : ''}`}
@@ -108,7 +108,7 @@ const Profile = () => {
                         {errors.username && <div className="text-danger">{errors.username}</div>}
                     </div>
                     <div className="mb-3">
-                        <label htmlFor="exampleInputFullName1" className="form-label">Full name</label>
+                        <label htmlFor="exampleInputFullName1" className="form-label">Full name:</label>
                         <input
                             type="text"
                             className={`form-control ${errors.fullName ? 'is-invalid' : ''}`}
@@ -119,7 +119,7 @@ const Profile = () => {
                         {errors.fullName && <div className="text-danger">{errors.fullName}</div>}
                     </div>
                     <div className="mb-3">
-                        <label htmlFor="exampleInputPhone1" className="form-label">Phone</label>
+                        <label htmlFor="exampleInputPhone1" className="form-label">Số điện thoại:</label>
                         <input
                             type="text"
                             className={`form-control ${errors.phone ? 'is-invalid' : ''}`}
@@ -132,7 +132,7 @@ const Profile = () => {
                 </div>
                 <button className="btn btn-primary" onClick={handleUpdateProfile}
                 // disabled={submit}
-                >Submit</button>
+                >Gửi</button>
             </div>
 
         </>

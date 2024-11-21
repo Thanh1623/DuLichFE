@@ -81,7 +81,13 @@ const DetailDiscover = (props) => {
     };
 
     const handleBookTour = () => {
-        navigate('/bookingTour', { state: { listDetailDiscover: detailDiscover } })
+        if (isAuthenticated === true) {
+            navigate('/bookingTour', { state: { listDetailDiscover: detailDiscover } })
+        }
+        else {
+            navigate('/login')
+        }
+
     }
     const handleSubmitReview = async () => {
         let res = await postReview({
