@@ -220,7 +220,7 @@ const SuggestDownAnswer = (props) => {
                     </div>
                 </div>
                 <button className='btn btn-primary' onClick={() => handleAddQues()}>
-                    Thêm câu trả lời cho phần 3 gợi ý
+                    Add #3
                 </button>
                 {
                     showAdd === true &&

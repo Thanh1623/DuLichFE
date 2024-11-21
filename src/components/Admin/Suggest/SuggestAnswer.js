@@ -221,7 +221,7 @@ const SuggestAnswer = (props) => {
                     </div>
                 </div>
                 <button className='btn btn-primary' onClick={() => handleAddQues()}>
-                    Thêm câu trả lời gợi ý
+                    Add #2
                 </button>
                 {
                     showAdd === true &&

@@ -119,7 +119,7 @@ const HomeEvent = () => {
                                                 {item.title}
                                             </div>
                                             <div className="time">
-                                                <MdAccessTime /> {(item.opening_hours_event)} to {(item.closing_time_event)}
+                                                <MdAccessTime /> {(item.opening_hours_event)} đến {(item.closing_time_event)}
                                             </div>
                                             {/* <div className="date">
                                                 Sự kiện đang diễn ra

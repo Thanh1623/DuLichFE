@@ -47,10 +47,10 @@ const AdminIntroduce = (props) => {
         <>
             <div className='container'>
                 <div>
-                    Giới thiệu
+                    Intro
                 </div>
                 <div>
-                    <MdEditor style={{ height: '500px' }} value={contentMarkdown}
+                    <MdEditor style={{ height: '500px', maxWidth: '1200px' }} value={contentMarkdown}
                         renderHTML={text => mdParser.render(text)}
                         onChange={handleEditorChange} />
                 </div>

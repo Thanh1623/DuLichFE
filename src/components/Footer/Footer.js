@@ -7,7 +7,7 @@ const Footer = () => {
             <MDBFooter bgColor='light' className='text-center text-lg-start text-muted'>
                 <section className='d-flex justify-content-center justify-content-lg-between p-4 border-bottom'>
                     <div className='me-5 d-none d-lg-block'>
-                        <span>Get connected with us on social networks:</span>
+                        <span>Kết nối với chúng tôi trên mạng xã hội:</span>
                     </div>
 
                     <div>
@@ -40,10 +40,10 @@ const Footer = () => {
                                     <MDBIcon icon="gem" className="me-3" />
                                     Du Lich
                                 </h6>
-                                <p>
+                                {/* <p>
                                     Here you can use rows and columns to organize your footer content. Lorem ipsum dolor sit amet,
                                     consectetur adipisicing elit.
-                                </p>
+                                </p> */}
                             </MDBCol>
 
                             {/* <MDBCol md="2" lg="2" xl="2" className='mx-auto mb-4'>
@@ -95,7 +95,7 @@ const Footer = () => {
                             </MDBCol> */}
 
                             <MDBCol md="4" lg="3" xl="3" className='mx-auto mb-md-0 mb-4'>
-                                <h6 className='text-uppercase fw-bold mb-4'>Contact</h6>
+                                <h6 className='text-uppercase fw-bold mb-4'>LIÊN HỆ</h6>
                                 <p>
                                     <MDBIcon icon="home" className="me-2" />
                                     136 Xuân Thủy, Cầu Giấy, Hà Nội

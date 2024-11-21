@@ -171,7 +171,7 @@ const SuggestQues = () => {
                             </div>
                         </div>
                         <button className='btn btn-primary' onClick={() => handleAddQues()}>
-                            Thêm câu hỏi gợi ý
+                            Add #1
                         </button>
 
                         {

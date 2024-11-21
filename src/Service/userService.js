@@ -24,10 +24,17 @@ const postResetPassword = (data) => {
 const getNewsById = (idNews) => {
     return axios.get(`/api/news/${idNews}`)
 }
+const searchNews = (page, limit, title) => {
+    return axios.get(`/api/news/search?limit=${limit}&page=${page}&title=${title}`)
+}
+
 
 // EVENT
 const getEventById = (idEvent) => {
     return axios.get(`/api/events/${idEvent}`)
+}
+const searchEvent = (page, limit, title) => {
+    return axios.get(`/api/events/search?limit=${limit}&page=${page}&title=${title}`)
 }
 
 // FOOD
@@ -149,6 +156,6 @@ export {
     ChangePasswordUser, getReviewTours, putReview, deleteReview, getReviewFoods,
     getReviewHomestay, searchMove, getMoveById, getReviewEvent, getReviewNews, getReviewShopping,
     getReviewMoves, getApiQuestions, getApiAnswer, getApiDownAnswer,
-    getProfileUser, putProfileUser
+    getProfileUser, putProfileUser, searchEvent, searchNews
 
 }
