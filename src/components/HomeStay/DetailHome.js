@@ -141,7 +141,10 @@ const DetailHome = (props) => {
         }
     }
 
-    console.log(detailHome)
+    console.log(detailHome);
+    function formatNumberWithDots(number) {
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
 
     return (
         <>
@@ -157,7 +160,7 @@ const DetailHome = (props) => {
                 </div>
                 <hr />
                 <div className="detail-home-time">
-                    {detailHome.price}$ for 1 day
+                    {formatNumberWithDots(`${detailHome.price}`)} VND cho 1 ngày
                 </div>
                 <div className="detail-home-description">
                     <div className="DesImg" dangerouslySetInnerHTML={{ __html: detailHome.ContentHTML }}>

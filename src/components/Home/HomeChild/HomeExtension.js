@@ -35,7 +35,11 @@ const HomeExtension = (props) => {
             setListHome(data.result)
         }
     }
-    console.log(listHome)
+    console.log(listHome);
+
+    function formatNumberWithDots(number) {
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
 
     return (
         <>
@@ -189,7 +193,7 @@ const HomeExtension = (props) => {
                                     <Card.Body>
                                         <Card.Title>{item.title}</Card.Title>
                                         <Card.Text>
-                                            <FaMoneyCheckAlt /> {item.price}$ cho {item.members} thành viên
+                                            <FaMoneyCheckAlt /> {formatNumberWithDots(`${item.price}`)} VND cho {item.members} thành viên
                                         </Card.Text>
                                         <Button variant="primary" onClick={() => navigate(`/discover/${item.tour_id}`)}>Chi tiết</Button>
                                     </Card.Body>
@@ -218,7 +222,7 @@ const HomeExtension = (props) => {
                                     <Card.Body>
                                         <Card.Title>{item.title}</Card.Title>
                                         <Card.Text>
-                                            <FaMoneyCheckAlt /> {item.price}$ cho 1 ngày
+                                            <FaMoneyCheckAlt /> {formatNumberWithDots(`${item.price}`)} VND cho 1 ngày
                                         </Card.Text>
                                         <Button variant="primary" onClick={() => navigate(`/homeStay/${item.homestay_id}`)}>Chi tiết</Button>
                                     </Card.Body>

@@ -10,6 +10,8 @@ import TimePicker from 'react-time-picker';
 import MarkdownIt from 'markdown-it';
 import MdEditor from 'react-markdown-editor-lite';
 import { putEvent } from '../../../Service/apiServices';
+import DatePicker from "react-datepicker";
+import { IoIosCalendar } from "react-icons/io";
 
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
@@ -22,10 +24,10 @@ function ModalUpdateEvent(props) {
         props.resetUpdateData()
     };
 
-    // const [startDateOpen, setStartDateOpen] = useState(new Date());
-    // const [startDateClose, setStartDateClose] = useState(new Date());
-    const [valueOpen, setValueOpen] = useState('');
-    const [valueClose, setValueClose] = useState('');
+    const [startDateOpen, setStartDateOpen] = useState();
+    const [startDateClose, setStartDateClose] = useState();
+    // const [valueOpen, setValueOpen] = useState('');
+    // const [valueClose, setValueClose] = useState('');
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [imageTitle, setImageTitle] = useState('');
@@ -49,12 +51,12 @@ function ModalUpdateEvent(props) {
             errors.title = 'Title is required';
         }
 
-        if (!valueOpen) {
-            errors.valueOpen = 'Open time is required';
+        if (!startDateOpen) {
+            errors.startDateOpen = 'Open time is required';
         }
 
-        if (!valueClose) {
-            errors.valueClose = 'Close time is required';
+        if (!startDateClose) {
+            errors.startDateClose = 'Close time is required';
         }
 
         if (!imageTitle) {
@@ -115,8 +117,8 @@ function ModalUpdateEvent(props) {
             setTitle(dataUpdate.title);
             setAddress(dataUpdate.description);
             setMap(dataUpdate.content);
-            setValueOpen(dataUpdate.opening_hours_event);
-            setValueClose(dataUpdate.closing_time_event);
+            setStartDateOpen(dataUpdate.opening_hours_event);
+            setStartDateClose(dataUpdate.closing_time_event);
 
             setImageTitle(base64ToFile(`data:image/jpeg;base64,${dataUpdate.eventimg_url}`));
 
@@ -173,7 +175,7 @@ function ModalUpdateEvent(props) {
         const validation = validate();
 
         if (validation === true) {
-            let data = await putEvent(dataUpdate.event_id, title, valueOpen, valueClose, imageTitle, contentMarkdown, contentHTML,
+            let data = await putEvent(dataUpdate.event_id, title, startDateOpen, startDateClose, imageTitle, contentMarkdown, contentHTML,
                 map, address, view
             )
             if (data && data.code === 201) {
@@ -196,6 +198,7 @@ function ModalUpdateEvent(props) {
         }
 
     }
+    
 
     return (
         <>
@@ -222,15 +225,19 @@ function ModalUpdateEvent(props) {
                         </div>
                         <div className="mb-3 col-5">
                             <label className="form-label">Open time: </label>
-                            <TimePicker onChange={setValueOpen} value={valueOpen} />
-                            {validationErrors.valueOpen && <span className="text-danger">{validationErrors.valueOpen}</span>}
-
+                            <DatePicker
+                                showIcon
+                                icon={<IoIosCalendar />}
+                                selected={startDateOpen} onChange={(date) => setStartDateOpen(formatDate(date))} minDate={new Date()} />
+                            {validationErrors.startDateOpen && <span className="text-danger">{validationErrors.startDateOpen}</span>}
                         </div>
                         <div className="mb-3 col-5">
                             <label className="form-label">Close time: </label>
-                            <TimePicker onChange={setValueClose} value={valueClose} />
-                            {validationErrors.valueClose && <span className="text-danger">{validationErrors.valueClose}</span>}
-
+                            <DatePicker
+                                showIcon
+                                icon={<IoIosCalendar />}
+                                selected={startDateClose} onChange={(date) => setStartDateClose(formatDate(date))} minDate={new Date()} />
+                            {validationErrors.startDateClose && <span className="text-danger">{validationErrors.startDateClose}</span>}
                         </div>
                         <div className="mb-3 col-6">
                             <label className="form-label">Image title: </label>

@@ -75,6 +75,9 @@ const Discover = () => {
     };
 
     console.log(listDiscoverUser);
+    function formatNumberWithDots(number) {
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
 
     return (
         <div className="discover-container container">
@@ -85,7 +88,7 @@ const Discover = () => {
             </div>
             <div className="content-discover">
                 <div className="list-group">
-                    <button type="button" className="list-group-item list-group-item-action">A second item</button>
+                    {/* <button type="button" className="list-group-item list-group-item-action">A second item</button>
                     <div className="area list-group-item list-group-item-action">
                         <div className="title">
                             Khu vực
@@ -155,7 +158,7 @@ const Discover = () => {
                                 </label>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                     <div className="FeeType list-group-item list-group-item-action">
                         <div className="input-group">
                             <div className="form-outline" data-mdb-input-init>
@@ -193,7 +196,7 @@ const Discover = () => {
                                                     <p className="card-text"> <FaWalking /> {item.vehicle}</p>
                                                     <p className="card-text text-end">
                                                         <small className="text-muted text-time">
-                                                            {item.price}$ for {item.members} members
+                                                            {formatNumberWithDots(`${item.price}`)} VND cho {item.members} thành viên
                                                         </small>
                                                     </p>
                                                 </div>

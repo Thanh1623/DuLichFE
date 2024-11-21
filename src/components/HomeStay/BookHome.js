@@ -28,7 +28,10 @@ const BookHome = (props) => {
 
     const typeRoom = +location?.state?.listDetailHome.type_bed === 0 ? 'Hết phòng' : 'Còn phòng';
 
-    console.log(location)
+    console.log(location);
+    function formatNumberWithDots(number) {
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
     return (
         <div className="book-tour-container container">
             <form className="row">
@@ -40,7 +43,7 @@ const BookHome = (props) => {
                     </div>
                     <div className="mb-3">
                         <label className="form-label">Price:</label>
-                        <input type="text" className="form-control" placeholder={`${location?.state?.listDetailHome.price}$ for 1 day`} />
+                        <input type="text" className="form-control" placeholder={`${formatNumberWithDots(location?.state?.listDetailHome?.price)} VND cho 1 ngày`} />
                     </div>
                     <div className="mb-3">
                         <label className="form-label">Status_room:</label>
@@ -85,13 +88,13 @@ const BookHome = (props) => {
 
             <div className="booking-tour-confirm">
                 <div className="text-contact">
-                    For fastest appointment, you can contact us 24/7 by:
+                    Để đặt lịch hẹn nhanh nhất, bạn có thể liên hệ với chúng tôi 24/7 qua:
                 </div>
                 <div className="text-contact">
-                    Zalo: 0123456789 or <a href="https://zalo.me/0123456789">Click here</a>
+                    Zalo: 0123456789 or <a href="https://zalo.me/0964710577">Click vào đây</a>
                 </div>
                 <div className="text-contact">
-                    Phone number: 0123456789
+                    Số điện thoại: 0123456789
                 </div>
             </div>
         </div>

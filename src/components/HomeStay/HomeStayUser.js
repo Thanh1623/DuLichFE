@@ -77,6 +77,9 @@ const HomeStayUser = () => {
     };
 
     console.log(listHomesUser);
+    function formatNumberWithDots(number) {
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
 
     return (
         <div className="home-container container">
@@ -87,7 +90,7 @@ const HomeStayUser = () => {
             </div>
             <div className="content-home">
                 <div className="list-group">
-                    <button type="button" className="list-group-item list-group-item-action">A second item</button>
+                    {/* <button type="button" className="list-group-item list-group-item-action">A second item</button>
                     <div className="area list-group-item list-group-item-action">
                         <div className="title">
                             Khu vực
@@ -157,7 +160,7 @@ const HomeStayUser = () => {
                                 </label>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                     <div className="FeeType list-group-item list-group-item-action">
                         <div className="input-group">
                             <div className="form-outline" data-mdb-input-init>
@@ -196,7 +199,7 @@ const HomeStayUser = () => {
                                                     <p className="card-text"> <FaWalking /> {+item.type_bed === 0 ? 'Hết phòng' : 'Còn phòng'}</p>
                                                     <p className="card-text text-end">
                                                         <small className="text-muted text-time">
-                                                            {item.price}$ for 1 day
+                                                            {formatNumberWithDots(`${item.price}`)} VND cho 1 ngày
                                                         </small>
                                                     </p>
                                                 </div>

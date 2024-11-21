@@ -21,6 +21,9 @@ const TableHomeStayAdmin = (props) => {
     };
 
     const [type, setType] = useState('');
+    function formatNumberWithDots(number) {
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
 
     return (
         <>
@@ -46,7 +49,7 @@ const TableHomeStayAdmin = (props) => {
                                         <td>{item.homestay_id}</td>
                                         <td>{item.title}</td>
                                         <td>{item.address}</td>
-                                        <td>{item.price}$</td>
+                                        <td>{formatNumberWithDots(`${item.price}`)} VND</td>
                                         <td>{+item.type_bed === 0 ? "Hết phòng" : "Còn phòng"}</td>
                                         <td>
                                             <img src={`data:image/jpeg;base64,${item.homestay_image_base64}`} className="rounded mx-auto d-block" style={{ maxWidth: '200px' }} alt="..."></img>

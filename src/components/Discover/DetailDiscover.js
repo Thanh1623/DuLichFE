@@ -139,6 +139,9 @@ const DetailDiscover = (props) => {
             toast.error(res.message);
         }
     }
+    function formatNumberWithDots(number) {
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
 
     return (
         <>
@@ -155,7 +158,7 @@ const DetailDiscover = (props) => {
                 </div>
                 <hr />
                 <div className="detail-discover-time">
-                    {detailDiscover.price}$ for {detailDiscover.members} members
+                    {formatNumberWithDots(`${detailDiscover.price}`)} VND cho {detailDiscover.members} thành viên
                 </div>
                 <div className="detail-discover-description">
                     <div className="DesImg" dangerouslySetInnerHTML={{ __html: detailDiscover.ContentHTML, height: '100px' }}>

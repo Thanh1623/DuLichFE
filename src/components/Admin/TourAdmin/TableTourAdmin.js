@@ -21,7 +21,9 @@ const TableTourAdmin = (props) => {
         console.log(`User requested page number ${event.selected}`);
     };
 
-
+    function formatNumberWithDots(number) {
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
     return (
         <>
             <table className="table table-hover table-bordered table-striped">
@@ -51,7 +53,7 @@ const TableTourAdmin = (props) => {
                                         <td>{item.address}</td>
                                         <td>{item.vehicle}</td>
                                         <td>{item.members}</td>
-                                        <td>{item.price}$</td>
+                                        <td>{formatNumberWithDots(`${item.price}`)} VND</td>
                                         <td>
                                             <img src={`data:image/jpeg;base64,${item.tour_image_base64}`} class="rounded mx-auto d-block" style={{ maxWidth: '200px' }} alt="..."></img>
                                         </td>

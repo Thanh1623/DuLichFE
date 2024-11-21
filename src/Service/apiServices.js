@@ -21,13 +21,13 @@ const deleteUsers = (idUser) => {
 
 
 // EVENT ADMIN
-const postCreateEvent = (title, valueOpen, valueClose, imageTitle, contentMarkdown, contentHTML,
+const postCreateEvent = (title, startDateOpen, startDateClose, imageTitle, contentMarkdown, contentHTML,
     map, address, view) => {
     const data = new FormData();
     data.append('title', title);
     data.append('description', address);
-    data.append('closing_time_event', valueClose);
-    data.append('opening_hours_event', valueOpen);
+    data.append('closing_time_event', startDateClose);
+    data.append('opening_hours_event', startDateOpen);
     data.append('content', map);
     data.append('ContentMarkDown', contentMarkdown);
     data.append('ContentHTML', contentHTML);
@@ -76,13 +76,13 @@ const getAllEventsPaginate = (page, limit) => {
 const deleteEvent = (idEvent) => {
     return axios.delete(`/api/events/${idEvent}`)
 }
-const putEvent = (idEvent, title, valueOpen, valueClose, imageTitle, contentMarkdown, contentHTML,
+const putEvent = (idEvent, title, startDateOpen, startDateClose, imageTitle, contentMarkdown, contentHTML,
     map, address, view) => {
     const data = new FormData();
     data.append('title', title);
     data.append('description', address);
-    data.append('closing_time_event', valueClose);
-    data.append('opening_hours_event', valueOpen);
+    data.append('closing_time_event', startDateClose);
+    data.append('opening_hours_event', startDateOpen);
     data.append('content', map);
     data.append('ContentMarkDown', contentMarkdown);
     data.append('ContentHTML', contentHTML);

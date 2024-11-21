@@ -33,9 +33,9 @@ const ModalDeleteTour = (props) => {
                 backdrop='static'
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Confirm delete the user?</Modal.Title>
+                    <Modal.Title>Confirm delete the tour?</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Are you sure to delete this event, title:
+                <Modal.Body>Are you sure to delete this tour, title:
                     <b>{dataDelete && dataDelete.title ? dataDelete.title : ""}</b>
                 </Modal.Body>
                 <Modal.Footer>

@@ -32,7 +32,7 @@ const ModalDeleteEvent = (props) => {
                 backdrop='static'
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Confirm delete the user?</Modal.Title>
+                    <Modal.Title>Confirm delete the event?</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>Are you sure to delete this event, title:
                     <b>{dataDelete && dataDelete.title ? dataDelete.title : ""}</b>

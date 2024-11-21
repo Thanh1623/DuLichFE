@@ -20,10 +20,10 @@ const ModalCreateEvent = (props) => {
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    // const [startDateOpen, setStartDateOpen] = useState(new Date());
-    // const [startDateClose, setStartDateClose] = useState(new Date());
-    const [valueOpen, setValueOpen] = useState('10:00');
-    const [valueClose, setValueClose] = useState('10:00');
+    const [startDateOpen, setStartDateOpen] = useState(new Date());
+    const [startDateClose, setStartDateClose] = useState(new Date());
+    // const [valueOpen, setValueOpen] = useState('10:00');
+    // const [valueClose, setValueClose] = useState('10:00');
 
     const [title, setTitle] = useState('');
     const [imageTitle, setImageTitle] = useState('');
@@ -42,12 +42,12 @@ const ModalCreateEvent = (props) => {
             errors.title = 'Title is required';
         }
 
-        if (!valueOpen) {
-            errors.valueOpen = 'Open time is required';
+        if (!startDateOpen) {
+            errors.startDateOpen = 'Open time is required';
         }
 
-        if (!valueClose) {
-            errors.valueClose = 'Close time is required';
+        if (!startDateClose) {
+            errors.startDateClose = 'Close time is required';
         }
 
         if (!imageTitle) {
@@ -69,9 +69,10 @@ const ModalCreateEvent = (props) => {
         return Object.keys(errors).length === 0 ? true : errors;
     };
 
+
     const resetValues = () => {
-        setValueOpen('10:00');
-        setValueClose('10:00');
+        setStartDateOpen(new Date())
+        setStartDateClose(new Date())
         setTitle('');
         setImageTitle('');
         setContentHTML('');
@@ -97,7 +98,7 @@ const ModalCreateEvent = (props) => {
         const validation = validate();
 
         if (validation === true) {
-            let data = await postCreateEvent(title, valueOpen, valueClose, imageTitle, contentMarkdown, contentHTML,
+            let data = await postCreateEvent(title, formatDate(startDateOpen), formatDate(startDateClose), imageTitle, contentMarkdown, contentHTML,
                 map, address, view
             );
             if (data && data.code === 201) {
@@ -136,7 +137,7 @@ const ModalCreateEvent = (props) => {
                             ></textarea>
                             {validationErrors.title && <span className="text-danger">{validationErrors.title}</span>}
                         </div>
-                        <div className="mb-3 col-5">
+                        {/* <div className="mb-3 col-5">
                             <label className="form-label">Open time: </label>
                             <TimePicker onChange={setValueOpen} value={valueOpen} />
                             {validationErrors.valueOpen && <span className="text-danger">{validationErrors.valueOpen}</span>}
@@ -145,7 +146,24 @@ const ModalCreateEvent = (props) => {
                             <label className="form-label">Close time: </label>
                             <TimePicker onChange={setValueClose} value={valueClose} />
                             {validationErrors.valueClose && <span className="text-danger">{validationErrors.valueClose}</span>}
+                        </div> */}
+                        <div className="mb-3 col-5">
+                            <label className="form-label">Open time: </label>
+                            <DatePicker
+                                showIcon
+                                icon={<IoIosCalendar />}
+                                selected={startDateOpen} onChange={(date) => setStartDateOpen(date)} minDate={new Date()} />
+                            {validationErrors.startDateOpen && <span className="text-danger">{validationErrors.startDateOpen}</span>}
                         </div>
+                        <div className="mb-3 col-5">
+                            <label className="form-label">Close time: </label>
+                            <DatePicker
+                                showIcon
+                                icon={<IoIosCalendar />}
+                                selected={startDateClose} onChange={(date) => setStartDateClose(date)} minDate={new Date()} />
+                            {validationErrors.startDateClose && <span className="text-danger">{validationErrors.startDateClose}</span>}
+                        </div>
+
                         <div className="mb-3 col-6">
                             <label className="form-label">Image title: </label>
                             <input className="form-control" type='file'
