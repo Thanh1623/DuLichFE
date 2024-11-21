@@ -182,7 +182,7 @@ const DetailHome = (props) => {
                 <div className="book-tour">
                     <button className="btn button"
                         onClick={() => handleBookTour()}
-                    >Book Home</button>
+                    >Đặt homestay</button>
                 </div>
 
                 <div className="Review">

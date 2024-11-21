@@ -36,17 +36,17 @@ const BookHome = (props) => {
         <div className="book-tour-container container">
             <form className="row">
                 <fieldset disabled className="col-6">
-                    <legend>Home information: </legend>
+                    <legend>Thông tin homestay: </legend>
                     <div className="mb-3">
-                        <label className="form-label">Address:</label>
+                        <label className="form-label">Địa chỉ:</label>
                         <input type="text" className="form-control" placeholder={`${location?.state?.listDetailHome.address}`} />
                     </div>
                     <div className="mb-3">
-                        <label className="form-label">Price:</label>
+                        <label className="form-label">Giá:</label>
                         <input type="text" className="form-control" placeholder={`${formatNumberWithDots(location?.state?.listDetailHome?.price)} VND cho 1 ngày`} />
                     </div>
                     <div className="mb-3">
-                        <label className="form-label">Status_room:</label>
+                        <label className="form-label">Trạng thái:</label>
                         <input type="text" className="form-control" placeholder={typeRoom} />
                     </div>
                     {/* <div className="mb-3">
@@ -55,17 +55,17 @@ const BookHome = (props) => {
                     </div> */}
                 </fieldset>
                 <fieldset disabled className="col-6">
-                    <legend>Customer information: </legend>
+                    <legend>Thông tin khách hàng: </legend>
                     <div className="mb-3">
                         <label className="form-label">Email:</label>
                         <input type="text" className="form-control" placeholder={`${email}`} />
                     </div>
                     <div className="mb-3">
-                        <label className="form-label">Full name:</label>
+                        <label className="form-label">Họ và tên:</label>
                         <input type="text" className="form-control" placeholder={`${fullName}`} />
                     </div>
                     <div className="mb-3">
-                        <label className="form-label">Phone number:</label>
+                        <label className="form-label">Số điện thoại:</label>
                         <input type="text" className="form-control" placeholder={`${phone}`} />
                     </div>
                     {/* <div className="mb-3">
@@ -75,7 +75,7 @@ const BookHome = (props) => {
                 </fieldset>
             </form>
             <div>
-                <button className="btn btn-primary" onClick={() => handleSendRequest()}><FaHandPointRight style={{ fontSize: '26px' }} /> Send request</button>
+                <button className="btn btn-primary" onClick={() => handleSendRequest()}><FaHandPointRight style={{ fontSize: '26px' }} /> Gửi yêu cầu</button>
             </div>
 
             <div>

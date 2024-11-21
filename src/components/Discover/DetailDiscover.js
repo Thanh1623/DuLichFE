@@ -176,7 +176,7 @@ const DetailDiscover = (props) => {
                 <div className="book-tour">
                     <button className="btn button"
                         onClick={() => handleBookTour()}
-                    >Book tour</button>
+                    >Đặt tour</button>
                 </div>
                 <div className="Review">
                     <div>

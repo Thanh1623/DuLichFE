@@ -44,8 +44,8 @@ const SideBar = (props) => {
                             whiteSpace: 'nowrap',
                         }}
                     >
-                        <IoLogoReact size={'2em'} color={'00bfff'} />
-                        <span onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>Thanh Nguyen</span>
+                        {/* <IoLogoReact size={'2em'} color={'00bfff'} /> */}
+                        <span onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>TravelBaba</span>
                     </div>
                 </SidebarHeader>
 

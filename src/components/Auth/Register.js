@@ -84,14 +84,14 @@ const Register = (props) => {
     return (
         <div className="register-container">
             <div className='header'>
-                <span> Already have an account?</span>
-                <button onClick={() => navigate('/login')}>Log in</button>
+                <span> Bạn đã có tài khoản?</span>
+                <button onClick={() => navigate('/login')}>Đăng nhập</button>
             </div>
             <div className='title col-4 mx-auto'>
-                ThanhNguyen
+                TravelBaba
             </div>
             <div className='welcome col-4 mx-auto'>
-                Start your journey?
+                Bắt đầu hành trình của bạn?
             </div>
             <div className='content-form col-4 mx-auto'>
                 <div className='form-group'>
@@ -104,7 +104,7 @@ const Register = (props) => {
                     />
                 </div>
                 <div className='form-group'>
-                    <label>Phone number (*)</label>
+                    <label>Số điện thoại (*)</label>
                     <input
                         className="form-control"
                         value={phone}
@@ -112,7 +112,7 @@ const Register = (props) => {
                     />
                 </div>
                 <div className='form-group pass-group'>
-                    <label>Password (*)</label>
+                    <label>Mật khẩu: (*)</label>
                     <input
                         type={isShowPassword ? "text" : "password"}
                         className="form-control"
@@ -133,7 +133,7 @@ const Register = (props) => {
                     }
                 </div>
                 <div className='form-group'>
-                    <label>Username</label>
+                    <label>Tên người dùng:(*)</label>
                     <input
                         type={"text"}
                         className="form-control"
@@ -142,7 +142,7 @@ const Register = (props) => {
                     />
                 </div>
                 <div className='form-group'>
-                    <label>Full name</label>
+                    <label>Họ và tên:(*)</label>
                     <input
                         type={"text"}
                         className="form-control"
@@ -154,11 +154,11 @@ const Register = (props) => {
                     <button
                         className='btn-submit'
                         onClick={() => handleRegister()}
-                    >Create my free account</button>
+                    >Tạo tài khoản miễn phí của tôi</button>
                 </div>
                 <div className='text-center'>
                     <span className="back" onClick={() => { navigate('/') }}>
-                        &#60;&#60; Go to Homepage
+                        &#60;&#60; Đi đến trang chủ
                     </span>
                 </div>
             </div>

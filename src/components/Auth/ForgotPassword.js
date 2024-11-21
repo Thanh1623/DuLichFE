@@ -56,24 +56,24 @@ const ForgotPassword = () => {
         <div className="login-container">
             <div className='header'>
                 <span>
-                    Don't have an account yet?
+                    Bạn chưa có tài khoản?
                 </span>
                 <button
                     onClick={() => navigate('/register')}
-                >Sign up</button>
+                >Đăng ký</button>
                 <button
                     onClick={() => navigate('/login')}
-                >Login</button>
+                >Đăng nhập</button>
             </div>
 
             <div className='title col-4 mx-auto'>
-                ThanhNguyen
+                TravelBaba
             </div>
             <div className='welcome col-4 mx-auto' style={{ fontSize: '35px', fontWeight: '600' }}>
-                Reset password
+                Đặt lại mật khẩu
             </div>
             <div className='welcome col-4 mx-auto'>
-                Hello, who's this?
+                Xin chào, ai đây?
             </div>
 
             <div className='content-form col-4 mx-auto'>
@@ -86,7 +86,7 @@ const ForgotPassword = () => {
                                 value={email} onChange={(event) => setEmail(event.target.value)} />
                         </div>
                         <div className='form-group'>
-                            <label>User name: </label>
+                            <label>Tên người dùng: </label>
                             <input type='text' className='form-control'
                                 value={username} onChange={(event) => setUserName(event.target.value)}
 
@@ -101,7 +101,7 @@ const ForgotPassword = () => {
                                 {
                                     isLoading === true && <TbFidgetSpinner className='loader-icon' />
                                 }
-                                <span>Confirm</span>
+                                <span>Xác nhận</span>
                             </button>
                         </div>
 
@@ -112,18 +112,18 @@ const ForgotPassword = () => {
                     confirm === true &&
                     <div className=''>
                         <div className='form-group'>
-                            <label>User name: </label>
+                            <label>Tên người dùng: </label>
                             <input type='text' className='form-control'
                                 value={username} onChange={(event) => setUserName(event.target.value)}
                             />
                         </div>
                         <div className='form-group'>
-                            <label>Code email: </label>
+                            <label>Nhập mã: </label>
                             <input type='email' className='form-control'
                                 value={codeEmail} onChange={(event) => setCodeEmail(event.target.value)} />
                         </div>
                         <div className='form-group'>
-                            <label>New password: </label>
+                            <label>Mật khẩu mới: </label>
                             <input type='email' className='form-control'
                                     value={newPassword} onChange={(event) => setNewPassword(event.target.value)} />
                         </div>
@@ -136,14 +136,14 @@ const ForgotPassword = () => {
                                 {
                                     isLoading === true && <TbFidgetSpinner className='loader-icon' />
                                 }
-                                <span>Reset</span>
+                                <span>Xác nhận</span>
                             </button>
                         </div>
                     </div>
                 }
 
                 <div className='text-center' style={{ marginBottom: '36px' }}>
-                    <span className='back' onClick={() => navigate('/')}>&#60;&#60; Go to Home</span>
+                    <span className='back' onClick={() => navigate('/')}>&#60;&#60; Đi đến trang chủ</span>
                 </div>
             </div>
         </div>

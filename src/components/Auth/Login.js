@@ -52,39 +52,39 @@ const Login = (props) => {
         <div className="login-container">
             <div className='header'>
                 <span>
-                    Don't have an account yet?
+                    Bạn chưa có tài khoản?
                 </span>
                 <button
                     onClick={() => navigate('/register')}
-                >Sign up</button>
+                >Đăng ký</button>
             </div>
 
             <div className='title col-4 mx-auto'>
-                ThanhNguyen
+                TravelBaba
             </div>
 
 
 
             <div className='welcome col-4 mx-auto'>
-                Hello, who's this?
+                Xin chào, ai đây?
             </div>
 
             <div className='content-form col-4 mx-auto'>
                 <div className='form-group'>
-                    <label>Username</label>
+                    <label>Tên người dùng: </label>
                     <input type='' className='form-control'
                         value={email} onChange={(event) => setEmail(event.target.value)}
                         onKeyPress={(event) => handleKeyPress(event)}
                     />
                 </div>
                 <div className='form-group'>
-                    <label>Password</label>
+                    <label>Mật khẩu: </label>
                     <input type='password' className='form-control'
                         value={password} onChange={(event) => setPassword(event.target.value)}
                         onKeyPress={(event) => handleKeyPress(event)}
                     />
                 </div>
-                <span className='forgot-password' style={{ cursor: 'pointer', color: 'blue' }} onClick={() => navigate('/forgot-password')}>Forgot password?</span>
+                <span className='forgot-password' style={{ cursor: 'pointer', color: 'blue' }} onClick={() => navigate('/forgot-password')}>Quên mật khẩu?</span>
                 <div>
                     <button className='btn-submit'
                         onClick={() => handleLogin()}
@@ -94,11 +94,11 @@ const Login = (props) => {
                         {
                             isLoading === true && <TbFidgetSpinner className='loader-icon' />
                         }
-                        <span>Login</span>
+                        <span>Đăng nhập</span>
                     </button>
                 </div>
                 <div className='text-center'>
-                    <span className='back' onClick={() => navigate('/')}>&#60;&#60; Go to Home</span>
+                    <span className='back' onClick={() => navigate('/')}>&#60;&#60; Đi đến trang chủ</span>
                 </div>
             </div>
         </div>

@@ -27,52 +27,52 @@ const BookTour = (props) => {
         <div className="book-tour-container container">
             <form className="row">
                 <fieldset disabled className="col-6">
-                    <legend>Tour information: </legend>
+                    <legend>Thông tin tour: </legend>
                     <div className="mb-3">
-                        <label className="form-label">Address:</label>
+                        <label className="form-label">Địa chỉ:</label>
                         <input type="text" className="form-control" placeholder={`${location?.state?.listDetailDiscover.address}`} />
                     </div>
                     <div className="mb-3">
-                        <label className="form-label">Price:</label>
+                        <label className="form-label">Giá:</label>
                         <input type="text" className="form-control" placeholder={`${formatNumberWithDots(location?.state?.listDetailDiscover?.price)} VND cho ${location?.state?.listDetailDiscover?.members} thành viên`} />
                     </div>
                     <div className="mb-3">
-                        <label className="form-label">Vehicle:</label>
+                        <label className="form-label">Phương tiện:</label>
                         <input type="text" className="form-control" placeholder={`${location?.state?.listDetailDiscover.vehicle}`} />
                     </div>
                     <div className="mb-3">
-                        <label className="form-label">Start date:</label>
+                        <label className="form-label">Ngày bắt đầu:</label>
                         <input type="text" className="form-control" placeholder={`${location?.state?.listDetailDiscover.tour_date}`} />
                     </div>
                 </fieldset>
                 <fieldset disabled className="col-6">
-                    <legend>Customer information: </legend>
+                    <legend>Thông tin khách hàng: </legend>
                     <div className="mb-3">
                         <label className="form-label">Email:</label>
                         <input type="text" className="form-control" placeholder={`${email}`} />
                     </div>
                     <div className="mb-3">
-                        <label className="form-label">Full name:</label>
+                        <label className="form-label">Họ tên:</label>
                         <input type="text" className="form-control" placeholder={`${fullName}`} />
                     </div>
                     <div className="mb-3">
-                        <label className="form-label">Phone number:</label>
+                        <label className="form-label">Số điện thoại:</label>
                         <input type="text" className="form-control" placeholder={`${phone}`} />
                     </div>
                     <div className="mb-3">
-                        <label className="form-label">Username:</label>
+                        <label className="form-label">Tên người dùng:</label>
                         <input type="text" className="form-control" placeholder={`${username}`} />
                     </div>
                 </fieldset>
             </form>
             <div>
-                <button className="btn btn-primary" onClick={() => handleSendRequest()}><FaHandPointRight style={{ fontSize: '26px' }} /> Send request</button>
+                <button className="btn btn-primary" onClick={() => handleSendRequest()}><FaHandPointRight style={{ fontSize: '26px' }} /> Gửi yêu cầu</button>
             </div>
             <div>
                 <ConfirmBookTour
                     setShow={setShow}
                     show={show}
-                    location= {location}
+                    location={location}
                 />
             </div>
             <div className="booking-tour-confirm">

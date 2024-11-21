@@ -35,7 +35,7 @@ const ConfirmBookTour = (props) => {
                 success === false ?
                     <Modal show={show} onHide={handleClose} backdrop='static' autoFocus='true' centered>
                         <Modal.Header closeButton>
-                            <Modal.Title>Confirm book tour</Modal.Title>
+                            <Modal.Title>Xác nhận đặt tour</Modal.Title>
                         </Modal.Header>
                         <Modal.Body style={{ fontSize: '18px' }}>
                             {/* <div>
@@ -44,40 +44,40 @@ const ConfirmBookTour = (props) => {
                     <div>
                         Thank you for trusting and booking my company's tour!!!
                     </div> */}
-                            <div>To book this tour, please make sure your information such as phone number and email are correct.</div>
+                            <div>Để đặt tour này, vui lòng đảm bảo thông tin của bạn như số điện thoại và email là chính xác.</div>
 
 
                         </Modal.Body>
                         <Modal.Footer>
                             <Button variant="secondary" onClick={handleClose}>
-                                Close
+                                Đóng
                             </Button>
                             <Button variant="primary" onClick={() => handleConfirmBooking()}>
-                                Confirm
+                                Đồng ý
                             </Button>
                         </Modal.Footer>
                     </Modal>
                     :
                     <Modal show={show} onHide={() => navigate('/discover')} backdrop='static' autoFocus='true' centered>
                         <Modal.Header closeButton>
-                            <Modal.Title>Thank you</Modal.Title>
+                            <Modal.Title>Lời cảm ơn</Modal.Title>
                         </Modal.Header>
                         <Modal.Body style={{ fontSize: '18px' }}>
                             <div>
                                 <img src={thanks}/>
                             </div>
                             <div>
-                                We will contact you within 5 minutes.
+                                Cảm ơn bạn đã tin tưởng và đặt tour của công ty tôi!!!
                             </div>
                             <div>
-                                Thank you for trusting and booking my company's tour!!!
+                                Chúng tôi sẽ liên hệ với bạn trong vòng 5 phút.
                             </div>
 
 
                         </Modal.Body>
                         <Modal.Footer>
                             <Button variant="secondary" onClick={() => navigate('/discover')}>
-                                Close
+                                Đóng
                             </Button>
                             {/* <Button variant="primary" onClick={() => handleConfirmBooking()}>
                                 Confirm
