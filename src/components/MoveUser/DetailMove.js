@@ -156,7 +156,7 @@ const DetailMove = (props) => {
                     {detailMove.type_vehicle}
                 </div>
                 <div className="detail-move-description">
-                    <div className="DesImg" dangerouslySetInnerHTML={{ __html: detailMove.description }}>
+                    <div className="DesImg" dangerouslySetInnerHTML={{ __html: detailMove.ContentHTML }}>
                     </div>
                 </div>
                 <div className="detail-move-description">

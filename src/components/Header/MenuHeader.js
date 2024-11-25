@@ -65,7 +65,7 @@ const MenuHeader = (props) => {
                 </div>
                 <hr />
                 <div className='menuheader-content-down d-flex'>
-                    <div className='down-contact'>
+                    {/* <div className='down-contact'>
                         <div className='title'>
                             Liên hệ
                         </div>
@@ -78,7 +78,7 @@ const MenuHeader = (props) => {
                         <MenuItem>
                             Danh bạ
                         </MenuItem>
-                    </div>
+                    </div> */}
                     <div className='down-netwwork'>
                         <div className='title'>
                             Mạng xã hội
