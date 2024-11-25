@@ -148,7 +148,7 @@ const DetailNews = (props) => {
             </div>
             <hr />
             <div className="detail-news-description">
-                <div className="DesImg" dangerouslySetInnerHTML={{ __html: detailNews.description, height: '100px' }}>
+                <div className="DesImg" dangerouslySetInnerHTML={{ __html: detailNews.ContentHTML}}>
                 </div>
             </div>
             <div className="detail-news-date">
