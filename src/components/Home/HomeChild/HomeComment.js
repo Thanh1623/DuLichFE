@@ -70,7 +70,7 @@ const HomeComment = (props) => {
                                 onClick={() => handleFeedBackWeb()}
                             >Gửi</button>
                             :
-                            <div style={{color: 'red'}}>
+                            <div style={{ color: 'red' }}>
                                 * Đăng nhập để đánh giá
                             </div>
                     }
@@ -109,7 +109,7 @@ const HomeComment = (props) => {
                         </Accordion.Body>
                     </Accordion.Item>
                     <Accordion.Item eventKey="4">
-                        <Accordion.Header>Du lịch ở Hải Phòng những điểm nào chi phí không cao?</Accordion.Header>
+                        <Accordion.Header>Du lịch ở Hà Nội những điểm nào chi phí không cao?</Accordion.Header>
                         <Accordion.Body>
                             Khi bạn đã đến sân bay mà hành lý vẫn chưa đến băng chuyền, việc đầu tiên bạn nên làm đó là liên hệ với nhân viên hàng không, họ sẽ giúp bạn kiểm tra mã hành lý và giúp bạn lấy lại hành lý của mình.
                         </Accordion.Body>
