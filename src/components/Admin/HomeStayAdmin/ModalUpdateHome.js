@@ -204,7 +204,7 @@ function ModalUpdateHomeStay(props) {
                 className='modal-add-user'
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Update a user</Modal.Title>
+                    <Modal.Title>Update a home</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className='col-12 row'>

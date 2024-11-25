@@ -272,7 +272,7 @@ const DetailFood = (props) => {
                         >Gửi</button>
                     </div>
                     <Box sx={{ '& > legend': { mt: 0 } }}>
-                        <Typography component="legend">Controlled</Typography>
+                        <Typography component="legend">Mức độ hài lòng: </Typography>
                         <Rating
                             name="simple-controlled"
                             value={value}
