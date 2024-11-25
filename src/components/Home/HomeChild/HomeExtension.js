@@ -2,8 +2,9 @@ import './HomeExtension.scss';
 import VR360 from '../../../assets/VR360.png'
 import intro from '../../../assets/intro.jpg';
 import background from '../../../assets/background.jpg';
-import bg2 from '../../../assets/bg2.jpg';
-import bgn1 from '../../../assets/bgn1.jpg';
+import bgn from '../../../assets/bgn.jpg';
+import bghn from '../../../assets/bghn.jpg';
+import bgn2 from '../../../assets/bgn2.jpg';
 import bistro from '../../../assets/bistro.jpg';
 import Carousel from 'react-bootstrap/Carousel';
 import { useEffect, useState } from 'react';
@@ -64,7 +65,7 @@ const HomeExtension = (props) => {
                     <Carousel.Item>
                         <img
                             className="d-block  w-100 h-25"
-                            src={bg2}
+                            src={bghn}
                             alt="Second slide"
                         />
                         <Carousel.Caption>
@@ -75,7 +76,7 @@ const HomeExtension = (props) => {
                     <Carousel.Item>
                         <img
                             className="d-block  w-100 h-25"
-                            src={bgn1}
+                            src={bgn}
                             alt="Third slide"
                         />
                         <Carousel.Caption>
