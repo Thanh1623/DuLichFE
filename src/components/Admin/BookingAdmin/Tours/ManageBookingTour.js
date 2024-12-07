@@ -47,6 +47,28 @@ const ManageBookingTour = () => {
         setShowModalViewFeedWeb(true);
 
     }
+    function convertISOToDateTime(isoString) {
+        const dateObj = new Date(isoString);
+
+        // Lấy ngày theo định dạng yyyy-mm-dd
+        const yyyy = dateObj.getUTCFullYear();
+        const mm = String(dateObj.getUTCMonth() + 1).padStart(2, '0'); // Tháng bắt đầu từ 0
+        const dd = String(dateObj.getUTCDate()).padStart(2, '0');
+
+        const dateStr = `${yyyy}-${mm}-${dd}`;
+
+        // Lấy thời gian theo định dạng hh:mm:ss
+        const hh = String(dateObj.getUTCHours()).padStart(2, '0');
+        const mi = String(dateObj.getUTCMinutes()).padStart(2, '0');
+        const ss = String(dateObj.getUTCSeconds()).padStart(2, '0');
+
+        const timeStr = `${hh}:${mi}:${ss}`;
+
+        return `${dateStr} ${timeStr}`;
+    }
+    function formatNumberWithDots(number) {
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
 
     return (
         <>
@@ -58,8 +80,10 @@ const ManageBookingTour = () => {
                     <thead>
                         <tr>
                             <th scope="col">ID</th>
-                            <th scope="col">Email</th>
+                            <th scope="col">Email - phone</th>
                             <th scope="col">Name tour</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Booking time</th>
                             <th scope="col">Status</th>
                             <th scope="col">Action</th>
                         </tr>
@@ -72,8 +96,10 @@ const ManageBookingTour = () => {
                                     return (
                                         <tr key={`table-fb-${index}`}>
                                             <td>{item.booking_id}</td>
-                                            <td>{item.email}</td>
+                                            <td>{item.email} - {item.phone}</td>
                                             <td>{item.tour_name}</td>
+                                            <td>{formatNumberWithDots(item.tour_price)} VND / {item.members} members</td>
+                                            <td>{convertISOToDateTime(item.booking_date)}</td>
                                             <td>{item.status_tour}</td>
                                             <td>
                                                 <button className="btn btn-outline-success mx-1 my-1"

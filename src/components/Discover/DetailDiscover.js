@@ -80,14 +80,29 @@ const DetailDiscover = (props) => {
         return `${year}-${month}-${dt}`;
     };
 
-    const handleBookTour = () => {
-        if (isAuthenticated === true) {
-            navigate('/bookingTour', { state: { listDetailDiscover: detailDiscover } })
-        }
-        else {
-            navigate('/login')
-        }
+    function compareDateWithToday(dateStr) {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); // Đặt thời gian về 00:00:00
 
+        const inputDate = new Date(dateStr);
+        inputDate.setHours(0, 0, 0, 0); // Đặt thời gian về 00:00:00
+
+        return inputDate < today;
+    }
+
+    const handleBookTour = () => {
+        if (compareDateWithToday(detailDiscover.tour_date)) {
+            toast.error('Đã quá ngày khởi hành, vui lòng chọn tour khác');
+            return;
+        }
+        if (compareDateWithToday(detailDiscover.tour_date) === false) {
+            if (isAuthenticated === true) {
+                navigate('/bookingTour', { state: { listDetailDiscover: detailDiscover } })
+            }
+            else {
+                navigate('/login')
+            }
+        }
     }
     const handleSubmitReview = async () => {
         let res = await postReview({
@@ -165,6 +180,7 @@ const DetailDiscover = (props) => {
                 <hr />
                 <div className="detail-discover-time">
                     {formatNumberWithDots(`${detailDiscover.price}`)} VND cho {detailDiscover.members} thành viên
+                    <p>Ngày khởi hành: {detailDiscover.tour_date}</p>
                 </div>
                 <div className="detail-discover-description">
                     <div className="DesImg" dangerouslySetInnerHTML={{ __html: detailDiscover.ContentHTML, height: '100px' }}>

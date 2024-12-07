@@ -8,6 +8,7 @@ import { FaMapMarkedAlt } from "react-icons/fa";
 import { searchDiscover } from '../../Service/userService';
 import ReactPaginate from "react-paginate";
 import { toast } from 'react-toastify';
+import { MdToday } from "react-icons/md";
 
 const Discover = () => {
 
@@ -194,6 +195,7 @@ const Discover = () => {
                                                     <h5 className="card-title">{item.title}</h5>
                                                     <p className="card-text"> <FaMapMarkedAlt /> {item.address}</p>
                                                     <p className="card-text"> <FaWalking /> {item.vehicle}</p>
+                                                    <p className="card-text"> <MdToday /> {item.tour_date}</p>
                                                     <p className="card-text text-end">
                                                         <small className="text-muted text-time">
                                                             {formatNumberWithDots(`${item.price}`)} VND cho {item.members} thành viên
